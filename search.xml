@@ -28,14 +28,14 @@
     </entry>
     
     <entry>
-      <title><![CDATA[Hexo�]]></title>
+      <title><![CDATA[Hexo搭建]]></title>
       <url>/2017/10/24/Hexo%E6%90%AD%E5%BB%BA/</url>
-      <content type="html"><![CDATA[<h3 id="�̳�"><a href="#�̳�" class="headerlink" title="�̳�"></a>�̳�</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
-<h3 id="yilia������ַ����"><a href="#yilia������ַ����" class="headerlink" title="yilia������ַ����"></a>yilia������ַ����</h3><p><a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia.git</a></p>
-<h3 id="hexo����"><a href="#hexo����" class="headerlink" title="hexo����"></a>hexo����</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
-<p>�½�����<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new post <span class="string">"article title"</span></div></pre></td></tr></table></figure></p>
-<p>���ɲ���<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># ����</span></div><div class="line">hexo d   <span class="comment"># ����</span></div><div class="line"><span class="comment"># ��ֱ��</span></div><div class="line">hexo d -g <span class="comment">#�ڲ���ǰ������</span></div></pre></td></tr></table></figure></p>
-<p>���𼴽�������public�ļ����ڵ��ļ����Ƶ�deploy.git�ں����Զ����µ�git<br>�Զ�������Ҫ��װ�����������÷�����ַ��</p>
+      <content type="html"><![CDATA[<h3 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
+<h3 id="yilia主题地址链接"><a href="#yilia主题地址链接" class="headerlink" title="yilia主题地址链接"></a>yilia主题地址链接</h3><p><a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia.git</a></p>
+<h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
+<p>新建文章<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new post <span class="string">"article title"</span></div></pre></td></tr></table></figure></p>
+<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># 生成</span></div><div class="line">hexo d   <span class="comment"># 部署</span></div><div class="line"><span class="comment"># 或直接</span></div><div class="line">hexo d -g <span class="comment">#在部署前先生成</span></div></pre></td></tr></table></figure></p>
+<p>部署即将生成在public文件夹内的文件复制到deploy.git内后，自动更新到git<br>自动部署需要安装插件，并配置发布地址等</p>
 ]]></content>
       
         
