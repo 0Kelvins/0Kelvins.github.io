@@ -3,13 +3,39 @@
   
     
     <entry>
-      <title><![CDATA[Hexo搭建]]></title>
+      <title><![CDATA[Sublime Terminal]]></title>
+      <url>/2017/10/26/Sublime-Terminal/</url>
+      <content type="html"><![CDATA[<pre><code>无论是用Sublime写前端，还是写Markdown，经常要用到终端，每次``Win+R``再cmd也是麻烦
+</code></pre><ol>
+<li><p>Package Control -&gt; Terminal</p>
+</li>
+<li><p>设置Setting-Default，就是有<code>&quot;termainal&quot;:</code>这个参数的设置文件，改成下面设置，即可<code>Ctrl+Alt+T</code>启动普通cmd了（不改的话，默认为启动Power Shell）</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  // Replace with your own path to cmder.exe</div><div class="line">  "terminal": "cmd",</div><div class="line">  "parameters": ["/START", "%CWD%"]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><a href="https://github.com/wbond/sublime_terminal" target="_blank" rel="external">Sublime插件-Terminal的Github</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Sublime </tag>
+            
+            <tag> 随笔 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hexo�]]></title>
       <url>/2017/10/24/Hexo%E6%90%AD%E5%BB%BA/</url>
-      <content type="html"><![CDATA[<h3 id="Github博客教程"><a href="#Github博客教程" class="headerlink" title="Github博客教程"></a>Github博客教程</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
-<h3 id="主题地址链接"><a href="#主题地址链接" class="headerlink" title="主题地址链接"></a>主题地址链接</h3><p><a href="https://litten.github.io/" target="_blank" rel="external">https://litten.github.io/</a></p>
-<h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
-<p>新建文章<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new post <span class="string">"article title"</span></div></pre></td></tr></table></figure></p>
-<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># 生成</span></div><div class="line">hexo d   <span class="comment"># 部署</span></div><div class="line">// 或直接</div><div class="line">hexo d -g <span class="comment">#在部署前先生成</span></div></pre></td></tr></table></figure></p>
+      <content type="html"><![CDATA[<h3 id="�̳�"><a href="#�̳�" class="headerlink" title="�̳�"></a>�̳�</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
+<h3 id="yilia������ַ����"><a href="#yilia������ַ����" class="headerlink" title="yilia������ַ����"></a>yilia������ַ����</h3><p><a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia.git</a></p>
+<h3 id="hexo����"><a href="#hexo����" class="headerlink" title="hexo����"></a>hexo����</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
+<p>�½�����<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new post <span class="string">"article title"</span></div></pre></td></tr></table></figure></p>
+<p>���ɲ���<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># ����</span></div><div class="line">hexo d   <span class="comment"># ����</span></div><div class="line"><span class="comment"># ��ֱ��</span></div><div class="line">hexo d -g <span class="comment">#�ڲ���ǰ������</span></div></pre></td></tr></table></figure></p>
+<p>���𼴽�������public�ļ����ڵ��ļ����Ƶ�deploy.git�ں����Զ����µ�git<br>�Զ�������Ҫ��װ�����������÷�����ַ��</p>
 ]]></content>
       
         
