@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://0kelvins.github.io">
-  <title>个人博客</title>
+  <title>测试 | 个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="个人博客">
-<meta property="og:url" content="http://0kelvins.github.io/index.html">
+  <meta name="description" content="测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试">
+<meta property="og:url" content="http://0kelvins.github.io/2017/10/25/测试/index.html">
 <meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="测试">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-31T11:59:34.082Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="个人博客">
+<meta name="twitter:title" content="测试">
+<meta name="twitter:description" content="测试">
   
     <link rel="alternative" href="/atom.xml" title="个人博客" type="application/atom+xml">
   
@@ -138,337 +142,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-CSharp预编译SQL" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-测试" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/27/CSharp预编译SQL/">C#预编译SQL</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/27/CSharp预编译SQL/" class="archive-article-date">
-  	<time datetime="2017-10-27T06:34:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>C#中预编译SQL方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// System.Data.Entity.Database</div><div class="line">int ExecuteSqlCommand(string sql, params object[] parameters);</div></pre></td></tr></table></figure></p>
-<p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private EFDbContext dbctx = new EFDbContext();</div></pre></td></tr></table></figure></p>
-<p>使用示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 删除tableA中，name以&quot;$&quot;结尾的数据</div><div class="line">string sql = &quot;DELETE FROM tableA WHRER name like \&quot;%@sign\&quot;&quot;;</div><div class="line">int result = dbctx.Database.ExecuteSqlCommand(sql,</div><div class="line">               new SqlParameter(&quot;sign&quot;, &quot;$&quot;)</div><div class="line">             );</div></pre></td></tr></table></figure></p>
-<p>查询方法，好像如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var db = new MSSqlDBContext();</div><div class="line">var name = &quot;tom&quot;;</div><div class="line">var list = db.Set&lt;Person&gt;().FromSql($&quot;select * from &#123;nameof(Person)&#125; where &#123;nameof(name)&#125;=@&#123;nameof(name)&#125; &quot;, </div><div class="line">new SqlParameter(nameof(name), name)).ToList();</div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/27/CSharp预编译SQL/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-随记-2017-10-26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/随记-2017-10-26/">随笔-2017-10-26</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/26/随记-2017-10-26/" class="archive-article-date">
-  	<time datetime="2017-10-26T12:57:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这两天稍微有点时间，简单看了看设计模式，感觉比上次理解多了，或许是要自己实际解决的问题更多了吧。</p>
-<p>除了工厂模式、单例模式、MVC模式等等很经常使用的模式以外，享元、适配器等等各种模式也都有了自己理解的应用场景，我想，下次再看应该会更有感触吧。</p>
-<p>回想很多大学里学的知识，也都是慢慢的觉得很有用处，当然这里也没有得后悔当初为什么没有好好学了，只能叹息有时间再补吧。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/26/随记-2017-10-26/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Sublime记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/Sublime记录/">Sublime记录</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/26/Sublime记录/" class="archive-article-date">
-  	<time datetime="2017-10-26T08:18:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="设置记录"><a href="#设置记录" class="headerlink" title="设置记录"></a>设置记录</h3><p>sublime.setting-user<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"color_scheme"</span>: <span class="string">"Packages/Theme - Afterglow/Afterglow-markdown.tmTheme"</span>,</div><div class="line">    <span class="attr">"expand_tabs_on_save"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"font_size"</span>: <span class="number">13</span>,</div><div class="line">    <span class="attr">"ignored_packages"</span>:</div><div class="line">    [</div><div class="line">        <span class="string">"Markdown"</span>,</div><div class="line">        <span class="string">"Vintage"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"tab"</span>: <span class="number">2</span>,</div><div class="line">    <span class="attr">"translate_tabs_to_spaces"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"default_encoding"</span>: <span class="string">"UTF-8"</span>,</div><div class="line">    <span class="attr">"update_check"</span>: <span class="literal">false</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Sublime</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/26/Sublime记录/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Sublime-Terminal" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/Sublime-Terminal/">Sublime Terminal</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/26/Sublime-Terminal/" class="archive-article-date">
-  	<time datetime="2017-10-26T07:50:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>无论是用Sublime写前端，还是写Markdown，经常要用到终端，每次<code>Win+R</code>再cmd也是麻烦</p>
-<ol>
-<li><p>Package Control -&gt; Terminal</p>
-</li>
-<li><p>设置Setting-Default，就是有<code>&quot;termainal&quot;:</code>这个参数的设置文件，改成下面设置，即可<code>Ctrl+Alt+T</code>启动普通cmd了（不改的话，默认为启动Power Shell）</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  // Replace with your own path to cmder.exe</div><div class="line">  "terminal": "cmd",</div><div class="line">  "parameters": ["/START", "%CWD%"]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><a href="https://github.com/wbond/sublime_terminal" target="_blank" rel="external">Sublime插件-Terminal的Github</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Sublime</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/26/Sublime-Terminal/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/25/测试/">测试</a>
+    <h1 class="article-title" itemprop="name">
+      测试
     </h1>
   
 
@@ -492,16 +173,33 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/25/测试/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/10/26/Sublime-Terminal/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Sublime Terminal
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/25/简历/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">简历</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -521,238 +219,14 @@
 
 
 
-
   
-    <article id="post-简历" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/25/简历/">简历</a>
-    </h1>
   
 
-        
-        <a href="/2017/10/25/简历/" class="archive-article-date">
-  	<time datetime="2017-10-25T13:44:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a>个人简历</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">resume</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/25/简历/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Git命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/24/Git命令/">Git命令</a>
-    </h1>
   
 
-        
-        <a href="/2017/10/24/Git命令/" class="archive-article-date">
-  	<time datetime="2017-10-24T03:22:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></div><div class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></div><div class="line">$ git pull <span class="comment">#更新，已经同步远程最新文件</span></div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/24/Git命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Hexo搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/24/Hexo搭建/">Hexo搭建</a>
-    </h1>
   
 
-        
-        <a href="/2017/10/24/Hexo搭建/" class="archive-article-date">
-  	<time datetime="2017-10-24T03:22:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
-<h3 id="yilia主题地址链接"><a href="#yilia主题地址链接" class="headerlink" title="yilia主题地址链接"></a>yilia主题地址链接</h3><p><a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia.git</a></p>
-<h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
-<p>新建文章<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new post <span class="string">"article title"</span></div></pre></td></tr></table></figure></p>
-<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># 生成</span></div><div class="line">hexo d   <span class="comment"># 部署</span></div><div class="line"><span class="comment"># 或直接</span></div><div class="line">hexo d -g <span class="comment">#在部署前先生成</span></div></pre></td></tr></table></figure></p>
-<p>部署即将生成在public文件夹内的文件复制到deploy.git内后，自动更新到git<br>自动部署需要安装插件，并配置发布地址等</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/24/Hexo搭建/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -775,8 +249,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
