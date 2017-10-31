@@ -140,19 +140,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-C#预编译SQL" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-CSharp预编译SQL" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/27/C#预编译SQL/">C#预编译SQL</a>
+      <a class="article-title" href="/2017/10/27/CSharp预编译SQL/">C#预编译SQL</a>
     </h1>
   
 
         
-        <a href="/2017/10/27/C#预编译SQL/" class="archive-article-date">
+        <a href="/2017/10/27/CSharp预编译SQL/" class="archive-article-date">
   	<time datetime="2017-10-27T06:34:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
 </a>
         
@@ -160,7 +160,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>C#中预编译SQL方法如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> System.Data.Entity.Database.ExecuteSqlCommand(<span class="built_in">string</span> sql, params object[] parameters);</div></pre></td></tr></table></figure></p>
+        <p>C#中预编译SQL方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// System.Data.Entity.Database</div><div class="line">int ExecuteSqlCommand(string sql, params object[] parameters);</div></pre></td></tr></table></figure></p>
 <p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private EFDbContext dbctx = new EFDbContext();</div></pre></td></tr></table></figure></p>
 <p>使用示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 删除tableA中，name以&quot;$&quot;结尾的数据</div><div class="line">string sql = &quot;DELETE FROM tableA WHRER name like \&quot;%@sign\&quot;&quot;;</div><div class="line">int result = dbctx.Database.ExecuteSqlCommand(sql,</div><div class="line">               new SqlParameter(&quot;sign&quot;, &quot;$&quot;)</div><div class="line">             );</div></pre></td></tr></table></figure></p>
 <p>查询方法，好像如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var db = new MSSqlDBContext();</div><div class="line">var name = &quot;tom&quot;;</div><div class="line">var list = db.Set&lt;Person&gt;().FromSql($&quot;select * from &#123;nameof(Person)&#125; where &#123;nameof(name)&#125;=@&#123;nameof(name)&#125; &quot;, </div><div class="line">new SqlParameter(nameof(name), name)).ToList();</div></pre></td></tr></table></figure></p>
@@ -191,7 +191,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/27/C#预编译SQL/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/10/27/CSharp预编译SQL/">展开全文 >></a>
         </p>
       
 
