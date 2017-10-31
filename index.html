@@ -461,68 +461,6 @@
 
 
   
-    <article id="post-测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/25/测试/">测试</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/25/测试/" class="archive-article-date">
-  	<time datetime="2017-10-25T13:44:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/25/测试/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-简历" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -698,8 +636,13 @@
 <h3 id="yilia主题地址链接"><a href="#yilia主题地址链接" class="headerlink" title="yilia主题地址链接"></a>yilia主题地址链接</h3><p><a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia.git</a></p>
 <h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
 <p>新建文章<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new post <span class="string">"article title"</span></div></pre></td></tr></table></figure></p>
-<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># 生成</span></div><div class="line">hexo d   <span class="comment"># 部署</span></div><div class="line"><span class="comment"># 或直接</span></div><div class="line">hexo d -g <span class="comment">#在部署前先生成</span></div></pre></td></tr></table></figure></p>
-<p>部署即将生成在public文件夹内的文件复制到deploy.git内后，自动更新到git<br>自动部署需要安装插件，并配置发布地址等</p>
+<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># 生成</span></div><div class="line">hexo d   <span class="comment"># 部署</span></div><div class="line"><span class="comment"># 或直接</span></div><div class="line">hexo d -g <span class="comment"># 在部署前先生成</span></div></pre></td></tr></table></figure></p>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol>
+<li><p><strong>部署</strong>：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等</p>
+</li>
+<li><p>新建文章的 <strong>命名</strong>：不能包含<code>#</code>符号，Github上面会404，其他的<code>\/.?</code>之类的应该也不行<code>-_</code>以及数字是可以的</p>
+</li>
+</ol>
 
       
 

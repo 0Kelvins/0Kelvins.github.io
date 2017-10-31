@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="个人博客">
 <meta property="og:description" content="教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 yilia主题地址链接https://github.com/litten/hexo-theme-yilia.git hexo配置http://blog.csdn.net/xuezhisdc/article/details/53130383 新建文章1hexo new post &quot;a">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-27T10:31:05.701Z">
+<meta property="og:updated_time" content="2017-10-31T12:20:06.924Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo搭建">
 <meta name="twitter:description" content="教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 yilia主题地址链接https://github.com/litten/hexo-theme-yilia.git hexo配置http://blog.csdn.net/xuezhisdc/article/details/53130383 新建文章1hexo new post &quot;a">
@@ -167,8 +167,13 @@
 <h3 id="yilia主题地址链接"><a href="#yilia主题地址链接" class="headerlink" title="yilia主题地址链接"></a>yilia主题地址链接</h3><p><a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia.git</a></p>
 <h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
 <p>新建文章<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new post <span class="string">"article title"</span></div></pre></td></tr></table></figure></p>
-<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># 生成</span></div><div class="line">hexo d   <span class="comment"># 部署</span></div><div class="line"><span class="comment"># 或直接</span></div><div class="line">hexo d -g <span class="comment">#在部署前先生成</span></div></pre></td></tr></table></figure></p>
-<p>部署即将生成在public文件夹内的文件复制到deploy.git内后，自动更新到git<br>自动部署需要安装插件，并配置发布地址等</p>
+<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># 生成</span></div><div class="line">hexo d   <span class="comment"># 部署</span></div><div class="line"><span class="comment"># 或直接</span></div><div class="line">hexo d -g <span class="comment"># 在部署前先生成</span></div></pre></td></tr></table></figure></p>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ol>
+<li><p><strong>部署</strong>：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等</p>
+</li>
+<li><p>新建文章的 <strong>命名</strong>：不能包含<code>#</code>符号，Github上面会404，其他的<code>\/.?</code>之类的应该也不行<code>-_</code>以及数字是可以的</p>
+</li>
+</ol>
 
       
 
