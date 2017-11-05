@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://0kelvins.github.io">
-  <title>个人博客</title>
+  <title>随笔-2017-11-01 | 个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="个人博客">
-<meta property="og:url" content="http://0kelvins.github.io/index.html">
+  <meta name="description" content="重装折腾win7，没关闭更新，更新100+补丁还失败还原，各种dll丢失。报错大致如下：  D3DCompiler_47.dll、api-ms-win-core-libraryloader-l1-2-1.dll、gfx.dll……丢失  启动Word2016、SS和MSSQL Server MS的时候(依赖都比较新的软件)报错，缺少net46。报错大致如下:  ““的类型初始值设定项引发异常缺少”">
+<meta name="keywords" content="随笔,DotNet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="随笔-2017-11-01">
+<meta property="og:url" content="http://0kelvins.github.io/2017/11/01/随记-2017-11-01/index.html">
 <meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="重装折腾win7，没关闭更新，更新100+补丁还失败还原，各种dll丢失。报错大致如下：  D3DCompiler_47.dll、api-ms-win-core-libraryloader-l1-2-1.dll、gfx.dll……丢失  启动Word2016、SS和MSSQL Server MS的时候(依赖都比较新的软件)报错，缺少net46。报错大致如下:  ““的类型初始值设定项引发异常缺少”">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-05T11:36:56.636Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="个人博客">
+<meta name="twitter:title" content="随笔-2017-11-01">
+<meta name="twitter:description" content="重装折腾win7，没关闭更新，更新100+补丁还失败还原，各种dll丢失。报错大致如下：  D3DCompiler_47.dll、api-ms-win-core-libraryloader-l1-2-1.dll、gfx.dll……丢失  启动Word2016、SS和MSSQL Server MS的时候(依赖都比较新的软件)报错，缺少net46。报错大致如下:  ““的类型初始值设定项引发异常缺少”">
   
     <link rel="alternative" href="/atom.xml" title="个人博客" type="application/atom+xml">
   
@@ -138,205 +143,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-SpringBoot搭建体验" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-随记-2017-11-01" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/03/SpringBoot搭建体验/">SpringBoot搭建体验</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/03/SpringBoot搭建体验/" class="archive-article-date">
-  	<time datetime="2017-11-03T03:50:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>虽然现在不在用Java开发，但是决定了解一下Java Web开发在用的比较新的东西<br>在这记录一下，SpringBoot搭建一个小型项目框架</p>
-<h3 id="工具清单"><a href="#工具清单" class="headerlink" title="工具清单"></a>工具清单</h3><p>JDK IDEA MySQL</p>
-<h3 id="框架工具组成"><a href="#框架工具组成" class="headerlink" title="框架工具组成"></a>框架工具组成</h3><p>SpringBoot + Mybatis + Thymeleaf + Maven</p>
-<h3 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h3><ol>
-<li>新建工程 -&gt; 选择<code>Spring Initializr</code> -&gt; 选好JDK -&gt; 填好项目信息</li>
-<li>选择要集成的框架，这里选基本的<code>SpringBoot</code>项目需要的<br>  Web -&gt; Web<br>  Template Engines -&gt; Thymeleaf<br>  SQL -&gt; MyBatis JDBC MySQL</li>
-<li>IDEA搭建好基本框架，Maven添加依赖包</li>
-<li>删除<code>application.properties</code>，新建<code>application.yml</code>、<code>application-dev.yml</code>和<code>application-prod.yml</code>，分别作为主配置、开发配置、生成配置文件<br><code>application.yml</code>:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">spring:</div><div class="line">  thymeleaf:</div><div class="line">    mode: HTML5</div><div class="line">    encoding: utf-8</div><div class="line">    content-type: text/html</div><div class="line">    cache: false</div><div class="line">  profiles:</div><div class="line">    active: dev # 表示使用application-dev.yml</div><div class="line">  datasource:</div><div class="line">    driver-class-name: com.mysql.jdbc.Driver</div><div class="line">    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf8</div><div class="line">    username: root</div><div class="line">    password:</div><div class="line">    tomcat:</div><div class="line">      initialSize: 1</div><div class="line">      min-idle: 1</div><div class="line">      max-idle: 20</div><div class="line">      max-wait: 60000</div><div class="line">      timeBetweenEvictionRunsMillis: 60000</div><div class="line">      minEvictableIdleTimeMillis: 30000</div><div class="line">      validationQuery: SELECT 1</div><div class="line">      testWhileIdle: true</div><div class="line">      testOnBorrow: false</div><div class="line">      testOnReturn: false</div><div class="line">logging:</div><div class="line">  file: logs/demo.log</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><code>application-dev.yml</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">server:</div><div class="line">  port: 8080</div></pre></td></tr></table></figure></p>
-<p><code>application-prod.yml</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server:</div><div class="line">  port: 443</div><div class="line">  ssl:</div><div class="line">    key-store: classpath:xxx.jks</div><div class="line">    key-store-password: xxx</div><div class="line">    keyStoreType: JKS</div><div class="line">    keyAlias: xxx</div></pre></td></tr></table></figure></p>
-<ol>
-<li>然后按照我的<code>SpringBootDemo</code>仓库来建controller什么的，就好了。</li>
-<li>好吧，前面好多别人写了很多遍的东西，需要的话看我参考的博客就好了。<br><code>Thymeleaf</code>之前只撇过几眼，好像跟<code>JSTL</code>有点像，就没注意</li>
-</ol>
-<p><code>Thymeleaf</code>它是一个XML/XHTML/HTML5模板引擎，使用各种包含<code>th:*</code>属性的标签，格式其实和HTML有点不一样，head、body什么的都不一样。</p>
-<p>Thymeleaf的url，因为模板里好像不能用<code>&amp;</code>符号，需要<code>&amp;amp;</code>替换，但是官方有对应的标签的<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- &lt;a href="/test?id=1&amp;name=2"&gt;a&lt;/a&gt; --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/test(id=1, name=2)&#125;"</span>&gt;</span>a<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<ol>
-<li>配置启动设置，添加<code>SpringBoot</code>启动配置，集成了Tomcat的，不用想<code>SpringMVC</code>等等以前的配置Tomcat的配置，<code>Main class</code>就是<code>XxxApplication</code>，选上<code>Use classpath of module</code>和<code>JRE</code>，就可以启动了。</li>
-<li>为了开发看起来舒服点，在<code>Project Structure</code>的<code>Modules</code>中设置一下对应文件目录作用，设置一下<code>Main class</code>为Spirng配置文件</li>
-</ol>
-<h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h3><p>框架用起来越来越简单了，但是框架解决的还是那些问题，只是省去了很多复杂的配置，写东西越来越简便，让我这样的“搬砖工”，写逻辑什么的更专注一点吧，或许有一天AI可以写逻辑了，大概就失业了:)</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">SpringBoot</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/03/SpringBoot搭建体验/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/02/MySQL安装/">MySQL安装</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/02/MySQL安装/" class="archive-article-date">
-  	<time datetime="2017-11-02T12:43:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>下了个<code>mysql-5.7.20-winx64</code>，以为是msi文件在压缩了一下呢。- -||</p>
-<ol>
-<li>解压到要安装的目录，如：<code>D:\Program Files\mysql-5.7.20-winx64</code></li>
-<li><p>在bin下新建<code>my.ini</code>，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[mysql]</div><div class="line"># 设置mysql客户端默认字符集</div><div class="line">default-character-set=utf8 </div><div class="line">[mysqld]</div><div class="line">#设置3306端口</div><div class="line">port = 3306 </div><div class="line"># 设置mysql的安装目录</div><div class="line">basedir=&quot;D:\Program Files\mysql-5.7.20-winx64&quot;</div><div class="line"># 设置mysql数据库的数据的存放目录</div><div class="line">datadir=&quot;D:\Program Files\mysql-5.7.20-winx64\data&quot;</div><div class="line"># 允许最大连接数</div><div class="line">max_connections=200</div><div class="line"># 服务端使用的字符集默认为8比特编码的latin1字符集</div><div class="line">character-set-server=utf8</div><div class="line"># 创建新表时将使用的默认存储引擎</div><div class="line">default-storage-engine=INNODB</div></pre></td></tr></table></figure>
-</li>
-<li><p>cmd，cd进入<code>D:\Program Files\mysql-5.7.20-winx64\bin</code>目录，执行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;mysqld install</div><div class="line">Service successfully installed.</div><div class="line">&gt;mysqld --initialize-insecure --user=mysql</div><div class="line"></div><div class="line">&gt;net start mysql</div><div class="line"> MySQL 服务正在启动 .</div><div class="line"> MySQL 服务已经启动成功。</div></pre></td></tr></table></figure>
-<p>这时候MySQL已经启动了，端口什么的如<code>my.ini</code>配置</p>
-</li>
-<li>但是为了全局使用，需要在环境变量<code>Path</code>添加<code>D:\Program Files\mysql-5.7.20-winx64\bin</code></li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/02/MySQL安装/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-随记-2017-11-01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/01/随记-2017-11-01/">随笔-2017-11-01</a>
+    <h1 class="article-title" itemprop="name">
+      随笔-2017-11-01
     </h1>
   
 
@@ -401,16 +215,33 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/01/随记-2017-11-01/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/11/02/MySQL安装/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MySQL安装
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/27/CSharp预编译SQL/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C#预编译SQL</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -430,565 +261,14 @@
 
 
 
-
-  
-    <article id="post-CSharp预编译SQL" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/27/CSharp预编译SQL/">C#预编译SQL</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/27/CSharp预编译SQL/" class="archive-article-date">
-  	<time datetime="2017-10-27T06:34:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>C#中预编译SQL方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// System.Data.Entity.Database</div><div class="line">int ExecuteSqlCommand(string sql, params object[] parameters);</div></pre></td></tr></table></figure></p>
-<p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private EFDbContext dbctx = new EFDbContext();</div></pre></td></tr></table></figure></p>
-<p>使用示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 删除tableA中，name以&quot;$&quot;结尾的数据</div><div class="line">string sql = &quot;DELETE FROM tableA WHRER name like \&quot;%@sign\&quot;&quot;;</div><div class="line">int result = dbctx.Database.ExecuteSqlCommand(sql,</div><div class="line">               new SqlParameter(&quot;sign&quot;, &quot;$&quot;)</div><div class="line">             );</div></pre></td></tr></table></figure></p>
-<p>查询方法，好像如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var db = new MSSqlDBContext();</div><div class="line">var name = &quot;tom&quot;;</div><div class="line">var list = db.Set&lt;Person&gt;().FromSql($&quot;select * from &#123;nameof(Person)&#125; where &#123;nameof(name)&#125;=@&#123;nameof(name)&#125; &quot;, </div><div class="line">new SqlParameter(nameof(name), name)).ToList();</div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/27/CSharp预编译SQL/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-C#预编译SQL" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/27/C#预编译SQL/">C#预编译SQL</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/27/C#预编译SQL/" class="archive-article-date">
-  	<time datetime="2017-10-27T06:34:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>C#中预编译SQL方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int System.Data.Entity.Database.ExecuteSqlCommand(string sql, params object[] parameters);</div></pre></td></tr></table></figure></p>
-<p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private EFDbContext dbctx = new EFDbContext();</div></pre></td></tr></table></figure></p>
-<p>使用示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 删除tableA中，name以&quot;$&quot;结尾的数据</div><div class="line">string sql = &quot;DELETE FROM tableA WHRER name like \&quot;%@sign\&quot;&quot;;</div><div class="line">int result = dbctx.Database.ExecuteSqlCommand(sql,</div><div class="line">               new SqlParameter(&quot;sign&quot;, &quot;$&quot;)</div><div class="line">             );</div></pre></td></tr></table></figure></p>
-<p>查询方法，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var db = new MSSqlDBContext();</div><div class="line">var name = &quot;tom&quot;;</div><div class="line">var list = db.Set&lt;Person&gt;().FromSql($&quot;select * from &#123;nameof(Person)&#125; where &#123;nameof(name)&#125;=@&#123;nameof(name)&#125; &quot;, </div><div class="line">new SqlParameter(nameof(name), name)).ToList();</div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">SQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/27/C#预编译SQL/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-随记-2017-10-26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/随记-2017-10-26/">随笔-2017-10-26</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/26/随记-2017-10-26/" class="archive-article-date">
-  	<time datetime="2017-10-26T12:57:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这两天稍微有点时间，简单看了看设计模式，感觉比上次理解多了，或许是要自己实际解决的问题更多了吧。</p>
-<p>除了工厂模式、单例模式、MVC模式等等很经常使用的模式以外，享元、适配器等等各种模式也都有了自己理解的应用场景，我想，下次再看应该会更有感触吧。</p>
-<p>回想很多大学里学的知识，也都是慢慢的觉得很有用处，当然这里也没有得后悔当初为什么没有好好学了，只能叹息有时间再补吧。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/26/随记-2017-10-26/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Sublime记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/Sublime记录/">Sublime记录</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/26/Sublime记录/" class="archive-article-date">
-  	<time datetime="2017-10-26T08:18:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="设置记录"><a href="#设置记录" class="headerlink" title="设置记录"></a>设置记录</h3><p>sublime.setting-user<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"color_scheme"</span>: <span class="string">"Packages/Theme - Afterglow/Afterglow-markdown.tmTheme"</span>,</div><div class="line">    <span class="attr">"expand_tabs_on_save"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"font_size"</span>: <span class="number">13</span>,</div><div class="line">    <span class="attr">"ignored_packages"</span>:</div><div class="line">    [</div><div class="line">        <span class="string">"Markdown"</span>,</div><div class="line">        <span class="string">"Vintage"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"tab"</span>: <span class="number">2</span>,</div><div class="line">    <span class="attr">"translate_tabs_to_spaces"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"default_encoding"</span>: <span class="string">"UTF-8"</span>,</div><div class="line">    <span class="attr">"update_check"</span>: <span class="literal">false</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Sublime</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/26/Sublime记录/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Sublime-Terminal" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/Sublime-Terminal/">Sublime Terminal</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/26/Sublime-Terminal/" class="archive-article-date">
-  	<time datetime="2017-10-26T07:50:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>无论是用Sublime写前端，还是写Markdown，经常要用到终端，每次<code>Win+R</code>再cmd也是麻烦</p>
-<ol>
-<li><p>Package Control -&gt; Terminal</p>
-</li>
-<li><p>设置Setting-Default，就是有<code>&quot;termainal&quot;:</code>这个参数的设置文件，改成下面设置，即可<code>Ctrl+Alt+T</code>启动普通cmd了（不改的话，默认为启动Power Shell）</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  // Replace with your own path to cmder.exe</div><div class="line">  "terminal": "cmd",</div><div class="line">  "parameters": ["/START", "%CWD%"]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><a href="https://github.com/wbond/sublime_terminal" target="_blank" rel="external">Sublime插件-Terminal的Github</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Sublime</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/26/Sublime-Terminal/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-简历" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/25/简历/">简历</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/25/简历/" class="archive-article-date">
-  	<time datetime="2017-10-25T13:44:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a>个人简历</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">resume</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/25/简历/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Git命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/24/Git命令/">Git命令</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/24/Git命令/" class="archive-article-date">
-  	<time datetime="2017-10-24T03:22:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></div><div class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></div><div class="line">$ git pull <span class="comment">#更新，已经同步远程最新文件</span></div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/24/Git命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -1011,8 +291,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
