@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hexo,Next," />
+  <meta name="keywords" content="随笔,Maven,Java," />
 
 
 
@@ -79,18 +79,23 @@
 
 
 
-<meta name="description" content="步骤一新建一个页面，命名为 tags 。命令如下：1$ hexo new page &amp;quot;tags&amp;quot; 步骤二编辑刚新建的页面，将页面的类型设置为 tags ，主题将自动为这个页面显示标签云。页面内容如下：12345title: tagsdate: 2017-11-6 22:19:52type: &amp;quot;tags&amp;quot;layout: &amp;quot;tags&amp;quot;---">
-<meta name="keywords" content="hexo,Next">
+<meta name="description" content="框架/工具 关键字  Maven SpringBoot Myatis MySQL Tomcat IDEA  部分操作 新建父工程，New &amp;gt; Project &amp;gt; Maven，不使用原型（不勾选Create from archetype） -&amp;gt; 填写项目信息 删除父工程下src目录 右键项目，新建子模块（New -&amp;gt; Module），填写项目名称，其他默认即可|-&amp;gt; 非">
+<meta name="keywords" content="随笔,Maven,Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NexT标签和分类页面">
-<meta property="og:url" content="http://0kelvins.github.io/post/17076.html">
+<meta property="og:title" content="Maven多模块项目搭建">
+<meta property="og:url" content="http://0kelvins.github.io/post/1ddf75e3.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="步骤一新建一个页面，命名为 tags 。命令如下：1$ hexo new page &amp;quot;tags&amp;quot; 步骤二编辑刚新建的页面，将页面的类型设置为 tags ，主题将自动为这个页面显示标签云。页面内容如下：12345title: tagsdate: 2017-11-6 22:19:52type: &amp;quot;tags&amp;quot;layout: &amp;quot;tags&amp;quot;---">
+<meta property="og:description" content="框架/工具 关键字  Maven SpringBoot Myatis MySQL Tomcat IDEA  部分操作 新建父工程，New &amp;gt; Project &amp;gt; Maven，不使用原型（不勾选Create from archetype） -&amp;gt; 填写项目信息 删除父工程下src目录 右键项目，新建子模块（New -&amp;gt; Module），填写项目名称，其他默认即可|-&amp;gt; 非">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-08T03:09:40.482Z">
+<meta property="og:image" content="http://0kelvins.github.io/assets/images/multi_module_demo/new-module.png">
+<meta property="og:image" content="http://0kelvins.github.io/assets/images/multi_module_demo/project-struct.png">
+<meta property="og:image" content="http://0kelvins.github.io/assets/images/multi_module_demo/module-dependencies.png">
+<meta property="og:image" content="http://0kelvins.github.io/assets/images/multi_module_demo/run-config.png">
+<meta property="og:updated_time" content="2017-11-06T10:40:17.869Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NexT标签和分类页面">
-<meta name="twitter:description" content="步骤一新建一个页面，命名为 tags 。命令如下：1$ hexo new page &amp;quot;tags&amp;quot; 步骤二编辑刚新建的页面，将页面的类型设置为 tags ，主题将自动为这个页面显示标签云。页面内容如下：12345title: tagsdate: 2017-11-6 22:19:52type: &amp;quot;tags&amp;quot;layout: &amp;quot;tags&amp;quot;---">
+<meta name="twitter:title" content="Maven多模块项目搭建">
+<meta name="twitter:description" content="框架/工具 关键字  Maven SpringBoot Myatis MySQL Tomcat IDEA  部分操作 新建父工程，New &amp;gt; Project &amp;gt; Maven，不使用原型（不勾选Create from archetype） -&amp;gt; 填写项目信息 删除父工程下src目录 右键项目，新建子模块（New -&amp;gt; Module），填写项目名称，其他默认即可|-&amp;gt; 非">
+<meta name="twitter:image" content="http://0kelvins.github.io/assets/images/multi_module_demo/new-module.png">
 
 
 
@@ -120,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://0kelvins.github.io/post/17076.html"/>
+  <link rel="canonical" href="http://0kelvins.github.io/post/1ddf75e3.html"/>
 
 
 
 
 
-  <title>NexT标签和分类页面 | 0Kelvins的博客</title>
+  <title>Maven多模块项目搭建 | 0Kelvins的博客</title>
   
 
 
@@ -263,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/17076.html">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/1ddf75e3.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="0Kelvins">
@@ -280,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">NexT标签和分类页面</h1>
+          <h1 class="post-title" itemprop="name headline">Maven多模块项目搭建</h1>
         
 
         <div class="post-meta">
@@ -292,7 +297,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-06T22:14:22+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-06T16:58:12+08:00">
                 2017-11-06
               </time>
             
@@ -311,8 +316,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/post/17076.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/post/17076.html" itemprop="commentsCount"></span>
+                <a href="/post/1ddf75e3.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/post/1ddf75e3.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -340,12 +345,40 @@
       
 
       
-        <h2 id="步骤一"><a href="#步骤一" class="headerlink" title="步骤一"></a>步骤一</h2><p>新建一个页面，命名为 tags 。命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new page &quot;tags&quot;</div></pre></td></tr></table></figure></p>
-<h2 id="步骤二"><a href="#步骤二" class="headerlink" title="步骤二"></a>步骤二</h2><p>编辑刚新建的页面，将页面的类型设置为 tags ，主题将自动为这个页面显示标签云。页面内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">title: tags</div><div class="line">date: 2017-11-6 22:19:52</div><div class="line">type: &quot;tags&quot;</div><div class="line">layout: &quot;tags&quot;</div><div class="line">---</div></pre></td></tr></table></figure></p>
-<p>注意：如果有启用多说 或者 Disqus 评论，默认页面也会带有评论。需要关闭的话，请添加字段 comments 并将值设置为 false，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">title: tags</div><div class="line">date: 2017-11-6 22:19:52</div><div class="line">type: &quot;tags&quot;</div><div class="line">layout: &quot;tags&quot;</div><div class="line">comments: false</div><div class="line">---</div></pre></td></tr></table></figure></p>
-<h2 id="步骤三"><a href="#步骤三" class="headerlink" title="步骤三"></a>步骤三</h2><p>在菜单中添加链接。编辑NexT的配置文件 ，添加 tags 到 menu 中，如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">menu:</div><div class="line">  home: /</div><div class="line">  archives: /archives</div><div class="line">  tags: /tags</div></pre></td></tr></table></figure></p>
-<h2 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h2><h3 id="分类-categories"><a href="#分类-categories" class="headerlink" title="分类 categories"></a>分类 categories</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new page &quot;categories&quot;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: categories</div><div class="line">date: 2017-11-06 22:07:29</div><div class="line">types: &quot;categories&quot;</div><div class="line">layout: &quot;category&quot;</div><div class="line">---</div></pre></td></tr></table></figure>
+        <p><strong>框架/工具 关键字</strong></p>
+<blockquote>
+<p>Maven SpringBoot Myatis MySQL Tomcat IDEA</p>
+</blockquote>
+<h3 id="部分操作"><a href="#部分操作" class="headerlink" title="部分操作"></a>部分操作</h3><ol>
+<li>新建父工程，<code>New &gt; Project &gt; Maven</code>，不使用原型（不勾选<code>Create from archetype</code>） -&gt; 填写项目信息</li>
+<li>删除父工程下<code>src</code>目录</li>
+<li><p>右键项目，新建子模块（New -&gt; Module），填写项目名称，其他默认即可<br>|-&gt; 非web模块，不使用原型新建<code>Maven</code>模块<br>|-&gt; web模块<br>  |-&gt; 使用<code>maven-archetype-webapp</code>构建<br>  |-&gt; <code>Spring Initializr</code>构建<code>Spring</code>相关项目<br>新建模块：<br><img src="/assets/images/multi_module_demo/new-module.png" alt="新建模块"><br>简单MVC项目结构如下所示：<br><img src="/assets/images/multi_module_demo/project-struct.png" alt="项目结构"></p>
+</li>
+<li><p>在各个子模块的pom文件中添加互相的依赖（父工程在前一步自动添加了对应的子模块<code>&lt;modules&gt;</code>）<br><img src="/assets/images/multi_module_demo/module-dependencies.png" alt="模块依赖"></p>
+</li>
+<li><p>添加依赖到父工程的pom中（<code>Spring Initializr</code>构建web模块的，把web模块的pom依赖改到父工程<br>然后，父工程pom添加</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!-- The plugin rewrites your manifest --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.8.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span><span class="comment">&lt;!-- 指定该Main Class为全局的唯一入口 --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">mainClass</span>&gt;</span>com.like.DemoWebApplication<span class="tag">&lt;/<span class="name">mainClass</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">layout</span>&gt;</span>ZIP<span class="tag">&lt;/<span class="name">layout</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">executions</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">execution</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">goals</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>repackage<span class="tag">&lt;/<span class="name">goal</span>&gt;</span><span class="comment">&lt;!--可以把依赖的包都打包到生成的Jar包中--&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></div><div class="line">                    <span class="comment">&lt;!--可以生成不含依赖包的不可执行Jar包--&gt;</span></div><div class="line">                    <span class="comment">&lt;!-- configuration&gt;</span></div><div class="line"><span class="comment">                      &lt;classifier&gt;exec&lt;/classifier&gt;</span></div><div class="line"><span class="comment">                    &lt;/configuration&gt; --&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>web模块pom添加<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 为jar包取名 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>demo-start<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">skipTests</span>&gt;</span>true<span class="tag">&lt;/<span class="name">skipTests</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<ol>
+<li>右键父项目 &gt; <code>Open Module Settings</code>进入<code>Project Structure</code> &gt; 子模块 &gt; <code>Dependencies</code> &gt; <code>+</code> &gt; <code>Module Dependency</code>，添加子模块需要引用的其他子模块</li>
+<li>maven打包</li>
+<li>配置启动设置，配置为启动web子模块的配置即可<br><img src="/assets/images/multi_module_demo/run-config.png" alt="模块依赖"></li>
+</ol>
+<h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><ol>
+<li><p>maven统一打包命令(跳过测试)</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn package —Dmaven.test.skip=true</div></pre></td></tr></table></figure>
+</li>
+<li><p>编译/打包报错程序包xxx.xxx.xxx不存在，尝试</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn clean</div></pre></td></tr></table></figure>
+</li>
+<li><p>子模块间的引用要写在各自的pom文件里的 <code>&lt;dependencies&gt;</code>中，父工程配置<code>&lt;modules&gt;</code>即可</p>
+</li>
+<li><p>引用的jar包写在父工程pom的 <code>&lt;dependencies&gt;</code>中</p>
+</li>
+</ol>
+
       
     </div>
     
@@ -362,9 +395,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/随笔/" rel="tag"># 随笔</a>
           
-            <a href="/tags/Next/" rel="tag"># Next</a>
+            <a href="/tags/Maven/" rel="tag"># Maven</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -377,8 +412,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/1ddf75e3.html" rel="next" title="Maven多模块项目搭建">
-                <i class="fa fa-chevron-left"></i> Maven多模块项目搭建
+              <a href="/post/5998cfba.html" rel="next" title="SpringBoot搭建体验">
+                <i class="fa fa-chevron-left"></i> SpringBoot搭建体验
               </a>
             
           </div>
@@ -387,8 +422,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/post/dcf889e1.html" rel="prev" title="随笔2017-11-8">
-                随笔2017-11-8 <i class="fa fa-chevron-right"></i>
+              <a href="/post/17076.html" rel="prev" title="NexT标签和分类页面">
+                NexT标签和分类页面 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -534,7 +569,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤一"><span class="nav-number">1.</span> <span class="nav-text">步骤一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤二"><span class="nav-number">2.</span> <span class="nav-text">步骤二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤三"><span class="nav-number">3.</span> <span class="nav-text">步骤三</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注："><span class="nav-number">4.</span> <span class="nav-text">备注：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类-categories"><span class="nav-number">4.1.</span> <span class="nav-text">分类 categories</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#部分操作"><span class="nav-number">1.</span> <span class="nav-text">部分操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记录"><span class="nav-number">2.</span> <span class="nav-text">记录</span></a></li></ol></div>
             
 
           </div>

@@ -3,6 +3,56 @@
   
     
     <entry>
+      <title><![CDATA[VS快捷键]]></title>
+      <url>/post/18caccba.html</url>
+      <content type="html"><![CDATA[<p>工具 -&gt; 环境 -&gt; 键盘<br>-&gt; 1. 显示命令包含：搜索要修改的快捷键名字</p>
+<pre><code>* 修改显示智能提示的快捷键
+名字：视图.显示智能标记
+* 修改注释快捷键
+搜索：注释
+</code></pre><ol>
+<li>新建快捷键用于 <em>全局</em> -&gt; 按快捷键 -&gt; 选中输入框，按下要设置的快捷键<br>个人习惯，修改为<code>Ctrl + ` </code><br><img src="/assets/images/vs_keys_config/vs-keys-config.png" alt="快捷键设置界面"></li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> IDE </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> VS </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[随笔2017-11-8]]></title>
+      <url>/post/dcf889e1.html</url>
+      <content type="html"><![CDATA[<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>今天发现对产品业务不够了解的债，要还了。〒▽〒<br>做的工具对后面一个系统来说是没问题的，但是到再后面的系统，问题就放大了。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>详细的了解别的产品业务也是很有必要的，免得后期做好了再还债。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 随笔 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 随笔 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[NexT标签和分类页面]]></title>
       <url>/post/17076.html</url>
       <content type="html"><![CDATA[<h2 id="步骤一"><a href="#步骤一" class="headerlink" title="步骤一"></a>步骤一</h2><p>新建一个页面，命名为 tags 。命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new page &quot;tags&quot;</div></pre></td></tr></table></figure></p>
@@ -25,7 +75,7 @@
     
     <entry>
       <title><![CDATA[Maven多模块项目搭建]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/1ddf75e3.html</url>
       <content type="html"><![CDATA[<p><strong>框架/工具 关键字</strong></p>
 <blockquote>
 <p>Maven SpringBoot Myatis MySQL Tomcat IDEA</p>
@@ -76,7 +126,7 @@
     
     <entry>
       <title><![CDATA[SpringBoot搭建体验]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/5998cfba.html</url>
       <content type="html"><![CDATA[<p>虽然现在不在用Java开发，但是决定了解一下Java Web开发在用的比较新的东西<br>在这记录一下，SpringBoot搭建一个小型项目框架</p>
 <h3 id="工具清单"><a href="#工具清单" class="headerlink" title="工具清单"></a>工具清单</h3><p>JDK IDEA MySQL</p>
 <h3 id="框架工具组成"><a href="#框架工具组成" class="headerlink" title="框架工具组成"></a>框架工具组成</h3><p>SpringBoot + Mybatis + Thymeleaf + Maven</p>
@@ -117,7 +167,7 @@
     
     <entry>
       <title><![CDATA[MySQL安装]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/8b39915a.html</url>
       <content type="html"><![CDATA[<p>下了个<code>mysql-5.7.20-winx64</code>，以为是msi文件在压缩了一下呢。- -||</p>
 <ol>
 <li>解压到要安装的目录，如：<code>D:\Program Files\mysql-5.7.20-winx64</code></li>
@@ -143,7 +193,7 @@
     
     <entry>
       <title><![CDATA[随笔-2017-11-01]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/433774cf.html</url>
       <content type="html"><![CDATA[<p>重装折腾win7，没关闭更新，更新100+补丁还失败还原，各种dll丢失。报错大致如下：</p>
 <blockquote>
 <p>D3DCompiler_47.dll、api-ms-win-core-libraryloader-l1-2-1.dll、gfx.dll……丢失</p>
@@ -185,7 +235,7 @@
     
     <entry>
       <title><![CDATA[C#预编译SQL]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/9dae95bf.html</url>
       <content type="html"><![CDATA[<p>C#中预编译SQL方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int System.Data.Entity.Database.ExecuteSqlCommand(string sql, params object[] parameters);</div></pre></td></tr></table></figure></p>
 <p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private EFDbContext dbctx = new EFDbContext();</div></pre></td></tr></table></figure></p>
 <p>使用示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 删除tableA中，name以&quot;$&quot;结尾的数据</div><div class="line">string sql = &quot;DELETE FROM tableA WHRER name like \&quot;%@sign\&quot;&quot;;</div><div class="line">int result = dbctx.Database.ExecuteSqlCommand(sql,</div><div class="line">               new SqlParameter(&quot;sign&quot;, &quot;$&quot;)</div><div class="line">             );</div></pre></td></tr></table></figure></p>
@@ -205,7 +255,7 @@
     
     <entry>
       <title><![CDATA[C#预编译SQL]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/9dae95bf.html</url>
       <content type="html"><![CDATA[<p>C#中预编译SQL方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// System.Data.Entity.Database</div><div class="line">int ExecuteSqlCommand(string sql, params object[] parameters);</div></pre></td></tr></table></figure></p>
 <p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private EFDbContext dbctx = new EFDbContext();</div></pre></td></tr></table></figure></p>
 <p>使用示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 删除tableA中，name以&quot;$&quot;结尾的数据</div><div class="line">string sql = &quot;DELETE FROM tableA WHRER name like \&quot;%@sign\&quot;&quot;;</div><div class="line">int result = dbctx.Database.ExecuteSqlCommand(sql,</div><div class="line">               new SqlParameter(&quot;sign&quot;, &quot;$&quot;)</div><div class="line">             );</div></pre></td></tr></table></figure></p>
@@ -225,7 +275,7 @@
     
     <entry>
       <title><![CDATA[随笔-2017-10-26]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/57d9e48b.html</url>
       <content type="html"><![CDATA[<p>这两天稍微有点时间，简单看了看设计模式，感觉比上次理解多了，或许是要自己实际解决的问题更多了吧。</p>
 <p>除了工厂模式、单例模式、MVC模式等等很经常使用的模式以外，享元、适配器等等各种模式也都有了自己理解的应用场景，我想，下次再看应该会更有感触吧。</p>
 <p>回想很多大学里学的知识，也都是慢慢的觉得很有用处，当然这里也没有得后悔当初为什么没有好好学了，只能叹息有时间再补吧。</p>
@@ -242,7 +292,7 @@
     
     <entry>
       <title><![CDATA[Sublime记录]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/f04b92fe.html</url>
       <content type="html"><![CDATA[<h3 id="设置记录"><a href="#设置记录" class="headerlink" title="设置记录"></a>设置记录</h3><p>sublime.setting-user<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"color_scheme"</span>: <span class="string">"Packages/Theme - Afterglow/Afterglow-markdown.tmTheme"</span>,</div><div class="line">    <span class="attr">"expand_tabs_on_save"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"font_size"</span>: <span class="number">13</span>,</div><div class="line">    <span class="attr">"ignored_packages"</span>:</div><div class="line">    [</div><div class="line">        <span class="string">"Markdown"</span>,</div><div class="line">        <span class="string">"Vintage"</span></div><div class="line">    ],</div><div class="line">    <span class="attr">"tab"</span>: <span class="number">2</span>,</div><div class="line">    <span class="attr">"translate_tabs_to_spaces"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="attr">"default_encoding"</span>: <span class="string">"UTF-8"</span>,</div><div class="line">    <span class="attr">"update_check"</span>: <span class="literal">false</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 ]]></content>
       
@@ -259,7 +309,7 @@
     
     <entry>
       <title><![CDATA[Sublime Terminal]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/49a0138a.html</url>
       <content type="html"><![CDATA[<p>无论是用Sublime写前端，还是写Markdown，经常要用到终端，每次<code>Win+R</code>再cmd也是麻烦</p>
 <ol>
 <li><p>Package Control -&gt; Terminal</p>
@@ -284,7 +334,7 @@
     
     <entry>
       <title><![CDATA[简历]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/963f9cce.html</url>
       <content type="html"><![CDATA[<h2 id="个人简历"><a href="#个人简历" class="headerlink" title="个人简历"></a>个人简历</h2><p>回头在写吧……</p>
 ]]></content>
       
@@ -299,7 +349,7 @@
     
     <entry>
       <title><![CDATA[Hexo搭建]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/57ee7c1d.html</url>
       <content type="html"><![CDATA[<h3 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
 <h3 id="主题github地址"><a href="#主题github地址" class="headerlink" title="主题github地址"></a>主题github地址</h3><p><strong>yilia</strong> <code>https://github.com/litten/hexo-theme-yilia.git</code><br><strong>NexT</strong> <code>https://github.com/iissnan/hexo-theme-next.git</code></p>
 <h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
@@ -350,7 +400,7 @@
     
     <entry>
       <title><![CDATA[Git命令]]></title>
-      <url>/post/undefined.html</url>
+      <url>/post/b6ef4fe0.html</url>
       <content type="html"><![CDATA[<p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></div><div class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></div><div class="line">$ git pull <span class="comment">#更新，已经同步远程最新文件</span></div></pre></td></tr></table></figure></p>
 ]]></content>
       
