@@ -3,6 +3,39 @@
   
     
     <entry>
+      <title><![CDATA[随笔2017-11-9]]></title>
+      <url>/post/abffb977.html</url>
+      <content type="html"><![CDATA[<h3 id="Vue小记"><a href="#Vue小记" class="headerlink" title="Vue小记"></a>Vue小记</h3><p>使用侦听属性<code>watch</code>时，属性只有新旧值不同时才会触发</p>
+<h3 id="Js小记"><a href="#Js小记" class="headerlink" title="Js小记"></a>Js小记</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">0</span> == <span class="string">''</span> -&gt; <span class="literal">true</span></div><div class="line"><span class="number">0</span> === <span class="string">''</span> -&gt; <span class="literal">false</span></div></pre></td></tr></table></figure>
+<h3 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h3><blockquote>
+<p>Session在浏览器关闭后是不会直接自动结束的，重启浏览器重新进入新的会话</p>
+</blockquote>
+<p>Session ID在浏览器中是保存为Cookie的，只是不使用保存在硬盘上的话，会保存在进程中，即内存中。当浏览器关闭，进程下的Cookie自然丢失，重启也就找不到了，只能重启新的会话。</p>
+<p>小记：<br>    为了延长登录有效时间，做了定时器来在每次请求后，定时刷新登录状态，但是一直没想好怎么做好随着Session结束，来结束定时器。原来浏览器关闭，Session还没被回收，那也就不用考虑了。做好定时的单例，以及定时的确定会关闭，以及随登录验证来启用结束更重要。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 随笔 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 随笔 </tag>
+            
+            <tag> Vue </tag>
+            
+            <tag> JavaScript </tag>
+            
+            <tag> Session </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[VS快捷键]]></title>
       <url>/post/18caccba.html</url>
       <content type="html"><![CDATA[<p>工具 -&gt; 环境 -&gt; 键盘<br>-&gt; 1. 显示命令包含：搜索要修改的快捷键名字</p>
@@ -419,13 +452,6 @@
   
     
     <entry>
-      <title><![CDATA[关于]]></title>
-      <url>/about/index.html</url>
-      <content type="html"><![CDATA[<p>回头写点什么。</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[categories]]></title>
       <url>/categories/index.html</url>
       <content type="html"></content>
@@ -435,6 +461,13 @@
       <title><![CDATA[tags]]></title>
       <url>/tags/index.html</url>
       <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[关于]]></title>
+      <url>/about/index.html</url>
+      <content type="html"><![CDATA[<p>回头写点什么。</p>
+]]></content>
     </entry>
     
   
