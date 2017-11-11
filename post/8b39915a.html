@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="0Kelvins的博客">
 <meta property="og:description" content="下了个mysql-5.7.20-winx64，以为是msi文件在压缩了一下呢。- -||  解压到要安装的目录，如：D:\Program Files\mysql-5.7.20-winx64 在bin下新建my.ini，如下： 12345678910111213141516[mysql]# 设置mysql客户端默认字符集default-character-set=utf8 [mysqld]#设置33">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-08T12:15:49.720Z">
+<meta property="og:updated_time" content="2017-11-09T14:45:56.212Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL安装">
 <meta name="twitter:description" content="下了个mysql-5.7.20-winx64，以为是msi文件在压缩了一下呢。- -||  解压到要安装的目录，如：D:\Program Files\mysql-5.7.20-winx64 在bin下新建my.ini，如下： 12345678910111213141516[mysql]# 设置mysql客户端默认字符集default-character-set=utf8 [mysqld]#设置33">
@@ -344,10 +344,10 @@
 <ol>
 <li>解压到要安装的目录，如：<code>D:\Program Files\mysql-5.7.20-winx64</code></li>
 <li><p>在bin下新建<code>my.ini</code>，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[mysql]</div><div class="line"># 设置mysql客户端默认字符集</div><div class="line">default-character-set=utf8 </div><div class="line">[mysqld]</div><div class="line">#设置3306端口</div><div class="line">port = 3306 </div><div class="line"># 设置mysql的安装目录</div><div class="line">basedir=&quot;D:\Program Files\mysql-5.7.20-winx64&quot;</div><div class="line"># 设置mysql数据库的数据的存放目录</div><div class="line">datadir=&quot;D:\Program Files\mysql-5.7.20-winx64\data&quot;</div><div class="line"># 允许最大连接数</div><div class="line">max_connections=200</div><div class="line"># 服务端使用的字符集默认为8比特编码的latin1字符集</div><div class="line">character-set-server=utf8</div><div class="line"># 创建新表时将使用的默认存储引擎</div><div class="line">default-storage-engine=INNODB</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[mysql]</span><br><span class="line"># 设置mysql客户端默认字符集</span><br><span class="line">default-character-set=utf8 </span><br><span class="line">[mysqld]</span><br><span class="line">#设置3306端口</span><br><span class="line">port = 3306 </span><br><span class="line"># 设置mysql的安装目录</span><br><span class="line">basedir=&quot;D:\Program Files\mysql-5.7.20-winx64&quot;</span><br><span class="line"># 设置mysql数据库的数据的存放目录</span><br><span class="line">datadir=&quot;D:\Program Files\mysql-5.7.20-winx64\data&quot;</span><br><span class="line"># 允许最大连接数</span><br><span class="line">max_connections=200</span><br><span class="line"># 服务端使用的字符集默认为8比特编码的latin1字符集</span><br><span class="line">character-set-server=utf8</span><br><span class="line"># 创建新表时将使用的默认存储引擎</span><br><span class="line">default-storage-engine=INNODB</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>cmd，cd进入<code>D:\Program Files\mysql-5.7.20-winx64\bin</code>目录，执行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;mysqld install</div><div class="line">Service successfully installed.</div><div class="line">&gt;mysqld --initialize-insecure --user=mysql</div><div class="line"></div><div class="line">&gt;net start mysql</div><div class="line"> MySQL 服务正在启动 .</div><div class="line"> MySQL 服务已经启动成功。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;mysqld install</span><br><span class="line">Service successfully installed.</span><br><span class="line">&gt;mysqld --initialize-insecure --user=mysql</span><br><span class="line"></span><br><span class="line">&gt;net start mysql</span><br><span class="line"> MySQL 服务正在启动 .</span><br><span class="line"> MySQL 服务已经启动成功。</span><br></pre></td></tr></table></figure>
 <p>这时候MySQL已经启动了，端口什么的如<code>my.ini</code>配置</p>
 </li>
 <li>但是为了全局使用，需要在环境变量<code>Path</code>添加<code>D:\Program Files\mysql-5.7.20-winx64\bin</code></li>
@@ -721,16 +721,16 @@
         var gitment = new Gitmint({
             id: window.location.pathname, 
             owner: '0Kelvins',
-            repo: 'https://github.com/0Kelvins/0Kelvins.github.io.git',
+            repo: '0Kelvins.github.io',
             
             lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
             
             oauth: {
             
             
-                client_secret: '8ad5393bf5daef1232f5d4eccdd252b4ba42d055',
+                client_secret: '4500a2308027015334666a45346a695163acaeed',
             
-                client_id: '9fda90261de3d6876a1c'
+                client_id: 'ec7c0871902310161ec2'
             }});
         gitment.render('gitment-container');
       }
