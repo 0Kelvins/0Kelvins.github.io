@@ -3,6 +3,36 @@
   
     
     <entry>
+      <title><![CDATA[TwoSum、AddTwoNumbers]]></title>
+      <url>/post/8b21a190.html</url>
+      <content type="html"><![CDATA[<h2 id="LeetCode小记"><a href="#LeetCode小记" class="headerlink" title="LeetCode小记"></a>LeetCode小记</h2><p>好久没写过题目了，思维都僵化了←_←，所以先找点简单些的题目找找感觉。<br>因为现在基本不会用到C/C++，所以使用Java来做。</p>
+<h2 id="TwoSum系列题目"><a href="#TwoSum系列题目" class="headerlink" title="TwoSum系列题目"></a><code>TwoSum</code>系列题目</h2><p><strong>题意</strong> &gt; 求数组内相加为目标值的两个数的下标</p>
+<h3 id="1-Two-Sum"><a href="#1-Two-Sum" class="headerlink" title="1 Two Sum"></a><code>1</code> Two Sum</h3><p>这题要做出来很简单，但是想优化一下时间复杂度就要思考思考了。第一反应只想到了用<code>Map</code>来存数和下标的键值对，考虑是不是排个序再取个目标值的一半，然后向两边加。但是这样实际上做了层排序，耗费了时间，如果有多个目标值而数组一致的话，可以考虑。当然这里就不是了。</p>
+<p><strong>正解</strong>：使用<code>Map</code>，来逐个存储数组的数，并在存储前检查<code>Map</code>内是否包含<code>a</code>与将要存储的数<code>b</code>，满足<code>b + a = target</code>，满足则返回<code>a</code>的下标和当前数的下标，否则存储<code>b</code>及下标，然后继续下一个数。</p>
+<p><strong>小结</strong>：这样省去了查找下标、查到结果以外的无用计算等等。</p>
+<h3 id="167-Two-Sum-II-——-Input-array-is-sorted"><a href="#167-Two-Sum-II-——-Input-array-is-sorted" class="headerlink" title="167 Two Sum II —— Input array is sorted"></a><code>167</code> Two Sum II —— Input array is sorted</h3><p>刚好就看到有这题，之前从里往外的算法，实现比较不简洁，看到题解什么的都是从外往里算的，当然这样比较好用<code>while</code>来写。</p>
+<h2 id="2-Add-Two-Numbers"><a href="#2-Add-Two-Numbers" class="headerlink" title="2 Add Two Numbers"></a><code>2</code> Add Two Numbers</h2><p><strong>题意</strong> &gt; 两个正整数，用单向链表来倒叙表示，链表的每个节点代表数的一位，求相加后的数对应链表。</p>
+<p><strong>要点</strong>：相加进位，进位的值要加到下一个节点，最高位进位，两个数不同长度的补位</p>
+<p><strong>坑</strong>：<code>1 + 9,9,9 = 0,0,0,1</code>，这里多次进位</p>
+<p><strong>方法</strong>：我一开始用的递归实现，因为更好想一点吧（以前一定直接非递归的Orz），每个节点考虑，计算相加的结果，然后填入<code>new</code>的节点<code>t</code>，<code>t</code>的<code>next</code>递归调用传入两个节点对应的<code>next</code>，中间加上判空以及溢出计算就好了。<br>非递归也没有那么麻烦，只是用<code>while</code>来实现子节点的计算。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> LeetCode </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> LeetCode </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[随笔2017-11-13]]></title>
       <url>/post/6bc11fb5.html</url>
       <content type="html"><![CDATA[<h3 id="Apache、Nginx和Tomcat的不同"><a href="#Apache、Nginx和Tomcat的不同" class="headerlink" title="Apache、Nginx和Tomcat的不同"></a>Apache、Nginx和Tomcat的不同</h3><ol>
@@ -30,9 +60,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 随笔 </tag>
             
             <tag> Server </tag>
             
@@ -322,9 +352,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 随笔 </tag>
             
         </tags>
         
@@ -342,9 +372,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 随笔 </tag>
             
         </tags>
         
@@ -425,6 +455,24 @@
     </entry>
     
     <entry>
+      <title><![CDATA[Git命令]]></title>
+      <url>/post/b6ef4fe0.html</url>
+      <content type="html"><![CDATA[<p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></div><div class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></div><div class="line">$ git pull <span class="comment">#更新，已经同步远程最新文件</span></div></pre></td></tr></table></figure></p>
+<p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git rm -r --cached .</div><div class="line">git add .</div><div class="line">git commit -m <span class="string">'update .gitignore'</span></div></pre></td></tr></table></figure></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 随笔 </tag>
+            
+            <tag> git </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Hexo搭建]]></title>
       <url>/post/57ee7c1d.html</url>
       <content type="html"><![CDATA[<h3 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
@@ -475,24 +523,6 @@
         
     </entry>
     
-    <entry>
-      <title><![CDATA[Git命令]]></title>
-      <url>/post/b6ef4fe0.html</url>
-      <content type="html"><![CDATA[<p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></div><div class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></div><div class="line">$ git pull <span class="comment">#更新，已经同步远程最新文件</span></div></pre></td></tr></table></figure></p>
-<p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git rm -r --cached .</div><div class="line">git add .</div><div class="line">git commit -m <span class="string">'update .gitignore'</span></div></pre></td></tr></table></figure></p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> git </tag>
-            
-            <tag> 随笔 </tag>
-            
-        </tags>
-        
-    </entry>
-    
   
   
     
@@ -504,14 +534,14 @@
     </entry>
     
     <entry>
-      <title><![CDATA[categories]]></title>
-      <url>/categories/index.html</url>
+      <title><![CDATA[tags]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[tags]]></title>
-      <url>/tags/index.html</url>
+      <title><![CDATA[categories]]></title>
+      <url>/categories/index.html</url>
       <content type="html"></content>
     </entry>
     
