@@ -459,6 +459,14 @@
       <url>/post/b6ef4fe0.html</url>
       <content type="html"><![CDATA[<p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></div><div class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></div><div class="line">$ git pull <span class="comment">#更新，已经同步远程最新文件</span></div></pre></td></tr></table></figure></p>
 <p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git rm -r --cached .</div><div class="line">git add .</div><div class="line">git commit -m <span class="string">'update .gitignore'</span></div></pre></td></tr></table></figure></p>
+<p>修改已<code>commit</code>备注</p>
+<ol>
+<li><p>输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit --amend</div></pre></td></tr></table></figure>
+</li>
+<li><p>进入最后一次提交的内容（vim编辑器） &gt; <code>a</code>进入插入模式 &gt; 修改 &gt; <code>Esc</code> &gt; 输入<code>:wq</code>，保存退出</p>
+</li>
+</ol>
 ]]></content>
       
         
