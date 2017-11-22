@@ -3,6 +3,34 @@
   
     
     <entry>
+      <title><![CDATA[【HDU-2215】I Love This Game]]></title>
+      <url>/post/b2d1e532.html</url>
+      <content type="html"><![CDATA[<h2 id="I-Love-This-Game"><a href="#I-Love-This-Game" class="headerlink" title="I Love This Game"></a>I Love This Game</h2><p>地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=2115" target="_blank" rel="external">I Love This Game</a></p>
+<h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3><p>NBA技巧大赛，给出一组球员及完成时间，求排名，相同时间排名相同，先按时间优先排序然后球员姓名字典序</p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>比较优先级<code>mm &gt; ss &gt; name</code>，然后对排序后数组逐个判断时间是否有相同的，相同则打印排名，否则排名等于下标+1</p>
+<h3 id="记"><a href="#记" class="headerlink" title="记"></a>记</h3><p>今天公司网有点烂，LeetCode加载太慢了，就翻了下杭电。看看当初懒懒的就做了那么十几题，还有一题<code>WA</code>的（就这题。），于是重新弄了下环境（VSCode + TDM-GCC），折腾了好久，然后终于可以弄代码了，发现之前代码里少了个+1。=_=，可能是那时候改好了忘提交了吧。</p>
+<p>win下普通<code>g++</code>环境用<code>TDM-GCC</code>就好了，体积比<code>Cygwin</code>、<code>Mingw</code>要小得多。VSCode配置文件见，<a href="https://github.com/0Kelvins/Algorithm" target="_blank" rel="external">Algorithm仓库</a>的<code>.vscode</code>文件夹。</p>
+<p>因为不想把这题混到LeetCode的里面，所以新建了分类、仓库</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Algorithm </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Algorithm </tag>
+            
+            <tag> C++ </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[【LeetCode】LongestSubstring]]></title>
       <url>/post/ed2c3dd1.html</url>
       <content type="html"><![CDATA[<h2 id="3-Longest-Substring-Without-Repeating-Characters"><a href="#3-Longest-Substring-Without-Repeating-Characters" class="headerlink" title="3. Longest Substring Without Repeating Characters"></a>3. Longest Substring Without Repeating Characters</h2><h2 id="字符串内无重复字母的最长子串"><a href="#字符串内无重复字母的最长子串" class="headerlink" title="字符串内无重复字母的最长子串"></a>字符串内无重复字母的最长子串</h2><p>题目地址：<a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/description/" target="_blank" rel="external">Go to LeetCode</a></p>
