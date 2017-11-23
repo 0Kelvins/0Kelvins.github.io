@@ -88,7 +88,7 @@
 <meta property="og:description" content="教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 主题github地址yilia https://github.com/litten/hexo-theme-yilia.gitNexT https://github.com/iissnan/hexo-theme-next.git hexo配置http://blog.csdn.net/">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://0kelvins.github.io/path/to/image">
-<meta property="og:updated_time" content="2017-11-20T09:16:45.023Z">
+<meta property="og:updated_time" content="2017-11-22T13:21:00.326Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo搭建">
 <meta name="twitter:description" content="教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 主题github地址yilia https://github.com/litten/hexo-theme-yilia.gitNexT https://github.com/iissnan/hexo-theme-next.git hexo配置http://blog.csdn.net/">
@@ -345,8 +345,8 @@
         <h3 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
 <h3 id="主题github地址"><a href="#主题github地址" class="headerlink" title="主题github地址"></a>主题github地址</h3><p><strong>yilia</strong> <code>https://github.com/litten/hexo-theme-yilia.git</code><br><strong>NexT</strong> <code>https://github.com/iissnan/hexo-theme-next.git</code></p>
 <h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
-<p>新建文章<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new post <span class="string">"article title"</span></div></pre></td></tr></table></figure></p>
-<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo g   <span class="comment"># 生成</span></div><div class="line">hexo d   <span class="comment"># 部署</span></div><div class="line"><span class="comment"># 或直接</span></div><div class="line">hexo d -g <span class="comment"># 在部署前先生成</span></div></pre></td></tr></table></figure></p>
+<p>新建文章<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">"article title"</span></span><br></pre></td></tr></table></figure></p>
+<p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo g   <span class="comment"># 生成</span></span><br><span class="line">hexo d   <span class="comment"># 部署</span></span><br><span class="line"><span class="comment"># 或直接</span></span><br><span class="line">hexo d -g <span class="comment"># 在部署前先生成</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><ol>
 <li><p><strong>部署</strong>：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等</p>
 </li>
@@ -357,26 +357,26 @@
 </ol>
 <ul>
 <li><p>跳过<code>source</code>目录下的<code>test.html</code>:</p>
-<figure class="highlight plain"><figcaption><span>test.html```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">* 跳过`source`目录下`test`文件夹内所有文件：</div><div class="line">```skip_render: test/*</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>test.html```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* 跳过`source`目录下`test`文件夹内所有文件：</span><br><span class="line">```skip_render: test/*</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>跳过source目录下<code>test</code>文件夹内所有文件包括子文件夹以及子文件夹内的文件：</p>
-<figure class="highlight plain"><figcaption><span>test/**```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* 跳过多个路径：</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>test/**```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 跳过多个路径：</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>skip_render:</p>
 <ul>
 <li>test.html</li>
-<li>test/*<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">4. `_post`文件夹下是可以新建自己的文件夹的</div><div class="line"></div><div class="line">### [hexo标签插件](https://hexo.io/zh-cn/docs/tag-plugins.html)</div><div class="line">__jsFiddle__</div><div class="line">在文章中嵌入 jsFiddle。</div></pre></td></tr></table></figure>
+<li>test/*<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4. `_post`文件夹下是可以新建自己的文件夹的</span><br><span class="line"></span><br><span class="line">### [hexo标签插件](https://hexo.io/zh-cn/docs/tag-plugins.html)</span><br><span class="line">__jsFiddle__</span><br><span class="line">在文章中嵌入 jsFiddle。</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <iframe scrolling="no" width="[width]" height="[height]" src="//jsfiddle.net/shorttag/embedded/[tabs]/[skin]" frameborder="0" allowfullscreen></iframe>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">__Gist__</div><div class="line">在文章中嵌入 Gist。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__Gist__</span><br><span class="line">在文章中嵌入 Gist。</span><br></pre></td></tr></table></figure>
 <script src="//gist.github.com/gist_id.js?file=[filename]"></script>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">__iframe__</div><div class="line">在文章中插入 iframe。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__iframe__</span><br><span class="line">在文章中插入 iframe。</span><br></pre></td></tr></table></figure>
 <iframe src="url" width="[width]" height="[height]" frameborder="0" allowfullscreen></iframe>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">__Image__</div><div class="line">在文章中插入指定大小的图片。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__Image__</span><br><span class="line">在文章中插入指定大小的图片。</span><br></pre></td></tr></table></figure>
 <img src="/path/to/image" class="[class names]" title="[width] [height] [title text [alt text]]">
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">__Link__</div><div class="line">在文章中插入链接，并自动给外部链接添加 target=&quot;_blank&quot; 属性。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__Link__</span><br><span class="line">在文章中插入链接，并自动给外部链接添加 target=&quot;_blank&quot; 属性。</span><br></pre></td></tr></table></figure>
 <a>text url [external] [title]</a>
 <p>```</p>
 
@@ -509,7 +509,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -520,7 +520,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -816,6 +816,8 @@
 
 
 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 
 

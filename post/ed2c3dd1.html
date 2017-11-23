@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="LeetCode," />
+  <meta name="keywords" content="Algorithm,Java,LeetCode," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="3. Longest Substring Without Repeating Characters字符串内无重复字母的最长子串题目地址：Go to LeetCode 解题思路：字符串都是 “字符” 串，那就逐个 字符 来考虑比较呗。 定义：  目标串：字符串内无重复字母的最长子串 当前最大目标串长度：l 最大目标串长度:lmax  解题步骤：  设定i为目标串第一个字符下标，逐个字符遍历 比较当前">
-<meta name="keywords" content="LeetCode">
+<meta name="description" content="字符串内无重复字母的最长子串题目地址：Go to LeetCode 解题思路：字符串都是 “字符” 串，那就逐个 字符 来考虑比较呗。 定义：  目标串：字符串内无重复字母的最长子串 当前最大目标串长度：l 最大目标串长度:lmax  解题步骤：  设定i为目标串第一个字符下标，逐个字符遍历 比较当前字符在前面是否存在，是则i设置为已存在字符的下标+1（即要包含后面的字符，且不重复，只能舍弃前面的">
+<meta name="keywords" content="Algorithm,Java,LeetCode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【LeetCode】LongestSubstring">
+<meta property="og:title" content="【LeetCode】3. Longest Substring Without Repeating Characters">
 <meta property="og:url" content="http://0kelvins.github.io/post/ed2c3dd1.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="3. Longest Substring Without Repeating Characters字符串内无重复字母的最长子串题目地址：Go to LeetCode 解题思路：字符串都是 “字符” 串，那就逐个 字符 来考虑比较呗。 定义：  目标串：字符串内无重复字母的最长子串 当前最大目标串长度：l 最大目标串长度:lmax  解题步骤：  设定i为目标串第一个字符下标，逐个字符遍历 比较当前">
+<meta property="og:description" content="字符串内无重复字母的最长子串题目地址：Go to LeetCode 解题思路：字符串都是 “字符” 串，那就逐个 字符 来考虑比较呗。 定义：  目标串：字符串内无重复字母的最长子串 当前最大目标串长度：l 最大目标串长度:lmax  解题步骤：  设定i为目标串第一个字符下标，逐个字符遍历 比较当前字符在前面是否存在，是则i设置为已存在字符的下标+1（即要包含后面的字符，且不重复，只能舍弃前面的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-21T07:44:06.260Z">
+<meta property="og:updated_time" content="2017-11-23T13:46:47.928Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【LeetCode】LongestSubstring">
-<meta name="twitter:description" content="3. Longest Substring Without Repeating Characters字符串内无重复字母的最长子串题目地址：Go to LeetCode 解题思路：字符串都是 “字符” 串，那就逐个 字符 来考虑比较呗。 定义：  目标串：字符串内无重复字母的最长子串 当前最大目标串长度：l 最大目标串长度:lmax  解题步骤：  设定i为目标串第一个字符下标，逐个字符遍历 比较当前">
+<meta name="twitter:title" content="【LeetCode】3. Longest Substring Without Repeating Characters">
+<meta name="twitter:description" content="字符串内无重复字母的最长子串题目地址：Go to LeetCode 解题思路：字符串都是 “字符” 串，那就逐个 字符 来考虑比较呗。 定义：  目标串：字符串内无重复字母的最长子串 当前最大目标串长度：l 最大目标串长度:lmax  解题步骤：  设定i为目标串第一个字符下标，逐个字符遍历 比较当前字符在前面是否存在，是则i设置为已存在字符的下标+1（即要包含后面的字符，且不重复，只能舍弃前面的">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>【LeetCode】LongestSubstring | 0Kelvins的博客</title>
+  <title>【LeetCode】3. Longest Substring Without Repeating Characters | 0Kelvins的博客</title>
   
 
 
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【LeetCode】LongestSubstring</h1>
+          <h1 class="post-title" itemprop="name headline">【LeetCode】3. Longest Substring Without Repeating Characters</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
-                    <span itemprop="name">LeetCode</span>
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
                   </a>
                 </span>
 
@@ -362,7 +362,7 @@
       
 
       
-        <h2 id="3-Longest-Substring-Without-Repeating-Characters"><a href="#3-Longest-Substring-Without-Repeating-Characters" class="headerlink" title="3. Longest Substring Without Repeating Characters"></a>3. Longest Substring Without Repeating Characters</h2><h2 id="字符串内无重复字母的最长子串"><a href="#字符串内无重复字母的最长子串" class="headerlink" title="字符串内无重复字母的最长子串"></a>字符串内无重复字母的最长子串</h2><p>题目地址：<a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/description/" target="_blank" rel="external">Go to LeetCode</a></p>
+        <h2 id="字符串内无重复字母的最长子串"><a href="#字符串内无重复字母的最长子串" class="headerlink" title="字符串内无重复字母的最长子串"></a>字符串内无重复字母的最长子串</h2><p>题目地址：<a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/description/" target="_blank" rel="external">Go to LeetCode</a></p>
 <h3 id="解题思路："><a href="#解题思路：" class="headerlink" title="解题思路："></a>解题思路：</h3><p>字符串都是 <strong>“字符”</strong> 串，那就逐个 <strong>字符</strong> 来考虑比较呗。</p>
 <p>定义：</p>
 <ul>
@@ -395,6 +395,10 @@
     <footer class="post-footer">
       
         <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
             <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
           
@@ -509,7 +513,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -520,7 +524,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -586,7 +590,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Longest-Substring-Without-Repeating-Characters"><span class="nav-number">1.</span> <span class="nav-text">3. Longest Substring Without Repeating Characters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串内无重复字母的最长子串"><span class="nav-number">2.</span> <span class="nav-text">字符串内无重复字母的最长子串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解题思路："><span class="nav-number">2.1.</span> <span class="nav-text">解题思路：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记"><span class="nav-number">2.2.</span> <span class="nav-text">记</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串内无重复字母的最长子串"><span class="nav-number">1.</span> <span class="nav-text">字符串内无重复字母的最长子串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解题思路："><span class="nav-number">1.1.</span> <span class="nav-text">解题思路：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记"><span class="nav-number">1.2.</span> <span class="nav-text">记</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -816,6 +820,8 @@
 
 
 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 
 
