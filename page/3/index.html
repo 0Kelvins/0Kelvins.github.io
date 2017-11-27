@@ -226,6 +226,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -338,7 +348,7 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  // Replace with your own path to cmder.exe</span><br><span class="line">  "terminal": "cmd",</span><br><span class="line">  "parameters": ["/START", "%CWD%"]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p><a href="https://github.com/wbond/sublime_terminal" target="_blank" rel="external">Sublime插件-Terminal的Github</a></p>
+<p><a href="https://github.com/wbond/sublime_terminal" target="_blank" rel="noopener">Sublime插件-Terminal的Github</a></p>
 
           
         
@@ -578,9 +588,9 @@
       
         
           
-            <h3 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="external">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
+            <h3 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h3><p><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="noopener">http://blog.csdn.net/gdutxiaoxu/article/details/53576018</a></p>
 <h3 id="主题github地址"><a href="#主题github地址" class="headerlink" title="主题github地址"></a>主题github地址</h3><p><strong>yilia</strong> <code>https://github.com/litten/hexo-theme-yilia.git</code><br><strong>NexT</strong> <code>https://github.com/iissnan/hexo-theme-next.git</code></p>
-<h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="external">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
+<h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><p><a href="http://blog.csdn.net/xuezhisdc/article/details/53130383" target="_blank" rel="noopener">http://blog.csdn.net/xuezhisdc/article/details/53130383</a></p>
 <p>新建文章<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">"article title"</span></span><br></pre></td></tr></table></figure></p>
 <p>生成部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo g   <span class="comment"># 生成</span></span><br><span class="line">hexo d   <span class="comment"># 部署</span></span><br><span class="line"><span class="comment"># 或直接</span></span><br><span class="line">hexo d -g <span class="comment"># 在部署前先生成</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><ol>
@@ -588,7 +598,7 @@
 </li>
 <li><p>新建文章的 <strong>命名</strong>：不能包含<code>#</code>符号，Github上面会404，其他的<code>\/.?</code>之类的应该也不行<code>-_</code>以及数字是可以的</p>
 </li>
-<li><p>自定义页面，不渲染<br><a href="http://e12e.com/2016/06/05/hexo跳过指定文件的渲染/" target="_blank" rel="external">hexo跳过指定文件的渲染</a><br>在<code>_config.yml</code>文件中设置<code>skip_render</code>，都是相对<code>source</code>目录的路径：</p>
+<li><p>自定义页面，不渲染<br><a href="http://e12e.com/2016/06/05/hexo跳过指定文件的渲染/" target="_blank" rel="noopener">hexo跳过指定文件的渲染</a><br>在<code>_config.yml</code>文件中设置<code>skip_render</code>，都是相对<code>source</code>目录的路径：</p>
 </li>
 </ol>
 <ul>
@@ -734,7 +744,7 @@
       
         
           
-            <p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></span><br><span class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></span><br><span class="line">$ git pull <span class="comment">#更新，已经同步远程最新文件</span></span><br></pre></td></tr></table></figure></p>
+            <p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></span><br><span class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></span><br><span class="line">$ git pull origin master <span class="comment">#更新，已经同步远程最新文件</span></span><br></pre></td></tr></table></figure></p>
 <p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'update .gitignore'</span></span><br></pre></td></tr></table></figure></p>
 <p>修改已<code>commit</code>备注</p>
 <ol>
@@ -844,7 +854,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -855,7 +865,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -924,15 +934,9 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
 
 
 
@@ -1096,8 +1100,6 @@
 
 
 
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 
 

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="随笔,git," />
+  <meta name="keywords" content="随笔,C#," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="强制更新覆盖本地123$ git fetch --all #下载最新文件（未覆盖）$ git reset --hard origin/master #定向最新下载版本$ git pull origin master #更新，已经同步远程最新文件 删除已纳入版本控制，并后添加到.gitignore的文件（注意.）123g">
-<meta name="keywords" content="随笔,git">
+<meta name="description" content="前言数组的合并拆分，基本就是利用数组的复制方法来实现 C#里面使用lambda表达式很方便，数组的各种操作使用lambda就很简洁，但是效率也是自然不如其他的函数了 数组合并(复制)12345678910111213141516171819202122232425262728293031323334int[] a = ">
+<meta name="keywords" content="随笔,C#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git命令">
-<meta property="og:url" content="http://0kelvins.github.io/post/b6ef4fe0.html">
+<meta property="og:title" content="【CSharp】数组操作">
+<meta property="og:url" content="http://0kelvins.github.io/post/43a178cc.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="强制更新覆盖本地123$ git fetch --all #下载最新文件（未覆盖）$ git reset --hard origin/master #定向最新下载版本$ git pull origin master #更新，已经同步远程最新文件 删除已纳入版本控制，并后添加到.gitignore的文件（注意.）123git rm -r --cached .git add .git commit -">
+<meta property="og:description" content="前言数组的合并拆分，基本就是利用数组的复制方法来实现 C#里面使用lambda表达式很方便，数组的各种操作使用lambda就很简洁，但是效率也是自然不如其他的函数了 数组合并(复制)12345678910111213141516171819202122232425262728293031323334int[] a = new int[] &amp;#123; 1, 2, 3, 4, 5 &amp;#125;;in">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-27T09:04:28.796Z">
+<meta property="og:updated_time" content="2017-11-27T09:00:03.063Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git命令">
-<meta name="twitter:description" content="强制更新覆盖本地123$ git fetch --all #下载最新文件（未覆盖）$ git reset --hard origin/master #定向最新下载版本$ git pull origin master #更新，已经同步远程最新文件 删除已纳入版本控制，并后添加到.gitignore的文件（注意.）123git rm -r --cached .git add .git commit -">
+<meta name="twitter:title" content="【CSharp】数组操作">
+<meta name="twitter:description" content="前言数组的合并拆分，基本就是利用数组的复制方法来实现 C#里面使用lambda表达式很方便，数组的各种操作使用lambda就很简洁，但是效率也是自然不如其他的函数了 数组合并(复制)12345678910111213141516171819202122232425262728293031323334int[] a = new int[] &amp;#123; 1, 2, 3, 4, 5 &amp;#125;;in">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://0kelvins.github.io/post/b6ef4fe0.html"/>
+  <link rel="canonical" href="http://0kelvins.github.io/post/43a178cc.html"/>
 
 
 
 
 
-  <title>Git命令 | 0Kelvins的博客</title>
+  <title>【CSharp】数组操作 | 0Kelvins的博客</title>
   
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/b6ef4fe0.html">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/43a178cc.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="0Kelvins">
@@ -290,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Git命令</h1>
+          <h1 class="post-title" itemprop="name headline">【CSharp】数组操作</h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-24T11:22:07+08:00">
-                2017-10-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-27T16:08:37+08:00">
+                2017-11-27
               </time>
             
 
@@ -313,6 +313,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C#</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -321,8 +343,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/post/b6ef4fe0.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/post/b6ef4fe0.html" itemprop="commentsCount"></span>
+                <a href="/post/43a178cc.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/post/43a178cc.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -350,17 +372,13 @@
       
 
       
-        <p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></span><br><span class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></span><br><span class="line">$ git pull origin master <span class="comment">#更新，已经同步远程最新文件</span></span><br></pre></td></tr></table></figure></p>
-<p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'update .gitignore'</span></span><br></pre></td></tr></table></figure></p>
-<p>修改已<code>commit</code>备注</p>
-<ol>
-<li><p>输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进入最后一次提交的内容（vim编辑器） &gt; <code>a</code>进入插入模式 &gt; 修改 &gt; <code>Esc</code> &gt; 输入<code>:wq</code>，保存退出</p>
-</li>
-</ol>
-
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>数组的合并拆分，基本就是利用数组的复制方法来实现</p>
+<p>C#里面使用<code>lambda</code>表达式很方便，数组的各种操作使用<code>lambda</code>就很简洁，但是效率也是自然不如其他的函数了</p>
+<h2 id="数组合并-复制"><a href="#数组合并-复制" class="headerlink" title="数组合并(复制)"></a>数组合并(复制)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">int[] a = new int[] &#123; 1, 2, 3, 4, 5 &#125;;</span><br><span class="line">int[] b = new int[] &#123; 6, 7, 8, 9 &#125;;</span><br><span class="line">int[] c = new int[](a.Length + b.Length);</span><br><span class="line"></span><br><span class="line">// lambda表达式 Concat 方法</span><br><span class="line">int[] c = a.Concat(b).ToArray();</span><br><span class="line"></span><br><span class="line">/* Array.Copy 支持所有类型数组，支持装拆箱</span><br><span class="line">public static void Copy(</span><br><span class="line">	Array sourceArray,</span><br><span class="line">	int sourceIndex,</span><br><span class="line">	Array destinationArray,</span><br><span class="line">	int destinationIndex,</span><br><span class="line">	int length</span><br><span class="line">)</span><br><span class="line">*/</span><br><span class="line">Array.Copy(a, 0, c, 0, a.Length);</span><br><span class="line">Array.Copy(b, 0, c, a.Length, b);</span><br><span class="line"></span><br><span class="line">// Array.ConstrainedCopy 和 Array.Copy 差不多，更严格，不支持装拆箱</span><br><span class="line"></span><br><span class="line">/* Buffer.BlockCopy 只支持基元类型</span><br><span class="line">sbyte / byte / short / ushort / int / uint / long / ulong / char / float / double / bool</span><br><span class="line"></span><br><span class="line">public static void BlockCopy (</span><br><span class="line">	Array src,</span><br><span class="line">	int srcOffset,</span><br><span class="line">	Array dst,</span><br><span class="line">	int dstOffset,</span><br><span class="line">	int count</span><br><span class="line">)</span><br><span class="line">*/</span><br><span class="line">Buffer.BlockCopy(a, 0, c, 0, a.Length);</span><br><span class="line">Buffer.BlockCopy(b, 0, c, a.Length, b);</span><br></pre></td></tr></table></figure>
+<p>数据量小的情况下，没有太大差别，大量数据时速度比较如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Buffer.BlockCopy &gt; Array.ConstrainedCopy &gt; Array.Copy &gt; Concat</span><br></pre></td></tr></table></figure></p>
+<h2 id="数组拆分"><a href="#数组拆分" class="headerlink" title="数组拆分"></a>数组拆分</h2><p>除了<code>lambda</code>表达式基本，就是使用复制方法，复制子数组到新数组了，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int[] a = new int[] &#123; 1, 2, 3, 4, 5 &#125;;</span><br><span class="line">int[] b = new int[](3);</span><br><span class="line">Array.Copy(a, 0, b, 0, 3);</span><br></pre></td></tr></table></figure></p>
+<h3 id="字符串数组-以指定间隔符-拼接成字符串"><a href="#字符串数组-以指定间隔符-拼接成字符串" class="headerlink" title="字符串数组 以指定间隔符 拼接成字符串"></a>字符串数组 以指定间隔符 拼接成字符串</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">string[] a = new string[] &#123;&quot;1&quot;, &quot;2&quot;&#125;;</span><br><span class="line">string s = string.Join(&quot;, &quot;, a); // 1, 2</span><br></pre></td></tr></table></figure>
+<h3 id="字符串-以指定间隔符-分割成字符串数组"><a href="#字符串-以指定间隔符-分割成字符串数组" class="headerlink" title="字符串 以指定间隔符 分割成字符串数组"></a>字符串 以指定间隔符 分割成字符串数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 单字符分割</span><br><span class="line">string s = &quot;a|b|c|&quot;;</span><br><span class="line">string[] a = s.Split(&apos;|&apos;);	// &#123;&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;&quot;&#125;</span><br><span class="line"></span><br><span class="line">// 多字符分割</span><br><span class="line">string[] a = s.Split(new char[2] &#123;&apos;&amp;&apos;,&apos;|&apos;&#125;);</span><br><span class="line"></span><br><span class="line">// 字符串分割</span><br><span class="line">string[] a = Regex.Split(s,&quot;ab&quot;,RegexOptions.IgnoreCase);</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -379,7 +397,7 @@
           
             <a href="/tags/随笔/" rel="tag"># 随笔</a>
           
-            <a href="/tags/git/" rel="tag"># git</a>
+            <a href="/tags/C/" rel="tag"># C#</a>
           
         </div>
       
@@ -392,15 +410,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/post/2a84b609.html" rel="next" title="【LeetCode】4. Median of Two Sorted Arrays">
+                <i class="fa fa-chevron-left"></i> 【LeetCode】4. Median of Two Sorted Arrays
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/post/57ee7c1d.html" rel="prev" title="Hexo搭建">
-                Hexo搭建 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -459,8 +477,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -546,6 +573,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组合并-复制"><span class="nav-number"></span> <span class="nav-text">数组合并(复制)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组拆分"><span class="nav-number"></span> <span class="nav-text">数组拆分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串数组-以指定间隔符-拼接成字符串"><span class="nav-number">1.</span> <span class="nav-text">字符串数组 以指定间隔符 拼接成字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串-以指定间隔符-分割成字符串数组"><span class="nav-number">2.</span> <span class="nav-text">字符串 以指定间隔符 分割成字符串数组</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
