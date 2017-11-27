@@ -15,7 +15,7 @@
       
         <categories>
             
-            <category> C# </category>
+            <category> CSharp </category>
             
         </categories>
         
@@ -24,7 +24,7 @@
             
             <tag> 随笔 </tag>
             
-            <tag> C# </tag>
+            <tag> CSharp </tag>
             
         </tags>
         
@@ -583,7 +583,7 @@
       
         <categories>
             
-            <category> C# </category>
+            <category> CSharp </category>
             
         </categories>
         
@@ -592,9 +592,9 @@
             
             <tag> 随笔 </tag>
             
-            <tag> C# </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> CSharp </tag>
             
         </tags>
         
