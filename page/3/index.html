@@ -745,7 +745,7 @@
         
           
             <p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></span><br><span class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></span><br><span class="line">$ git pull origin master <span class="comment">#更新，已经同步远程最新文件</span></span><br></pre></td></tr></table></figure></p>
-<p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'update .gitignore'</span></span><br></pre></td></tr></table></figure></p>
+<p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"update .gitignore"</span></span><br></pre></td></tr></table></figure></p>
 <p>修改已<code>commit</code>备注</p>
 <ol>
 <li><p>输入</p>
