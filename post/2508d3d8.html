@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="问题打包的人反馈EF DBFirst的数据库连接配置里面的&amp;amp;quot(&amp;quot;)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。 版本Entity Framework v6.1.3 解决方法 写个获取连接的类 1234567891011121">
+<meta name="description" content="问题打包的人反馈EF DBFirst的数据库连接配置里面的&amp;amp;quot(“&amp;quot;”)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。 版本Entity Framework v6.1.3 解决方法 写个获取连接的类 12345678910111">
 <meta name="keywords" content="CSharp,DotNet,Entity Framework">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Entity Framework】自定义读取配置数据库连接">
 <meta property="og:url" content="http://0kelvins.github.io/post/2508d3d8.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="问题打包的人反馈EF DBFirst的数据库连接配置里面的&amp;amp;quot(&amp;quot;)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。 版本Entity Framework v6.1.3 解决方法 写个获取连接的类 12345678910111213141516171819using System.Configuration;namespac">
+<meta property="og:description" content="问题打包的人反馈EF DBFirst的数据库连接配置里面的&amp;amp;quot(“&amp;quot;”)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。 版本Entity Framework v6.1.3 解决方法 写个获取连接的类 12345678910111213141516171819using System.Configuration;namesp">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://0kelvins.github.io/assets/images/ef_connect_string.png">
-<meta property="og:updated_time" content="2017-12-01T07:50:07.478Z">
+<meta property="og:image" content="http://0kelvins.github.io/assets/images/ef_connect_string/ef-construct.png">
+<meta property="og:updated_time" content="2017-12-01T08:16:36.973Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Entity Framework】自定义读取配置数据库连接">
-<meta name="twitter:description" content="问题打包的人反馈EF DBFirst的数据库连接配置里面的&amp;amp;quot(&amp;quot;)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。 版本Entity Framework v6.1.3 解决方法 写个获取连接的类 12345678910111213141516171819using System.Configuration;namespac">
-<meta name="twitter:image" content="http://0kelvins.github.io/assets/images/ef_connect_string.png">
+<meta name="twitter:description" content="问题打包的人反馈EF DBFirst的数据库连接配置里面的&amp;amp;quot(“&amp;quot;”)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。 版本Entity Framework v6.1.3 解决方法 写个获取连接的类 12345678910111213141516171819using System.Configuration;namesp">
+<meta name="twitter:image" content="http://0kelvins.github.io/assets/images/ef_connect_string/ef-construct.png">
 
 
 
@@ -364,7 +364,7 @@
       
 
       
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>打包的人反馈<code>EF DBFirst</code>的数据库连接配置里面的<code>&amp;quot</code>(<code>&quot;</code>)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。</p>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>打包的人反馈<code>EF DBFirst</code>的数据库连接配置里面的<code>&amp;quot</code>(“<code>&quot;</code>”)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。</p>
 <h2 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h2><p>Entity Framework v6.1.3</p>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ol>
 <li><p>写个获取连接的类</p>
@@ -378,7 +378,7 @@
 </li>
 </ol>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>其实这主要是构造函数本来的方法就支持直接配置连接字符串</p>
-<p><img src="/assets/images/ef_connect_string.png" alt="EF的构造函数"></p>
+<p><img src="/assets/images/ef_connect_string/ef-construct.png" alt="EF的构造函数"></p>
 
       
     </div>

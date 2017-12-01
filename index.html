@@ -352,7 +352,7 @@
       
         
           
-            <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>打包的人反馈<code>EF DBFirst</code>的数据库连接配置里面的<code>&amp;quot</code>(<code>&quot;</code>)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。</p>
+            <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>打包的人反馈<code>EF DBFirst</code>的数据库连接配置里面的<code>&amp;quot</code>(“<code>&quot;</code>”)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。</p>
 <h2 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h2><p>Entity Framework v6.1.3</p>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ol>
 <li><p>写个获取连接的类</p>
@@ -366,7 +366,7 @@
 </li>
 </ol>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>其实这主要是构造函数本来的方法就支持直接配置连接字符串</p>
-<p><img src="/assets/images/ef_connect_string.png" alt="EF的构造函数"></p>
+<p><img src="/assets/images/ef_connect_string/ef-construct.png" alt="EF的构造函数"></p>
 
           
         
@@ -510,8 +510,7 @@
           
             <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>做出多组<code>radio</code>组，来作为选择条件的UI组件，比<code>select</code>更方便好看。</p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
-<li>使用了<code>bootstrap</code>和<code>vue</code>，两者存在冲突，将<code>bootstrap</code>的js去掉。</li>
-<li>除了要实现<code>Vue</code>的<code>radio</code>组件外，因为<code>bootstrap</code>的js换了，所以<code>radio</code>选中的效果没有了，需要自己用<code>Vue</code>来实现绑定点击效果。（不换掉<code>bootstrap</code>的js的话Vue的<code>radio</code>组件事件绑定就会和冲突，进而没反应）</li>
+<li>使用了<code>bootstrap</code>和<code>vue</code>，两者存在冲突，将<code>bootstrap</code>的js去掉。除了要实现<code>Vue</code>的<code>radio</code>组件外，因为<code>bootstrap</code>的js删除了，所以<code>radio</code>选中的效果没有了，需要自己用<code>Vue</code>来实现绑定点击效果。（不换掉<code>bootstrap</code>的js的话Vue的<code>radio</code>组件事件绑定就会和冲突，进而没反应）</li>
 <li>自定义组件的<code>v-model</code>，没能实现出想要的效果。待实验。</li>
 </ol>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="1-bootstrap和vue冲突"><a href="#1-bootstrap和vue冲突" class="headerlink" title="1. bootstrap和vue冲突"></a>1. <code>bootstrap</code>和<code>vue</code>冲突</h3><p>本来想换成<code>bootstrap-vue</code>的js来用，发现radio的效果不一样了，最后还是要自己写选中效果，索性就把<code>bootstrap</code>的js去掉了，只用个css。</p>
