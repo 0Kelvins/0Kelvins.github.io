@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="0Kelvins的博客">
 <meta property="og:description" content="C#中预编译SQL方法如下：12// System.Data.Entity.Databaseint ExecuteSqlCommand(string sql, params object[] parameters); 使用EF6框架，仓库使用生成的数据库上下文：1private EFDbContext dbctx = new EFDbContext(); 使用示例：12345// 删除tableA">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-01T07:24:19.632Z">
+<meta property="og:updated_time" content="2017-12-01T08:31:55.827Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【C#】预编译SQL">
 <meta name="twitter:description" content="C#中预编译SQL方法如下：12// System.Data.Entity.Databaseint ExecuteSqlCommand(string sql, params object[] parameters); 使用EF6框架，仓库使用生成的数据库上下文：1private EFDbContext dbctx = new EFDbContext(); 使用示例：12345// 删除tableA">
@@ -362,10 +362,10 @@
       
 
       
-        <p>C#中预编译SQL方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// System.Data.Entity.Database</span><br><span class="line">int ExecuteSqlCommand(string sql, params object[] parameters);</span><br></pre></td></tr></table></figure></p>
-<p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private EFDbContext dbctx = new EFDbContext();</span><br></pre></td></tr></table></figure></p>
-<p>使用示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 删除tableA中，name以&quot;$&quot;结尾的数据</span><br><span class="line">string sql = &quot;DELETE FROM tableA WHRER name like \&quot;%@sign\&quot;&quot;;</span><br><span class="line">int result = dbctx.Database.ExecuteSqlCommand(sql,</span><br><span class="line">               new SqlParameter(&quot;sign&quot;, &quot;$&quot;)</span><br><span class="line">             );</span><br></pre></td></tr></table></figure></p>
-<p>查询方法，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var db = new MSSqlDBContext();</span><br><span class="line">var name = &quot;tom&quot;;</span><br><span class="line">var list = db.Set&lt;Person&gt;().FromSql($&quot;select * from &#123;nameof(Person)&#125; where &#123;nameof(name)&#125;=@&#123;nameof(name)&#125; &quot;, </span><br><span class="line">new SqlParameter(nameof(name), name)).ToList();</span><br></pre></td></tr></table></figure></p>
+        <p>C#中预编译SQL方法如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// System.Data.Entity.Database</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ExecuteSqlCommand</span>(<span class="params"><span class="keyword">string</span> sql, <span class="keyword">params</span> <span class="keyword">object</span>[] parameters</span>)</span>;</span><br></pre></td></tr></table></figure></p>
+<p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> EFDbContext dbctx = <span class="keyword">new</span> EFDbContext();</span><br></pre></td></tr></table></figure></p>
+<p>使用示例：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除tableA中，name以"$"结尾的数据</span></span><br><span class="line"><span class="keyword">string</span> sql = <span class="string">"DELETE FROM tableA WHRER name like \"%@sign\""</span>;</span><br><span class="line"><span class="keyword">int</span> result = dbctx.Database.ExecuteSqlCommand(sql,</span><br><span class="line">               <span class="keyword">new</span> SqlParameter(<span class="string">"sign"</span>, <span class="string">"$"</span>)</span><br><span class="line">             );</span><br></pre></td></tr></table></figure></p>
+<p>查询方法，如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> db = <span class="keyword">new</span> MSSqlDBContext();</span><br><span class="line"><span class="keyword">var</span> name = <span class="string">"tom"</span>;</span><br><span class="line"><span class="keyword">var</span> list = db.Set&lt;Person&gt;().FromSql(<span class="string">$"select * from <span class="subst">&#123;<span class="keyword">nameof</span>(Person)&#125;</span> where <span class="subst">&#123;<span class="keyword">nameof</span>(name)&#125;</span>=@<span class="subst">&#123;<span class="keyword">nameof</span>(name)&#125;</span> "</span>, </span><br><span class="line"><span class="keyword">new</span> SqlParameter(<span class="keyword">nameof</span>(name), name)).ToList();</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -491,7 +491,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
