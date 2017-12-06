@@ -8,8 +8,8 @@
       <content type="html"><![CDATA[<p>在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。</p>
 <p>以下为常用提升效率的操作</p>
 <h3 id="求奇偶数："><a href="#求奇偶数：" class="headerlink" title="求奇偶数："></a>求奇偶数：</h3><p>奇数(Odd)：<code>11 &amp; 1 = 1</code><br>偶数(Even)：<code>24 &amp; 1 = 0</code></p>
-<h3 id="乘2的幂"><a href="#乘2的幂" class="headerlink" title="乘2的幂"></a>乘2的幂</h3><p>1*2: <code>1 &lt;&lt; 1 = 2</code><br>1*4: <code>1 &lt;&lt; 2 = 4</code></p>
-<h3 id="除2的幂"><a href="#除2的幂" class="headerlink" title="除2的幂"></a>除2的幂</h3><p>8/2: <code>8 &gt;&gt; 1 = 4</code><br>8/4: <code>8 &gt;&gt; 2 = 2</code></p>
+<h3 id="乘2的幂"><a href="#乘2的幂" class="headerlink" title="乘2的幂"></a>乘2的幂</h3><p>1 <em> 2: <code>1 &lt;&lt; 1 = 2</code><br>1 </em> 4: <code>1 &lt;&lt; 2 = 4</code></p>
+<h3 id="除2的幂"><a href="#除2的幂" class="headerlink" title="除2的幂"></a>除2的幂</h3><p>8 / 2: <code>8 &gt;&gt; 1 = 4</code><br>8 / 4: <code>8 &gt;&gt; 2 = 2</code></p>
 ]]></content>
       
         <categories>
