@@ -355,7 +355,7 @@
             <p>在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。</p>
 <p>以下为常用提升效率的操作</p>
 <h3 id="求奇偶数："><a href="#求奇偶数：" class="headerlink" title="求奇偶数："></a>求奇偶数：</h3><p>奇数(Odd)：<code>11 &amp; 1 = 1</code><br>偶数(Even)：<code>24 &amp; 1 = 0</code></p>
-<h3 id="乘2的幂"><a href="#乘2的幂" class="headerlink" title="乘2的幂"></a>乘2的幂</h3><p>1<em>2: <code>1 &lt;&lt; 1 = 2</code><br>1</em>4: <code>1 &lt;&lt; 2 = 4</code></p>
+<h3 id="乘2的幂"><a href="#乘2的幂" class="headerlink" title="乘2的幂"></a>乘2的幂</h3><p>1*2: <code>1 &lt;&lt; 1 = 2</code><br>1*4: <code>1 &lt;&lt; 2 = 4</code></p>
 <h3 id="除2的幂"><a href="#除2的幂" class="headerlink" title="除2的幂"></a>除2的幂</h3><p>8/2: <code>8 &gt;&gt; 1 = 4</code><br>8/4: <code>8 &gt;&gt; 2 = 2</code></p>
 
           
@@ -1119,14 +1119,14 @@
       
         
           
-            <h2 id="两数组的中值"><a href="#两数组的中值" class="headerlink" title="两数组的中值"></a>两数组的中值</h2><p>题目地址：<a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/" target="_blank" rel="noopener">Go to LeetCode</a></p>
+            <h2 id="两数组的中值"><a href="#两数组的中值" class="headerlink" title="两数组的中值"></a>两数组的中值</h2><p>题目地址：<a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/" target="_blank" rel="external">Go to LeetCode</a></p>
 <h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>求两个有序数组中间位置的数，两个数组长度和为偶数个时中间数求平均。<br>(哇，这题理解起来还是挺简单的，就是要做到<code>O(m+n)</code>有点麻烦了。)</p>
 <h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
 <li>归并排序（O(m+n)）<br>两个有序数组合并排序，这是归并排序算法的一部分。</li>
 </ol>
 <p>普 通 思 路。然而我这个想法就一闪而过就没了。Orz，还去用插排了，做了半天看起来判断太多太丑了，后面直接删了。然后看了下题解，自己写了遍。（扶额</p>
 <ol>
-<li>二分查找（O(m,n)）<br>二分查找一个数组还算简单，这两个数组就有点晕了。思路的话 <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/solution/" target="_blank" rel="noopener">LeetCode</a> 上有的，虽然是英文的，但是我没准备汉化一遍。（反正我这也没人看，略略略~</li>
+<li>二分查找（O(m,n)）<br>二分查找一个数组还算简单，这两个数组就有点晕了。思路的话 <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/solution/" target="_blank" rel="external">LeetCode</a> 上有的，虽然是英文的，但是我没准备汉化一遍。（反正我这也没人看，略略略~</li>
 </ol>
 <h2 id="记"><a href="#记" class="headerlink" title="记"></a>记</h2><p>还是要多做做题，不然都忘光了。脑子已经锈实了。</p>
 
@@ -1270,11 +1270,11 @@
       
         
           
-            <h2 id="I-Love-This-Game"><a href="#I-Love-This-Game" class="headerlink" title="I Love This Game"></a>I Love This Game</h2><p>地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=2115" target="_blank" rel="noopener">I Love This Game</a></p>
+            <h2 id="I-Love-This-Game"><a href="#I-Love-This-Game" class="headerlink" title="I Love This Game"></a>I Love This Game</h2><p>地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=2115" target="_blank" rel="external">I Love This Game</a></p>
 <h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3><p>NBA技巧大赛，给出一组球员及完成时间，求排名，相同时间排名相同，先按时间优先排序然后球员姓名字典序</p>
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>比较优先级<code>mm &gt; ss &gt; name</code>，然后对排序后数组逐个判断时间是否有相同的，相同则打印排名，否则排名等于下标+1</p>
 <h3 id="记"><a href="#记" class="headerlink" title="记"></a>记</h3><p>今天公司网有点烂，LeetCode加载太慢了，就翻了下杭电。看看当初懒懒的就做了那么十几题，还有一题<code>WA</code>的（就这题。），于是重新弄了下环境（VSCode + TDM-GCC），折腾了好久，然后终于可以弄代码了，发现之前代码里少了个+1。=_=，可能是那时候改好了忘提交了吧。</p>
-<p>win下普通<code>g++</code>环境用<code>TDM-GCC</code>就好了，体积比<code>Cygwin</code>、<code>Mingw</code>要小得多。VSCode配置文件见，<a href="https://github.com/0Kelvins/Algorithm" target="_blank" rel="noopener">Algorithm仓库</a>的<code>.vscode</code>文件夹。</p>
+<p>win下普通<code>g++</code>环境用<code>TDM-GCC</code>就好了，体积比<code>Cygwin</code>、<code>Mingw</code>要小得多。VSCode配置文件见，<a href="https://github.com/0Kelvins/Algorithm" target="_blank" rel="external">Algorithm仓库</a>的<code>.vscode</code>文件夹。</p>
 <p>因为不想把这题混到LeetCode的里面，所以新建了分类、仓库</p>
 
           
@@ -1417,7 +1417,7 @@
       
         
           
-            <h2 id="字符串内无重复字母的最长子串"><a href="#字符串内无重复字母的最长子串" class="headerlink" title="字符串内无重复字母的最长子串"></a>字符串内无重复字母的最长子串</h2><p>题目地址：<a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/description/" target="_blank" rel="noopener">Go to LeetCode</a></p>
+            <h2 id="字符串内无重复字母的最长子串"><a href="#字符串内无重复字母的最长子串" class="headerlink" title="字符串内无重复字母的最长子串"></a>字符串内无重复字母的最长子串</h2><p>题目地址：<a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/description/" target="_blank" rel="external">Go to LeetCode</a></p>
 <h3 id="解题思路："><a href="#解题思路：" class="headerlink" title="解题思路："></a>解题思路：</h3><p>字符串都是 <strong>“字符”</strong> 串，那就逐个 <strong>字符</strong> 来考虑比较呗。</p>
 <p>定义：</p>
 <ul>
@@ -1916,9 +1916,15 @@
 </div>
 
 
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
 
 
 
@@ -2082,6 +2088,8 @@
 
 
 
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 
 
