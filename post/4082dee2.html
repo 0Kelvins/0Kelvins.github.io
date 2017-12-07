@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。 以下为常用提升效率的操作 求奇偶数：奇数(Odd)：11 &amp;amp; 1 = 1偶数(Even)：24 &amp;amp; 1 = 0 乘2的幂1 * 2: 1 &amp;lt;&amp;lt; 1 = 21 * 4: 1 &amp;lt;&amp;lt; 2 = 4 除2的幂8 / 2: 8 &amp;gt;&amp;gt; 1 = 48 / 4: 8 &amp;gt;&amp;gt; 2 = 2 注：上">
+<meta name="description" content="在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。 以下为常用提升效率的操作 求奇偶数：奇数(Odd)：11 &amp;amp; 1 = 1偶数(Even)：24 &amp;amp; 1 = 0 乘2的幂12: 1 &amp;lt;&amp;lt; 1 = 214: 1 &amp;lt;&amp;lt; 2 ">
 <meta name="keywords" content="Bitwise,Algroithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常用位运算操作">
 <meta property="og:url" content="http://0kelvins.github.io/post/4082dee2.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。 以下为常用提升效率的操作 求奇偶数：奇数(Odd)：11 &amp;amp; 1 = 1偶数(Even)：24 &amp;amp; 1 = 0 乘2的幂1 * 2: 1 &amp;lt;&amp;lt; 1 = 21 * 4: 1 &amp;lt;&amp;lt; 2 = 4 除2的幂8 / 2: 8 &amp;gt;&amp;gt; 1 = 48 / 4: 8 &amp;gt;&amp;gt; 2 = 2 注：上">
+<meta property="og:description" content="在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。 以下为常用提升效率的操作 求奇偶数：奇数(Odd)：11 &amp;amp; 1 = 1偶数(Even)：24 &amp;amp; 1 = 0 乘2的幂12: 1 &amp;lt;&amp;lt; 1 = 214: 1 &amp;lt;&amp;lt; 2 = 4 除2的幂8/2: 8 &amp;gt;&amp;gt; 1 = 48/4: 8 &amp;gt;&amp;gt; 2 = 2">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-06T13:37:35.916Z">
+<meta property="og:updated_time" content="2017-12-05T07:54:07.255Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用位运算操作">
-<meta name="twitter:description" content="在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。 以下为常用提升效率的操作 求奇偶数：奇数(Odd)：11 &amp;amp; 1 = 1偶数(Even)：24 &amp;amp; 1 = 0 乘2的幂1 * 2: 1 &amp;lt;&amp;lt; 1 = 21 * 4: 1 &amp;lt;&amp;lt; 2 = 4 除2的幂8 / 2: 8 &amp;gt;&amp;gt; 1 = 48 / 4: 8 &amp;gt;&amp;gt; 2 = 2 注：上">
+<meta name="twitter:description" content="在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。 以下为常用提升效率的操作 求奇偶数：奇数(Odd)：11 &amp;amp; 1 = 1偶数(Even)：24 &amp;amp; 1 = 0 乘2的幂12: 1 &amp;lt;&amp;lt; 1 = 214: 1 &amp;lt;&amp;lt; 2 = 4 除2的幂8/2: 8 &amp;gt;&amp;gt; 1 = 48/4: 8 &amp;gt;&amp;gt; 2 = 2">
 
 
 
@@ -365,9 +365,8 @@
         <p>在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。</p>
 <p>以下为常用提升效率的操作</p>
 <h3 id="求奇偶数："><a href="#求奇偶数：" class="headerlink" title="求奇偶数："></a>求奇偶数：</h3><p>奇数(Odd)：<code>11 &amp; 1 = 1</code><br>偶数(Even)：<code>24 &amp; 1 = 0</code></p>
-<h3 id="乘2的幂"><a href="#乘2的幂" class="headerlink" title="乘2的幂"></a>乘2的幂</h3><p><code>1 * 2</code>: <code>1 &lt;&lt; 1 = 2</code><br><code>1 * 4</code>: <code>1 &lt;&lt; 2 = 4</code></p>
-<h3 id="除2的幂"><a href="#除2的幂" class="headerlink" title="除2的幂"></a>除2的幂</h3><p><code>8 / 2</code>: <code>8 &gt;&gt; 1 = 4</code><br><code>8 / 4</code>: <code>8 &gt;&gt; 2 = 2</code></p>
-<p><strong>注：</strong>上面算式里的<code>*</code>号，在Markdown里用来做 <em>斜体</em> 、 <strong>加粗</strong> 什么的，直接用记着转义（ * ），还有其他特殊符号什么的以后写的时候要注意一下。</p>
+<h3 id="乘2的幂"><a href="#乘2的幂" class="headerlink" title="乘2的幂"></a>乘2的幂</h3><p>1<em>2: <code>1 &lt;&lt; 1 = 2</code><br>1</em>4: <code>1 &lt;&lt; 2 = 4</code></p>
+<h3 id="除2的幂"><a href="#除2的幂" class="headerlink" title="除2的幂"></a>除2的幂</h3><p>8/2: <code>8 &gt;&gt; 1 = 4</code><br>8/4: <code>8 &gt;&gt; 2 = 2</code></p>
 
       
     </div>
@@ -409,6 +408,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/4e012a29.html" rel="prev" title="随笔2017-12-7">
+                随笔2017-12-7 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -496,7 +499,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -603,15 +606,9 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
 
 
 
@@ -803,8 +800,6 @@
 
 
 
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 
 
