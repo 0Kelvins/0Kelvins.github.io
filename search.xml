@@ -137,6 +137,7 @@
 <h3 id="求奇偶数："><a href="#求奇偶数：" class="headerlink" title="求奇偶数："></a>求奇偶数：</h3><p>奇数(Odd)：<code>11 &amp; 1 = 1</code><br>偶数(Even)：<code>24 &amp; 1 = 0</code></p>
 <h3 id="乘2的幂"><a href="#乘2的幂" class="headerlink" title="乘2的幂"></a>乘2的幂</h3><p><code>1 * 2</code>: <code>1 &lt;&lt; 1 = 2</code><br><code>1 * 4</code>: <code>1 &lt;&lt; 2 = 4</code></p>
 <h3 id="除2的幂"><a href="#除2的幂" class="headerlink" title="除2的幂"></a>除2的幂</h3><p><code>8 / 2</code>: <code>8 &gt;&gt; 1 = 4</code><br><code>8 / 4</code>: <code>8 &gt;&gt; 2 = 2</code></p>
+<p><strong>注：</strong>上面算式里的<code>*</code>号，在Markdown里用来做 <em>斜体</em> 、 <strong>加粗</strong> 什么的，直接用记着转义（ * ），还有其他特殊符号什么的以后写的时候要注意一下。</p>
 ]]></content>
       
         <categories>
