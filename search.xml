@@ -3,6 +3,106 @@
   
     
     <entry>
+      <title><![CDATA[【SQL】SQL Server里的锁]]></title>
+      <url>/post/d1379167.html</url>
+      <content type="html"><![CDATA[<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/chillsrc/archive/2013/04/13/3018386.html" target="_blank" rel="noopener">SQL SERVER的锁机制</a><br><a href="http://blog.csdn.net/huwei2003/article/details/4047191" target="_blank" rel="noopener">sql server锁知识及锁应用</a></p>
+<h2 id="锁类型"><a href="#锁类型" class="headerlink" title="锁类型"></a>锁类型</h2><table>
+<thead>
+<tr>
+<th>锁类型</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>共享 (S)</td>
+<td style="text-align:center">用于不更改或不更新数据的读取操作，如 SELECT 语句。</td>
+</tr>
+<tr>
+<td>更新 (U)</td>
+<td style="text-align:center">用于可更新的资源中。 防止当多个会话在读取、锁定以及随后可能进行的资源更新时发生常见形式的死锁。</td>
+</tr>
+<tr>
+<td>独占(也可称排他)(X)</td>
+<td style="text-align:center">用于数据修改操作，例如 INSERT、UPDATE 或 DELETE。 确保不会同时对同一资源进行多重更新。</td>
+</tr>
+<tr>
+<td>意向</td>
+<td style="text-align:center">用于建立锁的层次结构。 意向锁包含三种类型：意向共享 (IS)、意向排他 (IX) 和意向排他共享 (SIX)。</td>
+</tr>
+<tr>
+<td>架构</td>
+<td style="text-align:center">在执行依赖于表架构的操作时使用。 架构锁包含两种类型：架构修改 (Sch-M) 和架构稳定性 (Sch-S)。</td>
+</tr>
+<tr>
+<td>大容量更新 (BU)</td>
+<td style="text-align:center">在向表进行大容量数据复制且指定了 TABLOCK 提示时使用。</td>
+</tr>
+<tr>
+<td>键范围</td>
+<td style="text-align:center">当使用可序列化事务隔离级别时保护查询读取的行的范围。 确保再次运行查询时其他事务无法插入符合可序列化事务的查询的行。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="锁查询"><a href="#锁查询" class="headerlink" title="锁查询"></a>锁查询</h2><ul>
+<li><p>查询目前锁的表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> request_session_id spid, OBJECT_NAME(resource_associated_entity_id) tablename, request_status, request_type, request_mode</span><br><span class="line">    <span class="keyword">from</span> sys.dm_tran_locks <span class="keyword">where</span> resource_type=<span class="string">'OBJECT'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查询目前死锁的进程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> spid, blocked, loginame, last_batch, <span class="keyword">status</span>, cmd, hostname, program_name  </span><br><span class="line"><span class="keyword">from</span> sys.sysprocesses  </span><br><span class="line"><span class="keyword">where</span> spid <span class="keyword">in</span>  </span><br><span class="line">( <span class="keyword">select</span> blocked <span class="keyword">from</span> sys.sysprocesses <span class="keyword">where</span> blocked &lt;&gt; <span class="number">0</span> ) <span class="keyword">or</span> (blocked &lt;&gt;<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查询锁信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> req_spid  </span><br><span class="line">,<span class="keyword">case</span> req_status <span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> <span class="string">'已授予'</span> <span class="keyword">when</span> <span class="number">2</span> <span class="keyword">then</span> <span class="string">'正在转换'</span> <span class="keyword">when</span> <span class="number">3</span> <span class="keyword">then</span> <span class="string">'正在等待'</span> <span class="keyword">end</span> <span class="keyword">as</span> req_status  </span><br><span class="line">,<span class="keyword">case</span> rsc_type <span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> <span class="string">'NULL 资源（未使用）'</span> <span class="keyword">when</span> <span class="number">2</span> <span class="keyword">then</span> <span class="string">'数据库'</span> <span class="keyword">when</span> <span class="number">3</span> <span class="keyword">then</span> <span class="string">'文件'</span>  </span><br><span class="line">    <span class="keyword">when</span> <span class="number">4</span> <span class="keyword">then</span> <span class="string">'索引'</span> <span class="keyword">when</span> <span class="number">5</span> <span class="keyword">then</span> <span class="string">'表'</span> <span class="keyword">when</span> <span class="number">6</span> <span class="keyword">then</span> <span class="string">'页'</span> <span class="keyword">when</span> <span class="number">7</span> <span class="keyword">then</span> <span class="string">'键'</span>   </span><br><span class="line">    <span class="keyword">when</span> <span class="number">8</span> <span class="keyword">then</span> <span class="string">'扩展盘区'</span> <span class="keyword">when</span> <span class="number">9</span> <span class="keyword">then</span> <span class="string">'RID（行 ID)'</span> <span class="keyword">when</span> <span class="number">10</span> <span class="keyword">then</span> <span class="string">'应用程序'</span> <span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span> rsc_type  </span><br><span class="line">,<span class="keyword">coalesce</span>(OBJECT_NAME(rsc_objid),db_name(rsc_dbid)) <span class="keyword">as</span> [<span class="keyword">object</span>]  </span><br><span class="line">,<span class="keyword">case</span> req_mode <span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> <span class="string">'NULL'</span> <span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> <span class="string">'Sch-S'</span> <span class="keyword">when</span> <span class="number">2</span> <span class="keyword">then</span> <span class="string">'Sch-M'</span> <span class="keyword">when</span> <span class="number">3</span> <span class="keyword">then</span> <span class="string">'S'</span>   </span><br><span class="line">    <span class="keyword">when</span> <span class="number">4</span> <span class="keyword">then</span> <span class="string">'U'</span> <span class="keyword">when</span> <span class="number">5</span> <span class="keyword">then</span> <span class="string">'X'</span> <span class="keyword">when</span> <span class="number">6</span> <span class="keyword">then</span> <span class="string">'IS'</span> <span class="keyword">when</span> <span class="number">7</span> <span class="keyword">then</span> <span class="string">'IU'</span> <span class="keyword">when</span> <span class="number">8</span> <span class="keyword">then</span> <span class="string">'IX'</span> <span class="keyword">when</span> <span class="number">9</span> <span class="keyword">then</span> <span class="string">'SIU'</span>   </span><br><span class="line">    <span class="keyword">when</span> <span class="number">10</span> <span class="keyword">then</span> <span class="string">'SIX'</span> <span class="keyword">when</span> <span class="number">11</span> <span class="keyword">then</span> <span class="string">'UIX'</span> <span class="keyword">when</span> <span class="number">12</span> <span class="keyword">then</span> <span class="string">'BU'</span> <span class="keyword">when</span> <span class="number">13</span> <span class="keyword">then</span> <span class="string">'RangeS_S'</span> <span class="keyword">when</span> <span class="number">14</span> <span class="keyword">then</span> <span class="string">'RangeS_U'</span>   </span><br><span class="line">    <span class="keyword">when</span> <span class="number">15</span> <span class="keyword">then</span> <span class="string">'RangeI_N'</span> <span class="keyword">when</span> <span class="number">16</span> <span class="keyword">then</span> <span class="string">'RangeI_S'</span> <span class="keyword">when</span> <span class="number">17</span> <span class="keyword">then</span> <span class="string">'RangeI_U'</span> <span class="keyword">when</span> <span class="number">18</span> <span class="keyword">then</span> <span class="string">'RangeI_X'</span>   </span><br><span class="line">    <span class="keyword">when</span> <span class="number">19</span> <span class="keyword">then</span> <span class="string">'RangeX_S'</span> <span class="keyword">when</span> <span class="number">20</span> <span class="keyword">then</span> <span class="string">'RangeX_U'</span> <span class="keyword">when</span> <span class="number">21</span> <span class="keyword">then</span> <span class="string">'RangeX_X'</span> <span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span> req_mode  </span><br><span class="line">,rsc_indid <span class="keyword">as</span> index_id,rsc_text,req_refcnt  </span><br><span class="line">,<span class="keyword">case</span> req_ownertype <span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> <span class="string">'事务'</span> <span class="keyword">when</span> <span class="number">2</span> <span class="keyword">then</span> <span class="string">'游标'</span> <span class="keyword">when</span> <span class="number">3</span> <span class="keyword">then</span> <span class="string">'会话'</span> <span class="keyword">when</span> <span class="number">4</span> <span class="keyword">then</span> <span class="string">'ExSession'</span> <span class="keyword">else</span><span class="string">''</span> <span class="keyword">end</span> req_ownertype  </span><br><span class="line"><span class="keyword">from</span> sys.syslockinfo <span class="keyword">WHERE</span> rsc_type&lt;&gt;<span class="number">2</span> ;</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> SQL </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> SQL </tag>
+            
+            <tag> lock </tag>
+            
+            <tag> SQL Server </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[随笔2017-12-12]]></title>
+      <url>/post/e7380cd.html</url>
+      <content type="html"><![CDATA[<p>最近项目正式测试，做的工具使用中遇到了问题，静态变量到底怎么用。</p>
+<p>在希望变量可以多次重复使用的时候，会想用静态变量来降低内存消耗，但是这时候也会引入多进程并发使用时的问题。如果使用了静态变量，并且这个变量在每一个进程都应该不一样的话，这样的变量也不是静态的，会出现变量内容覆盖的问题。</p>
+<p><strong>在Web多会话的情况下，静态变量是使用的同一内存地址，所以，在考虑在单线程多个类中重用变量时，还是用传参之类的地址引用吧。</strong></p>
+<p>如果是完全静态不会变（静态字符串什么的），或者所有进程共享的变量（统计访问量什么的），可以使用静态变量来处理，降低内存消耗。</p>
+<p>以前很少经历并发的情况，对相关的思维还是不清晰，以后需要多加留意。以前明明都学过，但是都没注意过。(╯‵□′)╯︵┻━┻</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 随笔 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 随笔 </tag>
+            
+            <tag> static </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[随笔2017-12-7]]></title>
       <url>/post/4e012a29.html</url>
       <content type="html"><![CDATA[<h3 id="javac-“编码GBK的不可映射字符”"><a href="#javac-“编码GBK的不可映射字符”" class="headerlink" title="javac “编码GBK的不可映射字符”"></a>javac “编码GBK的不可映射字符”</h3><p>使用<code>javac -encoding UTF-8 XXX.java</code>，或把文件编码改为<code>ANSI</code></p>
@@ -21,9 +121,9 @@
             
             <tag> 随笔 </tag>
             
-            <tag> Java </tag>
-            
             <tag> LeetCode </tag>
+            
+            <tag> Java </tag>
             
         </tags>
         
@@ -195,9 +295,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> CSharp </tag>
+            
+            <tag> 随笔 </tag>
             
         </tags>
         
@@ -229,9 +329,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> Java </tag>
-            
             <tag> LeetCode </tag>
+            
+            <tag> Java </tag>
             
         </tags>
         
@@ -298,9 +398,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> Java </tag>
-            
             <tag> LeetCode </tag>
+            
+            <tag> Java </tag>
             
         </tags>
         
@@ -431,9 +531,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> Java </tag>
-            
             <tag> LeetCode </tag>
+            
+            <tag> Java </tag>
             
         </tags>
         
@@ -628,9 +728,9 @@
             
             <tag> 随笔 </tag>
             
-            <tag> Maven </tag>
-            
             <tag> Java </tag>
+            
+            <tag> Maven </tag>
             
         </tags>
         
@@ -737,9 +837,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> DotNet </tag>
+            
+            <tag> 随笔 </tag>
             
         </tags>
         
@@ -763,9 +863,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> CSharp </tag>
+            
+            <tag> 随笔 </tag>
             
             <tag> SQL </tag>
             
