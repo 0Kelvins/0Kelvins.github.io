@@ -121,9 +121,9 @@
             
             <tag> 随笔 </tag>
             
-            <tag> LeetCode </tag>
-            
             <tag> Java </tag>
+            
+            <tag> LeetCode </tag>
             
         </tags>
         
@@ -142,16 +142,16 @@
       
         <categories>
             
-            <category> Algroithm </category>
+            <category> Algorithm </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Bitwise </tag>
+            <tag> Algorithm </tag>
             
-            <tag> Algroithm </tag>
+            <tag> Bitwise </tag>
             
         </tags>
         
@@ -296,9 +296,9 @@
         
         <tags>
             
-            <tag> CSharp </tag>
-            
             <tag> 随笔 </tag>
+            
+            <tag> CSharp </tag>
             
         </tags>
         
@@ -330,9 +330,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> LeetCode </tag>
-            
             <tag> Java </tag>
+            
+            <tag> LeetCode </tag>
             
         </tags>
         
@@ -399,9 +399,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> LeetCode </tag>
-            
             <tag> Java </tag>
+            
+            <tag> LeetCode </tag>
             
         </tags>
         
@@ -532,9 +532,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> LeetCode </tag>
-            
             <tag> Java </tag>
+            
+            <tag> LeetCode </tag>
             
         </tags>
         
@@ -568,9 +568,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 随笔 </tag>
             
             <tag> Server </tag>
             
@@ -729,9 +729,9 @@
             
             <tag> 随笔 </tag>
             
-            <tag> Java </tag>
-            
             <tag> Maven </tag>
+            
+            <tag> Java </tag>
             
         </tags>
         
@@ -838,9 +838,9 @@
         
         <tags>
             
-            <tag> DotNet </tag>
-            
             <tag> 随笔 </tag>
+            
+            <tag> DotNet </tag>
             
         </tags>
         
@@ -864,11 +864,11 @@
         
         <tags>
             
-            <tag> CSharp </tag>
+            <tag> SQL </tag>
             
             <tag> 随笔 </tag>
             
-            <tag> SQL </tag>
+            <tag> CSharp </tag>
             
         </tags>
         
@@ -1012,9 +1012,9 @@
         
         <tags>
             
-            <tag> git </tag>
-            
             <tag> 随笔 </tag>
+            
+            <tag> git </tag>
             
         </tags>
         
