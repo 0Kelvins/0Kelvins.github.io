@@ -352,7 +352,7 @@
       
         
           
-            <p>WebApi项目的依赖注入需要使用<code>System.Web.Http.Dependencies</code>里的<code>IDependencyResolver</code>来实现，和Mvc的<code>IDependencyResolver</code>是不一样的，所以需要实现的<code>Resolver</code>不一样。虽然了解了大概怎么写，但是始终没能让自己重写的<code>Resolver</code>启动，并且看别人写好的还解决了其他的一些注入问题。于是，决定还是用<code>Ninject</code>下面fork的<code>remogloor/Ninject.Web.WebApi</code>，免得浪费时间折腾轮子了。</p>
+            <p>WebApi项目的依赖注入需要使用<code>System.Web.Http.Dependencies</code>里的<code>IDependencyResolver</code>来实现，和Mvc的<code>IDependencyResolver</code>是不一样的，所以需要实现的<code>Resolver</code>不一样。虽然了解了大概怎么写，但是始终没能让自己重写的<code>Resolver</code>启动，并且看别人写好的还解决了其他的一些注入问题。于是，决定还是用<code>Ninject</code>下面fork的<a href="https://github.com/ninject/Ninject.Web.WebApi" target="_blank" rel="noopener">remogloor/Ninject.Web.WebApi</a>，免得浪费时间折腾轮子了。</p>
 <p><a href="http://www.cnblogs.com/Locked-J/p/7722864.html" target="_blank" rel="noopener">Mvc的配置</a></p>
 <h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p><code>WebApi2</code>、<code>.Net Framework 4.5</code>、<code>VS2015</code></p>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
@@ -362,7 +362,7 @@
 <li>Ninject</li>
 <li>Ninject.Web.WebApi</li>
 </ul>
-<p>查看引用会发现附赠了 <code>Ninject.Web.Common</code>， <code>Ninject.Web.Common.WebHost</code>， <code>Ninject.Web.WebApi.WebHost</code> 三个包。</p>
+<p>查看引用会发现附赠了 <code>Ninject.Web.Common</code>、<code>Ninject.Web.Common.WebHost</code>、<code>Ninject.Web.WebApi.WebHost</code> 三个包。</p>
 <ol>
 <li>然后修改在App_Start下<code>NinjectWebCommon</code>的<code>RegisterServices()</code>，在里面后面加上自己的注入bind，如：<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterServices</span>(<span class="params">IKernel kernel</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Load(Assembly.GetExecutingAssembly());</span><br><span class="line">    kernel.Bind&lt;IUserRepository&gt;().To&lt;UserRepository&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
