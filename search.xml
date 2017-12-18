@@ -13,8 +13,9 @@
 </ol>
 <ul>
 <li>Ninject</li>
-<li>Ninject.Web.WebApi<br>查看引用会附赠<code>Ninject.Web.Common</code>，<code>Ninject.Web.Common.WebHost</code>，<code>Ninject.Web.WebApi.WebHost</code>三个包。</li>
+<li>Ninject.Web.WebApi</li>
 </ul>
+<p>查看引用会发现附赠了 <code>Ninject.Web.Common</code>， <code>Ninject.Web.Common.WebHost</code>， <code>Ninject.Web.WebApi.WebHost</code> 三个包。</p>
 <ol>
 <li>然后修改在App_Start下<code>NinjectWebCommon</code>的<code>RegisterServices()</code>，在里面后面加上自己的注入bind，如：<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterServices</span>(<span class="params">IKernel kernel</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Load(Assembly.GetExecutingAssembly());</span><br><span class="line">    kernel.Bind&lt;IUserRepository&gt;().To&lt;UserRepository&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
