@@ -259,6 +259,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/46894695.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/46894695.html" itemprop="url">【log4net】代码配置记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T17:06:07+08:00">
+                2017-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DotNet/" itemprop="url" rel="index">
+                    <span itemprop="name">DotNet</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>由于不想重复配置数据库连接，希望可以通过代码动态设置<code>log4net</code>的数据库记录日志的连接，于是检索了相关的资料，踩了一些手贱的坑╮(╯_╰)╭</p>
+</blockquote>
+<h3 id="配置代码"><a href="#配置代码" class="headerlink" title="配置代码"></a>配置代码</h3><ul>
+<li><p>log4net配置类</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> log4net;</span><br><span class="line"><span class="keyword">using</span> log4net.Appender;</span><br><span class="line"><span class="keyword">using</span> log4net.Config;</span><br><span class="line"><span class="keyword">using</span> log4net.Core;</span><br><span class="line"><span class="keyword">using</span> log4net.Layout;</span><br><span class="line"><span class="keyword">using</span> log4net.Repository.Hierarchy;</span><br><span class="line"><span class="keyword">using</span> System.Configuration;</span><br><span class="line"><span class="keyword">using</span> System.Reflection;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Utils.LogUtils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LogConfig</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> LOG_PATTERN = <span class="string">"[%date] %level [%thread][%c&#123;1&#125;:%line] - %m%n"</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> DATE_PATTERN = <span class="string">"yyyy-MM-dd'.log'"</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> LOG_FILE_PATH = <span class="string">"Log/"</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> connectionType = <span class="string">"System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> commandText = <span class="string">@"INSERT INTO Log ([Date],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @thread, @log_level, @logger, @message, @exception)"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 本地日志设置</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">LocalConfig</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();</span><br><span class="line"></span><br><span class="line">            PatternLayout patternLayout = <span class="keyword">new</span> PatternLayout();</span><br><span class="line">            patternLayout.ConversionPattern = LOG_PATTERN;</span><br><span class="line">            patternLayout.ActivateOptions();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 控制台输出的日志</span></span><br><span class="line">            TraceAppender tracer = <span class="keyword">new</span> TraceAppender();</span><br><span class="line">            tracer.Layout = patternLayout;</span><br><span class="line">            tracer.ActivateOptions();</span><br><span class="line">            hierarchy.Root.AddAppender(tracer);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 滚动文件日志</span></span><br><span class="line">            RollingFileAppender roller = <span class="keyword">new</span> RollingFileAppender();</span><br><span class="line">            roller.Layout = patternLayout;</span><br><span class="line">            roller.AppendToFile = <span class="literal">true</span>;</span><br><span class="line">            roller.RollingStyle = RollingFileAppender.RollingMode.Date;</span><br><span class="line">            roller.MaxSizeRollBackups = <span class="number">4</span>;</span><br><span class="line">            roller.MaximumFileSize = <span class="string">"1MB"</span>;</span><br><span class="line">            roller.StaticLogFileName = <span class="literal">false</span>;</span><br><span class="line">            roller.File = LOG_FILE_PATH;</span><br><span class="line">            roller.DatePattern = DATE_PATTERN;</span><br><span class="line">            roller.Encoding = Encoding.UTF8;</span><br><span class="line">            roller.ActivateOptions();</span><br><span class="line">            hierarchy.Root.AddAppender(roller);</span><br><span class="line">            </span><br><span class="line">            hierarchy.Root.Level = log4net.Core.Level.All;</span><br><span class="line">            hierarchy.Configured = <span class="literal">true</span>;</span><br><span class="line">            </span><br><span class="line">            BasicConfigurator.Configure(roller);</span><br><span class="line"></span><br><span class="line">            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType).Info(<span class="string">"本地日志启动"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 数据库日志设置</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">DataBaseConfig</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="comment">// 从web.config的appSetting节点获取配置的数据库连接</span></span><br><span class="line">            <span class="keyword">string</span> connectionString = ConfigurationManager.AppSettings[<span class="string">"DBConnection"</span>].ToString();</span><br><span class="line"></span><br><span class="line">            Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();</span><br><span class="line"></span><br><span class="line">            PatternLayout patternLayout = <span class="keyword">new</span> PatternLayout();</span><br><span class="line">            patternLayout.ConversionPattern = LOG_PATTERN;</span><br><span class="line">            patternLayout.ActivateOptions();</span><br><span class="line"></span><br><span class="line">            TraceAppender tracer = <span class="keyword">new</span> TraceAppender();</span><br><span class="line">            tracer.Layout = patternLayout;</span><br><span class="line">            tracer.ActivateOptions();</span><br><span class="line">            hierarchy.Root.AddAppender(tracer);</span><br><span class="line">                        </span><br><span class="line">            <span class="comment">// ado.net数据库日志</span></span><br><span class="line">            AdoNetAppender appender = <span class="keyword">new</span> AdoNetAppender();</span><br><span class="line">            appender.Name = <span class="string">"adoNetAppender"</span>;</span><br><span class="line"></span><br><span class="line">            appender.ConnectionType = connectionType;</span><br><span class="line">            appender.ConnectionString = connectionString;</span><br><span class="line">            appender.CommandText = commandText;</span><br><span class="line">            appender.CommandType = System.Data.CommandType.Text;</span><br><span class="line">            appender.BufferSize = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            AdoNetAppenderParameter parameter = <span class="keyword">new</span> AdoNetAppenderParameter();</span><br><span class="line">            parameter.DbType = System.Data.DbType.Date;</span><br><span class="line">            parameter.ParameterName = <span class="string">"@log_date"</span>;</span><br><span class="line">            parameter.Size = <span class="number">255</span>;</span><br><span class="line">            parameter.Layout = <span class="keyword">new</span> RawTimeStampLayout();</span><br><span class="line">            appender.AddParameter(parameter);</span><br><span class="line">            </span><br><span class="line">            parameter = <span class="keyword">new</span> AdoNetAppenderParameter();</span><br><span class="line">            parameter.DbType = System.Data.DbType.String;</span><br><span class="line">            parameter.ParameterName = <span class="string">"@thread"</span>;</span><br><span class="line">            parameter.Size = <span class="number">50</span>;</span><br><span class="line">            patternLayout = <span class="keyword">new</span> PatternLayout(<span class="string">"%thread"</span>);</span><br><span class="line">            parameter.Layout = <span class="keyword">new</span> Layout2RawLayoutAdapter(patternLayout);</span><br><span class="line">            appender.AddParameter(parameter);</span><br><span class="line">            </span><br><span class="line">            parameter = <span class="keyword">new</span> AdoNetAppenderParameter();</span><br><span class="line">            parameter.DbType = System.Data.DbType.String;</span><br><span class="line">            parameter.Size = <span class="number">50</span>;</span><br><span class="line">            parameter.ParameterName = <span class="string">"@log_level"</span>;</span><br><span class="line">            patternLayout = <span class="keyword">new</span> PatternLayout(<span class="string">"%level"</span>);</span><br><span class="line">            parameter.Layout = <span class="keyword">new</span> Layout2RawLayoutAdapter(patternLayout);</span><br><span class="line">            appender.AddParameter(parameter);</span><br><span class="line"></span><br><span class="line">            parameter = <span class="keyword">new</span> AdoNetAppenderParameter();</span><br><span class="line">            parameter.DbType = System.Data.DbType.String;</span><br><span class="line">            parameter.ParameterName = <span class="string">"@logger"</span>;</span><br><span class="line">            parameter.Size = <span class="number">255</span>;</span><br><span class="line">            patternLayout = <span class="keyword">new</span> PatternLayout(<span class="string">"%logger"</span>);</span><br><span class="line">            parameter.Layout = <span class="keyword">new</span> Layout2RawLayoutAdapter(patternLayout);</span><br><span class="line">            appender.AddParameter(parameter);</span><br><span class="line"></span><br><span class="line">            parameter = <span class="keyword">new</span> AdoNetAppenderParameter();</span><br><span class="line">            parameter.DbType = System.Data.DbType.String;</span><br><span class="line">            parameter.ParameterName = <span class="string">"@message"</span>;</span><br><span class="line">            parameter.Size = <span class="number">4000</span>;</span><br><span class="line">            patternLayout = <span class="keyword">new</span> PatternLayout(<span class="string">"%message"</span>);</span><br><span class="line">            parameter.Layout = <span class="keyword">new</span> Layout2RawLayoutAdapter(patternLayout);</span><br><span class="line">            appender.AddParameter(parameter);</span><br><span class="line">            </span><br><span class="line">            parameter = <span class="keyword">new</span> AdoNetAppenderParameter();</span><br><span class="line">            parameter.DbType = System.Data.DbType.String;</span><br><span class="line">            parameter.ParameterName = <span class="string">"@exception"</span>;</span><br><span class="line">            parameter.Size = <span class="number">2000</span>;</span><br><span class="line">            parameter.Layout = <span class="keyword">new</span> Layout2RawLayoutAdapter(<span class="keyword">new</span> ExceptionLayout());</span><br><span class="line">            appender.AddParameter(parameter);</span><br><span class="line">            </span><br><span class="line">            appender.ActivateOptions();</span><br><span class="line">            hierarchy.Root.AddAppender(appender);</span><br><span class="line">            </span><br><span class="line">            hierarchy.Root.Level = Level.All;</span><br><span class="line">            hierarchy.Configured = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">            BasicConfigurator.Configure(appender);</span><br><span class="line">            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType).Info(<span class="string">"数据库日志启动"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>日志工具类</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> log4net;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Utils.LogUtils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 日志工具</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LogHelper</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 类型使用typeof(classname)或者MethodBase.GetCurrentMethod().DeclaringType之类的</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 输出异常日志</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="type"&gt;</span>类型<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="message"&gt;</span>信息<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="ex"&gt;</span>异常<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ErrorLog</span>(<span class="params">Type type, <span class="keyword">string</span> message, Exception ex</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            ILog log = LogManager.GetLogger(type);</span><br><span class="line">            log.Error(message, ex);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 输出调试日志</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="type"&gt;</span>类型<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="message"&gt;</span>信息<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">DebugLog</span>(<span class="params">Type type, <span class="keyword">string</span> message</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            ILog log = LogManager.GetLogger(type);</span><br><span class="line">            log.Debug(message);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 输出信息日志</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="type"&gt;</span>类型<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="message"&gt;</span>信息<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">InfoLog</span>(<span class="params">Type type, <span class="keyword">string</span> message</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            ILog log = LogManager.GetLogger(type);</span><br><span class="line">            log.Info(message);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="小记"><a href="#小记" class="headerlink" title="小记"></a>小记</h3><ol>
+<li>配置的时候要严格遵守顺序，<code>hierarchy</code>要在最前面声明，不然怎么配置都无效</li>
+<li>可以通过log4net的调试日志来找问题<br> 在<code>Web.config</code>添加如下配置，来启动log4net的调试日志 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">appSettings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">key</span>=<span class="string">"log4net.Internal.Debug"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">appSettings</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">system.diagnostics</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">trace</span> <span class="attr">autoflush</span>=<span class="string">"true"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">listeners</span>&gt;</span>  </span><br><span class="line">            <span class="tag">&lt;<span class="name">add</span>   </span></span><br><span class="line"><span class="tag">                <span class="attr">name</span>=<span class="string">"textWriterTraceListener"</span>   </span></span><br><span class="line"><span class="tag">                <span class="attr">type</span>=<span class="string">"System.Diagnostics.TextWriterTraceListener"</span>   </span></span><br><span class="line"><span class="tag">                <span class="attr">initializeData</span>=<span class="string">"D:\log4net.txt"</span> /&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">listeners</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">trace</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">system.diagnostics</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/d1379167.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1645,153 +1801,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/b2d1e532.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0Kelvins">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0Kelvins的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/b2d1e532.html" itemprop="url">【HDU-2215】I Love This Game</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-22T17:15:58+08:00">
-                2017-11-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="I-Love-This-Game"><a href="#I-Love-This-Game" class="headerlink" title="I Love This Game"></a>I Love This Game</h2><p>地址：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=2115" target="_blank" rel="noopener">I Love This Game</a></p>
-<h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3><p>NBA技巧大赛，给出一组球员及完成时间，求排名，相同时间排名相同，先按时间优先排序然后球员姓名字典序</p>
-<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>比较优先级<code>mm &gt; ss &gt; name</code>，然后对排序后数组逐个判断时间是否有相同的，相同则打印排名，否则排名等于下标+1</p>
-<h3 id="记"><a href="#记" class="headerlink" title="记"></a>记</h3><p>今天公司网有点烂，LeetCode加载太慢了，就翻了下杭电。看看当初懒懒的就做了那么十几题，还有一题<code>WA</code>的（就这题。），于是重新弄了下环境（VSCode + TDM-GCC），折腾了好久，然后终于可以弄代码了，发现之前代码里少了个+1。=_=，可能是那时候改好了忘提交了吧。</p>
-<p>win下普通<code>g++</code>环境用<code>TDM-GCC</code>就好了，体积比<code>Cygwin</code>、<code>Mingw</code>要小得多。VSCode配置文件见，<a href="https://github.com/0Kelvins/Algorithm" target="_blank" rel="noopener">Algorithm仓库</a>的<code>.vscode</code>文件夹。</p>
-<p>因为不想把这题混到LeetCode的里面，所以新建了分类、仓库</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1846,7 +1855,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1857,7 +1866,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1868,7 +1877,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
