@@ -259,6 +259,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/1201e0f4.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/1201e0f4.html" itemprop="url">【Ninject】WebApi项目使用Ninject</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T18:56:28+08:00">
+                2017-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DotNet/" itemprop="url" rel="index">
+                    <span itemprop="name">DotNet</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>WebApi项目的依赖注入需要使用<code>System.Web.Http.Dependencies</code>里的<code>IDependencyResolver</code>来实现，和Mvc的<code>IDependencyResolver</code>是不一样的，所以需要实现的<code>Resolver</code>不一样。虽然了解了大概怎么写，但是始终没能让自己重写的<code>Resolver</code>启动，并且看别人写好的还解决了其他的一些注入问题。于是，决定还是用<code>Ninject</code>下面fork的<code>remogloor/Ninject.Web.WebApi</code>，免得浪费时间折腾轮子了。</p>
+<p><a href="http://www.cnblogs.com/Locked-J/p/7722864.html" target="_blank" rel="noopener">Mvc的配置</a></p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p><code>WebApi2</code>、<code>.Net Framework 4.5</code>、<code>VS2015</code></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li>添加引用，使用NuGet安装以下两个包</li>
+</ol>
+<ul>
+<li>Ninject</li>
+<li>Ninject.Web.WebApi<br>查看引用会附赠<code>Ninject.Web.Common</code>，<code>Ninject.Web.Common.WebHost</code>，<code>Ninject.Web.WebApi.WebHost</code>三个包。</li>
+</ul>
+<ol>
+<li>然后修改在App_Start下<code>NinjectWebCommon</code>的<code>RegisterServices()</code>，在里面后面加上自己的注入bind，如：<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterServices</span>(<span class="params">IKernel kernel</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Load(Assembly.GetExecutingAssembly());</span><br><span class="line">    kernel.Bind&lt;IUserRepository&gt;().To&lt;UserRepository&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>以上。使用起来很简单。就是封了一层，有些东西需要自己看源码理解了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/46894695.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1650,157 +1806,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/2a84b609.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0Kelvins">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0Kelvins的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/2a84b609.html" itemprop="url">【LeetCode】4. Median of Two Sorted Arrays</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-23T21:42:13+08:00">
-                2017-11-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="两数组的中值"><a href="#两数组的中值" class="headerlink" title="两数组的中值"></a>两数组的中值</h2><p>题目地址：<a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/" target="_blank" rel="noopener">Go to LeetCode</a></p>
-<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>求两个有序数组中间位置的数，两个数组长度和为偶数个时中间数求平均。<br>(哇，这题理解起来还是挺简单的，就是要做到<code>O(m+n)</code>有点麻烦了。)</p>
-<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
-<li>归并排序（O(m+n)）<br>两个有序数组合并排序，这是归并排序算法的一部分。</li>
-</ol>
-<p>普 通 思 路。然而我这个想法就一闪而过就没了。Orz，还去用插排了，做了半天看起来判断太多太丑了，后面直接删了。然后看了下题解，自己写了遍。（扶额</p>
-<ol>
-<li>二分查找（O(m,n)）<br>二分查找一个数组还算简单，这两个数组就有点晕了。思路的话 <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/solution/" target="_blank" rel="noopener">LeetCode</a> 上有的，虽然是英文的，但是我没准备汉化一遍。（反正我这也没人看，略略略~</li>
-</ol>
-<h2 id="记"><a href="#记" class="headerlink" title="记"></a>记</h2><p>还是要多做做题，不然都忘光了。脑子已经锈实了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1855,7 +1860,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1877,7 +1882,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

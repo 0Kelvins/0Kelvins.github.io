@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hexo,Next," />
+  <meta name="keywords" content="DotNet,Ninject,WebApi," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="步骤一新建一个页面，命名为 tags 。命令如下：1$ hexo new page &quot;tags&quot; 步骤二编辑刚新建的页面，将页面的类型设置为 tags ，主题将自动为这个页面显示标签云。页面内容如下：1234title: tagsdate: 2017-11-6 22:19:52type: &quot">
-<meta name="keywords" content="hexo,Next">
+<meta name="description" content="WebApi项目的依赖注入需要使用System.Web.Http.Dependencies里的IDependencyResolver来实现，和Mvc的IDependencyResolver是不一样的，所以需要实现的Resolver不一样。虽然了解了大概怎么写，但是始终没能让自己重写的Resolver启动，并且看别人写好">
+<meta name="keywords" content="DotNet,Ninject,WebApi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NexT标签和分类页面">
-<meta property="og:url" content="http://0kelvins.github.io/post/17076.html">
+<meta property="og:title" content="【Ninject】WebApi项目使用Ninject">
+<meta property="og:url" content="http://0kelvins.github.io/post/1201e0f4.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="步骤一新建一个页面，命名为 tags 。命令如下：1$ hexo new page &quot;tags&quot; 步骤二编辑刚新建的页面，将页面的类型设置为 tags ，主题将自动为这个页面显示标签云。页面内容如下：1234title: tagsdate: 2017-11-6 22:19:52type: &quot;tags&quot;--- 注意：如果有启用多说 或者 Disqus 评论，默认页面也会带有评论。需要关闭的话，请添加">
+<meta property="og:description" content="WebApi项目的依赖注入需要使用System.Web.Http.Dependencies里的IDependencyResolver来实现，和Mvc的IDependencyResolver是不一样的，所以需要实现的Resolver不一样。虽然了解了大概怎么写，但是始终没能让自己重写的Resolver启动，并且看别人写好的还解决了其他的一些注入问题。于是，决定还是用Ninject下面fork的rem">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-01T08:41:45.402Z">
+<meta property="og:updated_time" content="2017-12-18T11:23:32.858Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NexT标签和分类页面">
-<meta name="twitter:description" content="步骤一新建一个页面，命名为 tags 。命令如下：1$ hexo new page &quot;tags&quot; 步骤二编辑刚新建的页面，将页面的类型设置为 tags ，主题将自动为这个页面显示标签云。页面内容如下：1234title: tagsdate: 2017-11-6 22:19:52type: &quot;tags&quot;--- 注意：如果有启用多说 或者 Disqus 评论，默认页面也会带有评论。需要关闭的话，请添加">
+<meta name="twitter:title" content="【Ninject】WebApi项目使用Ninject">
+<meta name="twitter:description" content="WebApi项目的依赖注入需要使用System.Web.Http.Dependencies里的IDependencyResolver来实现，和Mvc的IDependencyResolver是不一样的，所以需要实现的Resolver不一样。虽然了解了大概怎么写，但是始终没能让自己重写的Resolver启动，并且看别人写好的还解决了其他的一些注入问题。于是，决定还是用Ninject下面fork的rem">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://0kelvins.github.io/post/17076.html"/>
+  <link rel="canonical" href="http://0kelvins.github.io/post/1201e0f4.html"/>
 
 
 
 
 
-  <title>NexT标签和分类页面 | 0Kelvins的博客</title>
+  <title>【Ninject】WebApi项目使用Ninject | 0Kelvins的博客</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/17076.html">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/1201e0f4.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="0Kelvins">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">NexT标签和分类页面</h1>
+          <h1 class="post-title" itemprop="name headline">【Ninject】WebApi项目使用Ninject</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-06T22:14:22+08:00">
-                2017-11-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T18:56:28+08:00">
+                2017-12-18
               </time>
             
 
@@ -303,6 +303,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DotNet/" itemprop="url" rel="index">
+                    <span itemprop="name">DotNet</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -311,8 +333,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/post/17076.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/post/17076.html" itemprop="commentsCount"></span>
+                <a href="/post/1201e0f4.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/post/1201e0f4.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -340,13 +362,21 @@
       
 
       
-        <h2 id="步骤一"><a href="#步骤一" class="headerlink" title="步骤一"></a>步骤一</h2><p>新建一个页面，命名为 tags 。命令如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page <span class="string">"tags"</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="步骤二"><a href="#步骤二" class="headerlink" title="步骤二"></a>步骤二</h2><p>编辑刚新建的页面，将页面的类型设置为 tags ，主题将自动为这个页面显示标签云。页面内容如下：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">tags</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2017</span><span class="bullet">-11</span><span class="bullet">-6</span> <span class="number">22</span><span class="string">:19:52</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">"tags"</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure></p>
-<p>注意：如果有启用多说 或者 Disqus 评论，默认页面也会带有评论。需要关闭的话，请添加字段 comments 并将值设置为 false，如：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">tags</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2017</span><span class="bullet">-11</span><span class="bullet">-6</span> <span class="number">22</span><span class="string">:19:52</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">"tags"</span></span><br><span class="line"><span class="attr">comments:</span> <span class="literal">false</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="步骤三"><a href="#步骤三" class="headerlink" title="步骤三"></a>步骤三</h2><p>在菜单中添加链接。编辑NexT的配置文件 ，添加 tags 到 menu 中，如下:<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line"><span class="attr">  home:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">home</span></span><br><span class="line"><span class="attr">  about:</span> <span class="string">/about/</span> <span class="string">||</span> <span class="string">user</span></span><br><span class="line"><span class="attr">  tags:</span> <span class="string">/tags/</span> <span class="string">||</span> <span class="string">tags</span></span><br><span class="line"><span class="attr">  categories:</span> <span class="string">/categories/</span> <span class="string">||</span> <span class="string">th</span></span><br><span class="line"><span class="attr">  archives:</span> <span class="string">/archives/</span> <span class="string">||</span> <span class="string">archive</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="添加-分类-categories"><a href="#添加-分类-categories" class="headerlink" title="添加 分类 categories"></a>添加 分类 categories</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page <span class="string">"categories"</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">categories</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2017</span><span class="bullet">-11</span><span class="bullet">-06</span> <span class="number">22</span><span class="string">:07:29</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">"categories"</span></span><br><span class="line"><span class="attr">comments:</span> <span class="literal">false</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>如果页面显示不正常，一般都是有地方拼写错了，或者需要清理浏览器缓存</p>
+        <p>WebApi项目的依赖注入需要使用<code>System.Web.Http.Dependencies</code>里的<code>IDependencyResolver</code>来实现，和Mvc的<code>IDependencyResolver</code>是不一样的，所以需要实现的<code>Resolver</code>不一样。虽然了解了大概怎么写，但是始终没能让自己重写的<code>Resolver</code>启动，并且看别人写好的还解决了其他的一些注入问题。于是，决定还是用<code>Ninject</code>下面fork的<code>remogloor/Ninject.Web.WebApi</code>，免得浪费时间折腾轮子了。</p>
+<p><a href="http://www.cnblogs.com/Locked-J/p/7722864.html" target="_blank" rel="noopener">Mvc的配置</a></p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p><code>WebApi2</code>、<code>.Net Framework 4.5</code>、<code>VS2015</code></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li>添加引用，使用NuGet安装以下两个包</li>
+</ol>
+<ul>
+<li>Ninject</li>
+<li>Ninject.Web.WebApi<br>查看引用会附赠<code>Ninject.Web.Common</code>，<code>Ninject.Web.Common.WebHost</code>，<code>Ninject.Web.WebApi.WebHost</code>三个包。</li>
+</ul>
+<ol>
+<li>然后修改在App_Start下<code>NinjectWebCommon</code>的<code>RegisterServices()</code>，在里面后面加上自己的注入bind，如：<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterServices</span>(<span class="params">IKernel kernel</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    kernel.Load(Assembly.GetExecutingAssembly());</span><br><span class="line">    kernel.Bind&lt;IUserRepository&gt;().To&lt;UserRepository&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>以上。使用起来很简单。就是封了一层，有些东西需要自己看源码理解了。</p>
 
       
     </div>
@@ -364,9 +394,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/DotNet/" rel="tag"># DotNet</a>
           
-            <a href="/tags/Next/" rel="tag"># Next</a>
+            <a href="/tags/Ninject/" rel="tag"># Ninject</a>
+          
+            <a href="/tags/WebApi/" rel="tag"># WebApi</a>
           
         </div>
       
@@ -379,8 +411,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/1ddf75e3.html" rel="next" title="Maven多模块项目搭建">
-                <i class="fa fa-chevron-left"></i> Maven多模块项目搭建
+              <a href="/post/46894695.html" rel="next" title="【log4net】代码配置记录">
+                <i class="fa fa-chevron-left"></i> 【log4net】代码配置记录
               </a>
             
           </div>
@@ -388,10 +420,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/post/dcf889e1.html" rel="prev" title="随笔2017-11-8">
-                随笔2017-11-8 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -556,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤一"><span class="nav-number">1.</span> <span class="nav-text">步骤一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤二"><span class="nav-number">2.</span> <span class="nav-text">步骤二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤三"><span class="nav-number">3.</span> <span class="nav-text">步骤三</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加-分类-categories"><span class="nav-number">4.</span> <span class="nav-text">添加 分类 categories</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注"><span class="nav-number">5.</span> <span class="nav-text">备注</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a></li></ol></div>
             
 
           </div>
