@@ -1823,7 +1823,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff0d74;
+  background: #ff4ec2;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2784,4 +2784,15 @@ pre .javascript .function {
   .post-body {
     text-align: justify;
   }
+}
+body {
+  background-image: url("/images/shadow_light.png"), url("/images/air.png");
+  background-repeat: repeat-x, repeat;
+}
+.site-meta {
+  background-color: #001930;
+}
+.header-inner,
+.content-wrap {
+  opacity: 0.85;
 }
