@@ -38,10 +38,6 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
 
 
 
@@ -50,19 +46,19 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.0.1" rel="stylesheet" type="text/css" />
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.1">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.1">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.1">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.1" color="#222">
 
 
 
@@ -79,13 +75,17 @@
 
 
 
+<meta name="description" content="回头写点什么。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="0Kelvins的博客">
-<meta property="og:url" content="http://0kelvins.github.io/index.html">
+<meta property="og:title" content="关于">
+<meta property="og:url" content="http://0kelvins.github.io/about/index.html">
 <meta property="og:site_name" content="0Kelvins的博客">
+<meta property="og:description" content="回头写点什么。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-07T12:48:50.740Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="0Kelvins的博客">
+<meta name="twitter:title" content="关于">
+<meta name="twitter:description" content="回头写点什么。">
 
 
 
@@ -94,15 +94,13 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    version: '5.1.3',
+    version: '6.0.1',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
+    fancybox: false,
+    fastclick: false,
+    lazyload: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '0Kelvins'
-    },
     algolia: {
       applicationID: '',
       apiKey: '',
@@ -115,7 +113,7 @@
 
 
 
-  <link rel="canonical" href="http://0kelvins.github.io/"/>
+  <link rel="canonical" href="http://0kelvins.github.io/about/"/>
 
 
 
@@ -144,8 +142,10 @@
   page-home">
     <div class="headband"></div>
 
+    
+
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+      <div class="header-inner"> <div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
@@ -179,51 +179,31 @@
         
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
         </li>
       
         
         <li class="menu-item menu-item-about">
           <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
         </li>
       
         
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
         </li>
       
         
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
+            <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
         </li>
       
         
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
         </li>
       
 
@@ -252,6 +232,161 @@
 
   
   
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/41b37696.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/41b37696.html" itemprop="url">【SQL】一次查询统计多张表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T11:26:16+08:00">2018-01-11</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SQL/" itemprop="url" rel="index">
+                    <span itemprop="name">SQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><blockquote>
+<p>一次查询统计所有用户每天的事件A（表A）、事件B（表B）和事件C（表C）的数量以及三种事件的总量<br>环境：SQL Server</p>
+</blockquote>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p><strong>思路：</strong> 三种子查询后联表</p>
+<p><strong>问题：</strong> 没有一个的日期表来作为联表的基准表，以A表为基准表会缺失A表内没有的日期，如何补全</p>
+<p><strong>解决方法：</strong> 没有的就用其他表的补上，需要知道<code>ISNULL()</code>方法或着使用条件判断语句<code>case when 条件1 then 结果1 when 条件2 then 结果2 else 结果N end</code>来判断A表是否没有对应列数据，然后补全B或C表对应列</p>
+<p><strong>实现：</strong><br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">SELECT temp.[UserID],</span><br><span class="line">	   CONVERT(DATE, temp.[DateTime]) AS [DateTime],</span><br><span class="line">	   temp.[AEventNumber],</span><br><span class="line">	   temp.[BEventNumber],</span><br><span class="line">	   temp.[CEventNumber],</span><br><span class="line">	   temp.[TotalNumber]</span><br><span class="line">FROM (</span><br><span class="line">		<span class="function">SELECT <span class="title">ISNULL</span>(<span class="params">ae.[UserID], ISNULL(be.[UserID], ce.[UserID]</span>)) AS [UserID],</span></span><br><span class="line"><span class="function">				<span class="title">ISNULL</span>(<span class="params">ae.[DateTime], ISNULL(be.[DateTime], ce.[DateTime]</span>)) AS [DateTime],</span></span><br><span class="line"><span class="function">				<span class="title">ISNULL</span>(<span class="params">[AEventNumber], <span class="number">0</span></span>) AS [AEventNumber],</span></span><br><span class="line"><span class="function">				<span class="title">ISNULL</span>(<span class="params">[BEventNumber], <span class="number">0</span></span>) AS [BEventNumber],</span></span><br><span class="line"><span class="function">				<span class="title">ISNULL</span>(<span class="params">[CEventNumber], <span class="number">0</span></span>) AS [CEventNumber],</span></span><br><span class="line"><span class="function">				(<span class="params">ISNULL([AEventNumber], <span class="number">0</span></span>) + <span class="title">ISNULL</span>(<span class="params">[BEventNumber], <span class="number">0</span></span>) + <span class="title">ISNULL</span>(<span class="params">[CEventNumber], <span class="number">0</span></span>)) <span class="keyword">as</span> TotalNumber</span></span><br><span class="line"><span class="function">		FROM</span></span><br><span class="line"><span class="function">		(<span class="params">SELECT a.[UserID],</span></span></span><br><span class="line"><span class="function"><span class="params">				a.[DateTime],</span></span></span><br><span class="line"><span class="function"><span class="params">			    a.[Number] AS [AEventNumber]</span></span></span><br><span class="line"><span class="function"><span class="params">	    FROM AEvent AS a</span>) AS ae</span></span><br><span class="line"><span class="function">		FULL JOIN</span></span><br><span class="line"><span class="function">		(<span class="params">SELECT b.[UserID],</span></span></span><br><span class="line"><span class="function"><span class="params">				b.[DateTime],</span></span></span><br><span class="line"><span class="function"><span class="params">			    b.[Number] AS [BEventNumber]</span></span></span><br><span class="line"><span class="function"><span class="params">	    FROM BEvent AS b</span>) AS be</span></span><br><span class="line"><span class="function">		ON ae.[UserID] </span>= be.[UserID]</span><br><span class="line">		FULL JOIN</span><br><span class="line">		(SELECT c.[UserID],</span><br><span class="line">				c.[DateTime],</span><br><span class="line">			    c.[Number] AS [BEventNumber]</span><br><span class="line">	    FROM CEvent AS c) AS ce</span><br><span class="line">		ON ae.[UserID] = ce.[UserID]</span><br><span class="line">	) AS temp</span><br></pre></td></tr></table></figure></p>
+<p>当A表没有B或C表内的用户编号或者统计时间时，使用B或C的代替</p>
+<h3 id="小记"><a href="#小记" class="headerlink" title="小记"></a>小记</h3><ol>
+<li><code>ISNULL()</code>可以判断字段是否为空，并使用后面的值补全</li>
+<li>按天统计可以将转化为天的时间字段用于<code>GROUP BY</code>，可以使用<code>CONVERT(date, [dt])</code>转换，每天可以用<code>date</code>类型；<code>SQL Server</code>也可以使用<code>GROUP BY year([dt]), month([dt]), day([dt])</code>作为分组条件，实现按每天分组，可推出按年、按月分组；其他需求分组可以考虑使用字符串截取作为分组条件</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
   
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
@@ -290,9 +425,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T22:29:47+08:00">
-                2018-01-10
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T22:29:47+08:00">2018-01-10</time>
             
 
             
@@ -352,7 +485,7 @@
       
         
           
-            <p>最近两天接触了下<code>Entity Framework Plus</code>的缓存和<code>Future</code>（就是懒执行SQL的感觉）、SQL多表统计汇总（这个回头记一下，挖坑）、SQL Server查系统存储、用Axure设计网页等等，复习了创建视图、存储过程什么的。</p>
+            <p>最近两天接触了下<code>Entity Framework Plus</code>的缓存和<code>Future</code>（就是懒执行批量SQL的感觉）、SQL多表统计汇总、SQL Server查系统存储、用Axure设计网页等等，复习了创建视图、存储过程什么的，<code>RESTClient</code>发<code>Post</code>请求的时候记着加<code>Header</code>。</p>
 <p>东西有点多，后面事情也多（年终么(╯‵□′)╯︵┻━┻），抽空记录一下重要的吧。</p>
 <p>有点累，熬过去应该就会好了吧。嗯。</p>
 
@@ -398,6 +531,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -434,9 +569,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T18:56:50+08:00">
-                2017-12-26
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T18:56:50+08:00">2017-12-26</time>
             
 
             
@@ -551,6 +684,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -587,9 +722,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T18:56:28+08:00">
-                2017-12-18
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T18:56:28+08:00">2017-12-18</time>
             
 
             
@@ -649,8 +782,8 @@
       
         
           
-            <p>WebApi项目的依赖注入需要使用<code>System.Web.Http.Dependencies</code>里的<code>IDependencyResolver</code>来实现，和Mvc的<code>IDependencyResolver</code>是不一样的，所以需要实现的<code>Resolver</code>不一样。虽然了解了大概怎么写，但是始终没能让自己重写的<code>Resolver</code>启动，并且看别人写好的还解决了其他的一些注入问题。于是，决定还是用<code>Ninject</code>下面fork的<a href="https://github.com/ninject/Ninject.Web.WebApi" target="_blank" rel="external">remogloor/Ninject.Web.WebApi</a>，免得浪费时间折腾轮子了。</p>
-<p><a href="http://www.cnblogs.com/Locked-J/p/7722864.html" target="_blank" rel="external">Mvc的配置</a></p>
+            <p>WebApi项目的依赖注入需要使用<code>System.Web.Http.Dependencies</code>里的<code>IDependencyResolver</code>来实现，和Mvc的<code>IDependencyResolver</code>是不一样的，所以需要实现的<code>Resolver</code>不一样。虽然了解了大概怎么写，但是始终没能让自己重写的<code>Resolver</code>启动，并且看别人写好的还解决了其他的一些注入问题。于是，决定还是用<code>Ninject</code>下面fork的<a href="https://github.com/ninject/Ninject.Web.WebApi" target="_blank" rel="noopener">remogloor/Ninject.Web.WebApi</a>，免得浪费时间折腾轮子了。</p>
+<p><a href="http://www.cnblogs.com/Locked-J/p/7722864.html" target="_blank" rel="noopener">Mvc的配置</a></p>
 <h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p><code>WebApi2</code>、<code>.Net Framework 4.5</code>、<code>VS2015</code></p>
 <h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
 <li>添加引用，使用NuGet安装以下两个包</li>
@@ -708,6 +841,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -744,9 +879,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T17:06:07+08:00">
-                2017-12-18
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T17:06:07+08:00">2017-12-18</time>
             
 
             
@@ -864,6 +997,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -900,9 +1035,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T10:43:07+08:00">
-                2017-12-12
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T10:43:07+08:00">2017-12-12</time>
             
 
             
@@ -962,7 +1095,7 @@
       
         
           
-            <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/chillsrc/archive/2013/04/13/3018386.html" target="_blank" rel="external">SQL SERVER的锁机制</a><br><a href="http://blog.csdn.net/huwei2003/article/details/4047191" target="_blank" rel="external">sql server锁知识及锁应用</a></p>
+            <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/chillsrc/archive/2013/04/13/3018386.html" target="_blank" rel="noopener">SQL SERVER的锁机制</a><br><a href="http://blog.csdn.net/huwei2003/article/details/4047191" target="_blank" rel="noopener">sql server锁知识及锁应用</a></p>
 <h2 id="锁类型"><a href="#锁类型" class="headerlink" title="锁类型"></a>锁类型</h2><table>
 <thead>
 <tr>
@@ -1054,6 +1187,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1090,9 +1225,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T10:42:11+08:00">
-                2017-12-12
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T10:42:11+08:00">2017-12-12</time>
             
 
             
@@ -1200,6 +1333,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1236,9 +1371,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T10:11:51+08:00">
-                2017-12-07
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T10:11:51+08:00">2017-12-07</time>
             
 
             
@@ -1344,6 +1477,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1380,9 +1515,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T14:38:26+08:00">
-                2017-12-05
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T14:38:26+08:00">2017-12-05</time>
             
 
             
@@ -1491,6 +1624,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1527,9 +1662,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T16:47:20+08:00">
-                2017-12-01
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T16:47:20+08:00">2017-12-01</time>
             
 
             
@@ -1629,162 +1762,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/2508d3d8.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0Kelvins">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0Kelvins的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/2508d3d8.html" itemprop="url">【Entity Framework】自定义读取配置数据库连接</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T15:23:15+08:00">
-                2017-12-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSharp/" itemprop="url" rel="index">
-                    <span itemprop="name">CSharp</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>打包的人反馈<code>EF DBFirst</code>的数据库连接配置里面的<code>&amp;quot</code>(“<code>&quot;</code>”)，处理不好，沟通起来又不在一个地方，很麻烦，连接配置也的确不太好看，于是搜了下，看到了可以自定义。</p>
-<h2 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h2><p>Entity Framework v6.1.3</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ol>
-<li><p>写个获取连接的类</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Utils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EFConfig</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span> <span class="title">DataBaseConnectionString</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">string</span> DataBaseConnection = ConfigurationManager.AppSettings[<span class="string">"Connection"</span>].ToString();</span><br><span class="line">            <span class="keyword">return</span> ConnectionString(DataBaseConnection);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span> <span class="title">ConnectionString</span>(<span class="params"><span class="keyword">string</span> DataBaseConnection</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"metadata=res://*/EFData.csdl|res://*/EFData.ssdl|res://*/EFData.msl;provider=System.Data.SqlClient;provider connection string =\""</span></span><br><span class="line">                    + DataBaseConnection + <span class="string">"persist security info=True;multipleactiveresultsets=True;application name=EntityFramework\""</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重写一下<code>edmx</code>-&gt;<code>*.Context.tt</code>-&gt;<code>*.Context.cs</code>的构造函数，可以直接修改<code>*.Context.tt</code>文件内的模板，避免下次更新数据库时，代码需要重新修改，搜索<code>base</code>即可，修改后面的<code>&quot;name=xxx&quot;</code>为你获取自定义连接的方法。</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">EFDbContext</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    : <span class="title">base</span>(<span class="params">Utils.EFConfig.DataBaseConnectionString(</span>))</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在<code>Web.config</code>的<code>&lt;appSettings&gt;</code>节点配置，删除不使用了的<code>&lt;connectionStrings&gt;</code>节点</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">appSettings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">key</span>=<span class="string">"Connection"</span> <span class="attr">value</span>=<span class="string">"data source=127.0.0.1;initial catalog=DBName;user id=User;password=Pwd;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appSettings</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>其实这主要是构造函数本来的方法就支持直接配置连接字符串</p>
-<p><img src="/assets/images/ef_connect_string/ef-construct.png" alt="EF的构造函数"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1795,9 +1772,6 @@
 
 
           </div>
-          
-
-
           
 
         </div>
@@ -1832,68 +1806,68 @@
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
-          <nav class="site-state motion-element">
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
 
-            
-              <div class="site-state-item site-state-posts">
               
-                <a href="/archives/">
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
               
-                  <span class="site-state-item-count">35</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
 
-            
               
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">35</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
+            </nav>
+          
 
           
 
-          <div class="links-of-author motion-element">
-            
-              
-                <span class="links-of-author-item">
-                  <a href="https://github.com/0Kelvins" target="_blank" title="GitHub">
-                    
-                      <i class="fa fa-fw fa-github"></i>GitHub</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="https://cnblogs.com/Locked-J/" target="_blank" title="CnBlogs">
-                    
-                      <i class="fa fa-fw fa-rss"></i>CnBlogs</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="mailto:jackyliujunjie@foxmail.com" target="_blank" title="E-Mail">
-                    
-                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
-            
-          </div>
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/0Kelvins" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://cnblogs.com/Locked-J/" target="_blank" title="CnBlogs">
+                      
+                        <i class="fa fa-fw fa-rss"></i>CnBlogs</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jackyliujunjie@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
 
           
           
@@ -1927,18 +1901,14 @@
   <span class="author" itemprop="copyrightHolder">0Kelvins</span>
 
   
+
+  
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
 
 
 
@@ -1980,9 +1950,15 @@
 
 
 
-
-
   
+
+
+
+
+
+
+
+
 
 
 
@@ -2002,11 +1978,6 @@
 
   
   
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
     <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
   
 
@@ -2020,18 +1991,13 @@
     <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
   
 
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.1"></script>
 
 
 
@@ -2039,9 +2005,9 @@
   
 
 
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.1"></script>
 
 
 
@@ -2050,15 +2016,11 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.1"></script>
 
 
 
   
-
-
-  
-
 
 
 
@@ -2075,7 +2037,6 @@
 
 
   
-
 
 
 
@@ -2101,9 +2062,6 @@
 
 
 
-
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
 
 
 
