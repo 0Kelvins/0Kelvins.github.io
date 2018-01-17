@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title><![CDATA[【EntityFramework】分页查询无主键视图数据重复异常]]></title>
+      <url>/post/78ebec87.html</url>
+      <content type="html"><![CDATA[<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>在做<a href="https://0kelvins.github.io/post/41b37696.html">统计的查询视图</a>之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样</p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>EF默认有缓存，视图没有建立主键，EF的缓存机制认为这两条除了时间不同的数据一致，就没有再从数据库取，然后出现<code>SQL Server Profiler</code>里面的SQL正常，但是拿到的数据死活都不对。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>对视图使用<code>.AsNoTracking()</code>，取消EF对这个视图的缓存（然后可以使用<code>Entity Framework Plus</code>调用<code>MemoryCache</code>或<code>Redis</code>来做缓存）<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> s <span class="keyword">in</span> statView.AsNoTracking()</span><br><span class="line">        <span class="keyword">select</span> s;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      
+        <categories>
+            
+            <category> DotNet </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> CSharp </tag>
+            
+            <tag> DotNet </tag>
+            
+            <tag> Entity Framework </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[【SQL】一次查询统计多张表]]></title>
       <url>/post/41b37696.html</url>
       <content type="html"><![CDATA[<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><blockquote>
@@ -287,9 +314,9 @@
             
             <tag> 随笔 </tag>
             
-            <tag> LeetCode </tag>
-            
             <tag> Java </tag>
+            
+            <tag> LeetCode </tag>
             
         </tags>
         
@@ -370,7 +397,7 @@
       
         <categories>
             
-            <category> CSharp </category>
+            <category> DotNet </category>
             
         </categories>
         
@@ -462,9 +489,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> CSharp </tag>
+            
+            <tag> 随笔 </tag>
             
         </tags>
         
@@ -496,9 +523,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> LeetCode </tag>
-            
             <tag> Java </tag>
+            
+            <tag> LeetCode </tag>
             
         </tags>
         
@@ -565,9 +592,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> LeetCode </tag>
-            
             <tag> Java </tag>
+            
+            <tag> LeetCode </tag>
             
         </tags>
         
@@ -698,9 +725,9 @@
             
             <tag> Algorithm </tag>
             
-            <tag> LeetCode </tag>
-            
             <tag> Java </tag>
+            
+            <tag> LeetCode </tag>
             
         </tags>
         
@@ -895,9 +922,9 @@
             
             <tag> 随笔 </tag>
             
-            <tag> Java </tag>
-            
             <tag> Maven </tag>
+            
+            <tag> Java </tag>
             
         </tags>
         
@@ -1012,9 +1039,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> DotNet </tag>
+            
+            <tag> 随笔 </tag>
             
         </tags>
         
@@ -1038,9 +1065,9 @@
         
         <tags>
             
-            <tag> 随笔 </tag>
-            
             <tag> CSharp </tag>
+            
+            <tag> 随笔 </tag>
             
             <tag> SQL </tag>
             
