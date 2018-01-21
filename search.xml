@@ -3,6 +3,51 @@
   
     
     <entry>
+      <title><![CDATA[【Shell/Bat】脚本记录]]></title>
+      <url>/post/e372f2fe.html</url>
+      <content type="html"><![CDATA[<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>shell里可以使用<code>#</code>号，bat里可以使用<code>rem</code>、<code>::</code>，还有很多其他注释的方法</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ol>
+<li><p>shell 变量定义与重定义</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义变量</span></span><br><span class="line">$ var=<span class="string">"变量"</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$var</span></span><br><span class="line">变量</span><br><span class="line">$ var=<span class="string">"重定义变量"</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$var</span></span><br><span class="line">重定义变量</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入变量</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"是否更新Blog(y/n) :"</span> updateOp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bat 变量定义与重定义</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM 定义变量</span></span><br><span class="line"><span class="built_in">set</span> var=变量</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">%var%</span></span><br><span class="line">变量</span><br><span class="line"><span class="built_in">set</span> var=重定义变量</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">%var%</span></span><br><span class="line">重定义变量</span><br><span class="line"></span><br><span class="line"><span class="comment">REM 输入变量</span></span><br><span class="line"><span class="built_in">set</span> /p updateOp = "是否更新（y/n）："</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="if…else…"><a href="#if…else…" class="headerlink" title="if…else…"></a>if…else…</h3><ol>
+<li><p>shell的条件语句</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输入变量</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"输入var:"</span> var</span><br><span class="line"><span class="comment"># 判断变量是否等于 y （x为了避免比变量为空异常）</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$var</span>"</span>x = <span class="string">"y"</span>x ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"if内"</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"else内"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bat的条件语句</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM /p 从输入赋值变量</span></span><br><span class="line"><span class="built_in">set</span> /p updateOp="是否更新（y/n）："</span><br><span class="line"><span class="comment">REM 判断输入（Y/N），/i 忽略大小写</span></span><br><span class="line"><span class="keyword">if</span> /i "<span class="variable">%updateOp%</span>"=="y" (</span><br><span class="line">git pull origin master</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><ol>
+<li>注意空格的使用，脚本里空格往往是分隔命令和参数的，不像Java什么的里面可以用很多空格来分隔变量和运算符，让代码看起来更清晰。</li>
+<li>脚本如果写的不对，经常没有异常代码什么的，所以要仔细看输出，自己也多写点echo，好辨别执行情况</li>
+</ol>
+<h3 id="后言"><a href="#后言" class="headerlink" title="后言"></a>后言</h3><ol>
+<li>这里只记录了一些我自己想记的东西哦</li>
+<li>记得当初上Linux的时候，我还自己安装Ubuntu练习使用了一阵子的命令行，这门课成绩也还行，只是考完试以后就没怎么碰过了，后来就自己折腾centos的时候用过一点，然后就是开始用github以后了，最近弄点小脚本来给自己省点事，顺便记录一些</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> Shell </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Shell </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[【EntityFramework】分页查询无主键视图数据重复异常]]></title>
       <url>/post/78ebec87.html</url>
       <content type="html"><![CDATA[<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>在做<a href="https://0kelvins.github.io/post/41b37696.html">统计的查询视图</a>之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样</p>
@@ -342,9 +387,9 @@
         
         <tags>
             
-            <tag> Algorithm </tag>
-            
             <tag> Bitwise </tag>
+            
+            <tag> Algorithm </tag>
             
         </tags>
         
@@ -461,9 +506,9 @@
             
             <tag> Vue </tag>
             
-            <tag> Bootstrap </tag>
-            
             <tag> JavaScript </tag>
+            
+            <tag> Bootstrap </tag>
             
         </tags>
         
