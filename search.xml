@@ -3,6 +3,45 @@
   
     
     <entry>
+      <title><![CDATA[【Linq】模糊条件查询]]></title>
+      <url>/post/10424fa.html</url>
+      <content type="html"><![CDATA[<h3 id="模糊查询"><a href="#模糊查询" class="headerlink" title="模糊查询"></a>模糊查询</h3><p>SQL里字段的模糊匹配可以使用<code>like</code>关键字，使用方式如：<code>like &quot;%search&quot;</code>、<code>like &quot;search%&quot;</code>、<code>like &quot;%search%&quot;</code>，分别对应后缀、前缀、包含三种模糊匹配方式</p>
+<h3 id="Linq对应的模糊查询"><a href="#Linq对应的模糊查询" class="headerlink" title="Linq对应的模糊查询"></a>Linq对应的模糊查询</h3><ol>
+<li><p>前缀匹配搜索</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> Person</span><br><span class="line">        <span class="keyword">where</span> p.name.StartsWith(<span class="string">"jack"</span>)</span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后缀匹配搜索</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> Person</span><br><span class="line">        <span class="keyword">where</span> p.name.EndsWith(<span class="string">"chen"</span>)</span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>包含匹配搜索</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> Person</span><br><span class="line">        <span class="keyword">where</span> p.name.Contains(<span class="string">"ac"</span>)</span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>条件模糊查询</p>
+</li>
+</ol>
+<p>有时候界面上面，我们在表格前面会有个输入框，提供一些字段的搜索，在不输入的时候，这个搜索条件就不作为限制条件</p>
+<p>而这时传到后端的条件是<code>null</code>，前面三种搜索直接使用的话，会出现结果的错误，<code>null</code>成了限制条件</p>
+<p>所以需要在<code>where</code>里加上对应字段为<code>null</code>的情况，使搜索条件为空时，模糊匹配失效<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">string</span> search = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> Person</span><br><span class="line">        <span class="keyword">where</span> p.name.Contains(search) || search == <span class="literal">null</span></span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Linq </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> SQL </tag>
+            
+            <tag> Linq </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[【Shell/Bat】脚本记录]]></title>
       <url>/post/e372f2fe.html</url>
       <content type="html"><![CDATA[<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>shell里可以使用<code>#</code>号，bat里可以使用<code>rem</code>、<code>::</code>，还有很多其他注释的方法</p>
@@ -387,9 +426,9 @@
         
         <tags>
             
-            <tag> Algorithm </tag>
-            
             <tag> Bitwise </tag>
+            
+            <tag> Algorithm </tag>
             
         </tags>
         
@@ -534,9 +573,9 @@
         
         <tags>
             
-            <tag> CSharp </tag>
-            
             <tag> 随笔 </tag>
+            
+            <tag> CSharp </tag>
             
         </tags>
         
@@ -1084,9 +1123,9 @@
         
         <tags>
             
-            <tag> DotNet </tag>
-            
             <tag> 随笔 </tag>
+            
+            <tag> DotNet </tag>
             
         </tags>
         
@@ -1110,9 +1149,9 @@
         
         <tags>
             
-            <tag> CSharp </tag>
-            
             <tag> 随笔 </tag>
+            
+            <tag> CSharp </tag>
             
             <tag> SQL </tag>
             
@@ -1270,16 +1309,16 @@
   
     
     <entry>
+      <title><![CDATA[categories]]></title>
+      <url>/categories/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[关于]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<p>回头写点什么。</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[categories]]></title>
-      <url>/categories/index.html</url>
-      <content type="html"></content>
     </entry>
     
     <entry>
