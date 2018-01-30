@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="随笔" />
+  <meta name="keywords" content="Linq,SQL," />
 
 
 
@@ -75,14 +75,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://0kelvins.github.io/categories/index.html">
+<meta name="description" content="模糊查询SQL里字段的模糊匹配可以使用like关键字，使用方式如：like &amp;quot;%search&amp;quot;、like &amp;quot;search%&amp;quot;、like &amp;quot;%search%&amp;quot;，分别对应后缀、前缀、包含三种模糊匹配方式 Linq对应的模糊查询 前缀匹配搜索 123var l = from p in Person        where p.name.Sta">
+<meta name="keywords" content="Linq,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linq】模糊条件查询">
+<meta property="og:url" content="http://0kelvins.github.io/post/10424fa.html">
 <meta property="og:site_name" content="0Kelvins的博客">
+<meta property="og:description" content="模糊查询SQL里字段的模糊匹配可以使用like关键字，使用方式如：like &amp;quot;%search&amp;quot;、like &amp;quot;search%&amp;quot;、like &amp;quot;%search%&amp;quot;，分别对应后缀、前缀、包含三种模糊匹配方式 Linq对应的模糊查询 前缀匹配搜索 123var l = from p in Person        where p.name.Sta">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-16T10:43:27.148Z">
+<meta property="og:updated_time" content="2018-01-30T12:37:37.053Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="【Linq】模糊条件查询">
+<meta name="twitter:description" content="模糊查询SQL里字段的模糊匹配可以使用like关键字，使用方式如：like &amp;quot;%search&amp;quot;、like &amp;quot;search%&amp;quot;、like &amp;quot;%search%&amp;quot;，分别对应后缀、前缀、包含三种模糊匹配方式 Linq对应的模糊查询 前缀匹配搜索 123var l = from p in Person        where p.name.Sta">
 
 
 
@@ -110,7 +114,7 @@
 
 
 
-  <link rel="canonical" href="http://0kelvins.github.io/categories/"/>
+  <link rel="canonical" href="http://0kelvins.github.io/post/10424fa.html"/>
 
 
 
@@ -351,6 +355,13 @@
 <p>有时候界面上面，我们在表格前面会有个输入框，提供一些字段的搜索，在不输入的时候，这个搜索条件就不作为限制条件</p>
 <p>而这时传到后端的条件是<code>null</code>，前面三种搜索直接使用的话，会出现结果的错误，<code>null</code>成了限制条件</p>
 <p>所以需要在<code>where</code>里加上对应字段为<code>null</code>的情况，使搜索条件为空时，模糊匹配失效<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">string</span> search = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> Person</span><br><span class="line">        <span class="keyword">where</span> p.name.Contains(search) || search == <span class="literal">null</span></span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>条件中<code>in</code>与<code>not in</code><br>参考：<a href="https://www.cnblogs.com/a-dou/p/5916895.html" target="_blank" rel="noopener">LINQ - 在Where條件式中使用in與not in —— ADOU-V，博客园</a></li>
+</ol>
+<p><code>in</code>的SQL实现：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> ProductID, ProductName, CategoryID <span class="keyword">From</span> dbo.Products  </span><br><span class="line"><span class="keyword">Where</span> CategoryID <span class="keyword">in</span> (<span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<p><code>in</code>的Linq实现：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> dbctx.Products </span><br><span class="line">        <span class="keyword">where</span> (<span class="keyword">new</span> <span class="keyword">int</span>?[] &#123;<span class="number">1</span>, <span class="number">2</span>&#125;).Contains(p.CategoryID) </span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure></p>
+<p><code>not in</code>的SQL实现：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> ProductID, ProductName, CategoryID <span class="keyword">From</span> dbo.Products  </span><br><span class="line"><span class="keyword">Where</span> CategoryID <span class="keyword">not</span> <span class="keyword">in</span> (<span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<p><code>not in</code>的Linq实现：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> dbctx.Products </span><br><span class="line">        <span class="keyword">where</span> !(<span class="keyword">new</span> <span class="keyword">int</span>?[] &#123;<span class="number">1</span>, <span class="number">2</span>&#125;).Contains(p.CategoryID) </span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -368,9 +379,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SQL/" rel="tag"># SQL</a>
-          
             <a href="/tags/Linq/" rel="tag"># Linq</a>
+          
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
           
         </div>
       
@@ -392,6 +403,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/83629cbf.html" rel="prev" title="【SQL】SQL-Server递归查询">
+                【SQL】SQL-Server递归查询 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -476,7 +491,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">39</span>
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

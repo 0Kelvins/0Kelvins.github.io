@@ -120,7 +120,7 @@
 
 
 
-  <title>随笔2017-11-9 | 0Kelvins的博客</title>
+  <title>【SQL】SQL-Server递归查询 | 0Kelvins的博客</title>
   
 
 
@@ -241,7 +241,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/abffb977.html">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/83629cbf.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="0Kelvins">
@@ -258,7 +258,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">随笔2017-11-9</h1>
+          <h1 class="post-title" itemprop="name headline">【SQL】SQL-Server递归查询</h1>
         
 
         <div class="post-meta">
@@ -270,7 +270,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T18:33:48+08:00">2017-11-09</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T19:52:08+08:00">2018-01-30</time>
             
 
             
@@ -291,8 +291,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
+                  <a href="/categories/SQL/" itemprop="url" rel="index">
+                    <span itemprop="name">SQL</span>
                   </a>
                 </span>
 
@@ -309,8 +309,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/post/abffb977.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/post/abffb977.html" itemprop="commentsCount"></span>
+                <a href="/post/83629cbf.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/post/83629cbf.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -338,13 +338,12 @@
       
 
       
-        <h3 id="Vue小记"><a href="#Vue小记" class="headerlink" title="Vue小记"></a>Vue小记</h3><p>使用侦听属性<code>watch</code>时，属性只有新旧值不同时才会触发</p>
-<h3 id="Js小记"><a href="#Js小记" class="headerlink" title="Js小记"></a>Js小记</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span> == <span class="string">''</span> -&gt; <span class="literal">true</span></span><br><span class="line"><span class="number">0</span> === <span class="string">''</span> -&gt; <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<h3 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h3><blockquote>
-<p>Session在浏览器关闭后是不会直接自动结束的，重启浏览器重新进入新的会话</p>
-</blockquote>
-<p>Session ID在浏览器中是保存为Cookie的，只是不使用保存在硬盘上的话，会保存在进程中，即内存中。当浏览器关闭，进程下的Cookie自然丢失，重启也就找不到了，只能重启新的会话。</p>
-<p>小记：<br>    为了延长登录有效时间，做了定时器来在每次请求后，定时刷新登录状态，但是一直没想好怎么做好随着Session结束，来结束定时器。原来浏览器关闭，Session还没被回收，那也就不用考虑了。做好定时的单例，以及定时的确定会关闭，以及随登录验证来启用结束更重要。</p>
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>有一张国内区域表，要查询一个区域及其子区域的区域编码</p>
+<p>效果：<br><img src="/assets/images/sql_clause_region/sql_clause_region.jpg" alt="区域表查询效果"></p>
+<p>表结构：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].[Region](</span><br><span class="line">	[REGION_ID] [<span class="built_in">int</span>] PRIMARY <span class="keyword">KEY</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_CODE] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_NAME] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[PARENT_ID] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_LEVEL] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_ORDER] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_NAME_EN] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_SHORTNAME_EN] [<span class="built_in">varchar</span>](<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p><code>PARENT_ID</code>为父区域的<code>REGION_ID</code>，这种结构就让我想能不能递归查询，减少连接数据库进行查询请求的次数。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://technet.microsoft.com/zh-cn/library/ms186243(v=sql.105" target="_blank" rel="noopener">使用公用表表达式的递归查询 —— technet，microsoft</a>.aspx)<br><a href="https://www.cnblogs.com/sheng-jie/p/6347835.html" target="_blank" rel="noopener">SQL递归查询知多少 —— 圣杰，博客园</a></p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>使用多次查询虽然可以完成，但是效率不够高，并且代码冗余，<code>SQL Server</code>使用公用表表达式（Common Table Expression，CTE）可以实现递归查询<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> [dbo].[P_REGION] @RegionCode <span class="built_in">VARCHAR</span>(<span class="number">50</span>)=<span class="string">''</span> <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> CTE_REGION(REGION_ID, REGION_CODE, REGION_NAME, PARENT_ID, REGION_LEVEL, REGION_ORDER, REGION_NAME_EN, REGION_SHORTNAME_EN) <span class="keyword">AS</span></span><br><span class="line">(</span><br><span class="line">    <span class="keyword">SELECT</span> REGION_ID, REGION_CODE, REGION_NAME, PARENT_ID, REGION_LEVEL, REGION_ORDER, REGION_NAME_EN, REGION_SHORTNAME_EN</span><br><span class="line">	  <span class="keyword">FROM</span> [dbo].[Region]</span><br><span class="line">	 <span class="keyword">WHERE</span> REGION_LEVEL &lt; <span class="number">3</span> <span class="keyword">AND</span> REGION_CODE = @RegionCode</span><br><span class="line">    <span class="keyword">UNION</span> ALL</span><br><span class="line">    <span class="keyword">SELECT</span> a.REGION_ID, a.REGION_CODE, a.REGION_NAME, a.PARENT_ID, a.REGION_LEVEL, a.REGION_ORDER, a.REGION_NAME_EN, a.REGION_SHORTNAME_EN</span><br><span class="line">	  <span class="keyword">FROM</span> [dbo].[Region] a</span><br><span class="line">		  <span class="keyword">INNER</span> <span class="keyword">JOIN</span> CTE_REGION b</span><br><span class="line">		  <span class="keyword">ON</span> a.PARENT_ID = b.REGION_ID</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> REGION_CODE <span class="keyword">FROM</span> CTE_REGION</span><br><span class="line"></span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -362,13 +361,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/随笔/" rel="tag"># 随笔</a>
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
           
-            <a href="/tags/Vue/" rel="tag"># Vue</a>
-          
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          
-            <a href="/tags/Session/" rel="tag"># Session</a>
+            <a href="/tags/SQL-Server/" rel="tag"># SQL Server</a>
           
         </div>
       
@@ -381,8 +376,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/18caccba.html" rel="next" title="VS快捷键">
-                <i class="fa fa-chevron-left"></i> VS快捷键
+              <a href="/post/10424fa.html" rel="next" title="【Linq】模糊条件查询">
+                <i class="fa fa-chevron-left"></i> 【Linq】模糊条件查询
               </a>
             
           </div>
@@ -390,10 +385,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/post/6bc11fb5.html" rel="prev" title="随笔2017-11-13">
-                随笔2017-11-13 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -555,7 +546,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue小记"><span class="nav-number">1.</span> <span class="nav-text">Vue小记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Js小记"><span class="nav-number">2.</span> <span class="nav-text">Js小记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session"><span class="nav-number">3.</span> <span class="nav-text">Session</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现方法"><span class="nav-number">3.</span> <span class="nav-text">实现方法</span></a></li></ol></div>
             
 
           </div>

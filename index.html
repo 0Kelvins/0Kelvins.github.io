@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="随笔" />
+  <meta name="keywords" content="Linq,SQL," />
 
 
 
@@ -75,14 +75,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://0kelvins.github.io/categories/index.html">
+<meta name="description" content="模糊查询SQL里字段的模糊匹配可以使用like关键字，使用方式如：like &amp;quot;%search&amp;quot;、like &amp;quot;search%&amp;quot;、like &amp;quot;%search%&amp;quot;，分别对应后缀、前缀、包含三种模糊匹配方式 Linq对应的模糊查询 前缀匹配搜索 123var l = from p in Person        where p.name.Sta">
+<meta name="keywords" content="Linq,SQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linq】模糊条件查询">
+<meta property="og:url" content="http://0kelvins.github.io/post/10424fa.html">
 <meta property="og:site_name" content="0Kelvins的博客">
+<meta property="og:description" content="模糊查询SQL里字段的模糊匹配可以使用like关键字，使用方式如：like &amp;quot;%search&amp;quot;、like &amp;quot;search%&amp;quot;、like &amp;quot;%search%&amp;quot;，分别对应后缀、前缀、包含三种模糊匹配方式 Linq对应的模糊查询 前缀匹配搜索 123var l = from p in Person        where p.name.Sta">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-16T10:43:27.148Z">
+<meta property="og:updated_time" content="2018-01-30T12:37:37.053Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="【Linq】模糊条件查询">
+<meta name="twitter:description" content="模糊查询SQL里字段的模糊匹配可以使用like关键字，使用方式如：like &amp;quot;%search&amp;quot;、like &amp;quot;search%&amp;quot;、like &amp;quot;%search%&amp;quot;，分别对应后缀、前缀、包含三种模糊匹配方式 Linq对应的模糊查询 前缀匹配搜索 123var l = from p in Person        where p.name.Sta">
 
 
 
@@ -110,7 +114,7 @@
 
 
 
-  <link rel="canonical" href="http://0kelvins.github.io/categories/"/>
+  <link rel="canonical" href="http://0kelvins.github.io/post/10424fa.html"/>
 
 
 
@@ -238,6 +242,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/83629cbf.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/83629cbf.html" itemprop="url">【SQL】SQL-Server递归查询</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T19:52:08+08:00">2018-01-30</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SQL/" itemprop="url" rel="index">
+                    <span itemprop="name">SQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>有一张国内区域表，要查询一个区域及其子区域的区域编码</p>
+<p>效果：<br><img src="/assets/images/sql_clause_region/sql_clause_region.jpg" alt="区域表查询效果"></p>
+<p>表结构：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].[Region](</span><br><span class="line">	[REGION_ID] [<span class="built_in">int</span>] PRIMARY <span class="keyword">KEY</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_CODE] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_NAME] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[PARENT_ID] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_LEVEL] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_ORDER] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_NAME_EN] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_SHORTNAME_EN] [<span class="built_in">varchar</span>](<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p><code>PARENT_ID</code>为父区域的<code>REGION_ID</code>，这种结构就让我想能不能递归查询，减少连接数据库进行查询请求的次数。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://technet.microsoft.com/zh-cn/library/ms186243(v=sql.105" target="_blank" rel="noopener">使用公用表表达式的递归查询 —— technet，microsoft</a>.aspx)<br><a href="https://www.cnblogs.com/sheng-jie/p/6347835.html" target="_blank" rel="noopener">SQL递归查询知多少 —— 圣杰，博客园</a></p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>使用多次查询虽然可以完成，但是效率不够高，并且代码冗余，<code>SQL Server</code>使用公用表表达式（Common Table Expression，CTE）可以实现递归查询<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> [dbo].[P_REGION] @RegionCode <span class="built_in">VARCHAR</span>(<span class="number">50</span>)=<span class="string">''</span> <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> CTE_REGION(REGION_ID, REGION_CODE, REGION_NAME, PARENT_ID, REGION_LEVEL, REGION_ORDER, REGION_NAME_EN, REGION_SHORTNAME_EN) <span class="keyword">AS</span></span><br><span class="line">(</span><br><span class="line">    <span class="keyword">SELECT</span> REGION_ID, REGION_CODE, REGION_NAME, PARENT_ID, REGION_LEVEL, REGION_ORDER, REGION_NAME_EN, REGION_SHORTNAME_EN</span><br><span class="line">	  <span class="keyword">FROM</span> [dbo].[Region]</span><br><span class="line">	 <span class="keyword">WHERE</span> REGION_LEVEL &lt; <span class="number">3</span> <span class="keyword">AND</span> REGION_CODE = @RegionCode</span><br><span class="line">    <span class="keyword">UNION</span> ALL</span><br><span class="line">    <span class="keyword">SELECT</span> a.REGION_ID, a.REGION_CODE, a.REGION_NAME, a.PARENT_ID, a.REGION_LEVEL, a.REGION_ORDER, a.REGION_NAME_EN, a.REGION_SHORTNAME_EN</span><br><span class="line">	  <span class="keyword">FROM</span> [dbo].[Region] a</span><br><span class="line">		  <span class="keyword">INNER</span> <span class="keyword">JOIN</span> CTE_REGION b</span><br><span class="line">		  <span class="keyword">ON</span> a.PARENT_ID = b.REGION_ID</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> REGION_CODE <span class="keyword">FROM</span> CTE_REGION</span><br><span class="line"></span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/10424fa.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -346,6 +497,13 @@
 <p>有时候界面上面，我们在表格前面会有个输入框，提供一些字段的搜索，在不输入的时候，这个搜索条件就不作为限制条件</p>
 <p>而这时传到后端的条件是<code>null</code>，前面三种搜索直接使用的话，会出现结果的错误，<code>null</code>成了限制条件</p>
 <p>所以需要在<code>where</code>里加上对应字段为<code>null</code>的情况，使搜索条件为空时，模糊匹配失效<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">string</span> search = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> Person</span><br><span class="line">        <span class="keyword">where</span> p.name.Contains(search) || search == <span class="literal">null</span></span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>条件中<code>in</code>与<code>not in</code><br>参考：<a href="https://www.cnblogs.com/a-dou/p/5916895.html" target="_blank" rel="noopener">LINQ - 在Where條件式中使用in與not in —— ADOU-V，博客园</a></li>
+</ol>
+<p><code>in</code>的SQL实现：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> ProductID, ProductName, CategoryID <span class="keyword">From</span> dbo.Products  </span><br><span class="line"><span class="keyword">Where</span> CategoryID <span class="keyword">in</span> (<span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<p><code>in</code>的Linq实现：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> dbctx.Products </span><br><span class="line">        <span class="keyword">where</span> (<span class="keyword">new</span> <span class="keyword">int</span>?[] &#123;<span class="number">1</span>, <span class="number">2</span>&#125;).Contains(p.CategoryID) </span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure></p>
+<p><code>not in</code>的SQL实现：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> ProductID, ProductName, CategoryID <span class="keyword">From</span> dbo.Products  </span><br><span class="line"><span class="keyword">Where</span> CategoryID <span class="keyword">not</span> <span class="keyword">in</span> (<span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<p><code>not in</code>的Linq实现：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> p <span class="keyword">in</span> dbctx.Products </span><br><span class="line">        <span class="keyword">where</span> !(<span class="keyword">new</span> <span class="keyword">int</span>?[] &#123;<span class="number">1</span>, <span class="number">2</span>&#125;).Contains(p.CategoryID) </span><br><span class="line">        <span class="keyword">select</span> p;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1644,152 +1802,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/e7380cd.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0Kelvins">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0Kelvins的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/e7380cd.html" itemprop="url">随笔2017-12-12</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T10:42:11+08:00">2017-12-12</time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近项目正式测试，做的工具使用中遇到了问题，静态变量到底怎么用。</p>
-<p>在希望变量可以多次重复使用的时候，会想用静态变量来降低内存消耗，但是这时候也会引入多进程并发使用时的问题。如果使用了静态变量，并且这个变量在每一个进程都应该不一样的话，这样的变量也不是静态的，会出现变量内容覆盖的问题。</p>
-<p><strong>在Web多会话的情况下，静态变量是使用的同一内存地址，所以，在考虑在单线程多个类中重用变量时，还是用传参之类的地址引用吧。</strong></p>
-<p>如果是完全静态不会变（静态字符串什么的），或者所有进程共享的变量（统计访问量什么的），可以使用静态变量来处理，降低内存消耗。</p>
-<p>以前很少经历并发的情况，对相关的思维还是不清晰，以后需要多加留意。以前明明都学过，但是都没注意过。(╯‵□′)╯︵┻━┻</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1841,7 +1853,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">39</span>
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
