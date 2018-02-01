@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【SQL】循环游标遍历]]></title>
+    <url>%2Fpost%2Fc638d2ec.html</url>
+    <content type="text"><![CDATA[记录用循环（ WHILE ）游标（ CURSOR ）实现，遍历系统视图，取出（ FETCH ）每条数据并计数+1（这里只是用来记下怎么用，查数量肯定还是用 COUNT() 。 12345678910111213141516171819202122232425CREATE PROCEDURE P_CHECK_DB_NUMASBEGIN DECLARE @num INT, @error INT DECLARE @temp VARCHAR(50) SET @num = 1 SET @error = 0 --申明游标为db_cursor DECLARE db_cursor CURSOR FOR (SELECT [name] FROM [master].[sys].[databases]) --打开游标-- OPEN db_cursor --开始循环游标变量-- FETCH NEXT FROM db_cursor INTO @temp WHILE @@FETCH_STATUS = 0 --返回被 FETCH语句执行的最后游标的状态-- BEGIN SET @num = @num + 1 SET @error = @error + @@ERROR --记录每次运行sql后是否正确，0正确 FETCH NEXT FROM db_cursor INTO @temp --转到下一个游标，没有会死循环 END CLOSE db_cursor --关闭游标 DEALLOCATE db_cursor --释放游标 RETURN @num;END 后言自从当初学完以后就好像没再用过了，今天偶然想起来，记录一下用法。]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>T-SQL</tag>
+        <tag>SQL Server</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【Js】使用小记]]></title>
     <url>%2Fpost%2Fae10444e.html</url>
     <content type="text"><![CDATA[记一下Js的一些知识点 ==和===的区别==是值相等比较（会做类型转换后比较），===是严格相等比较（还要比较类型） 对于 string ，number 等基础类型， == 和 === 是有区别的 不同类型间比较，==之比较“转化成同一类型后的值”看“值”是否相等，=== 如果类型不同，其结果就是不等 同类型比较，直接进行“值”比较，两者结果一样 对于 Array ， Object 等高级类型， == 和 === 是没有区别的进行“指针地址”比较 基础类型与高级类型， == 和 === 是有区别的 对于 == ，将高级转化为基础类型，进行“值”比较 因为类型不同， === 结果为 false 我的一篇随笔里有记过一个例子，这里再放一下120 == '' -&gt; true0 === '' -&gt; false 没有块级作用域123456789101112var data = '';function test(data) &#123; if (data != null) &#123; var tips = 'data not null'; console.log(tips); &#125; else &#123; var tips = 'data is null'; console.log(tips); &#125;&#125;test(data); 上面的代码浏览器可以运行的，但是Js语法检查的话会报错吧，tips 变量在 test() 内被定义在两个代码块内，但是js没有块级作用域，函数作为Js内的最小作用域，所以 tips 变量这里重复定义了。 记：Js中没有用 var 声明的变量都是全局变量，而且是顶层对象的属性]]></content>
@@ -263,8 +276,8 @@
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
         <tag>hexo</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -312,8 +325,8 @@
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>SQL</tag>
         <tag>随笔</tag>
+        <tag>SQL</tag>
         <tag>Server</tag>
         <tag>Docker</tag>
       </tags>
@@ -412,9 +425,9 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>SQL</tag>
         <tag>随笔</tag>
         <tag>CSharp</tag>
+        <tag>SQL</tag>
       </tags>
   </entry>
   <entry>
@@ -452,20 +465,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hexo搭建]]></title>
-    <url>%2Fpost%2F57ee7c1d.html</url>
-    <content type="text"><![CDATA[教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 主题github地址yilia https://github.com/litten/hexo-theme-yilia.gitNexT https://github.com/iissnan/hexo-theme-next.git hexo配置http://blog.csdn.net/xuezhisdc/article/details/53130383 新建文章1hexo new post "article title" 生成部署1234hexo g # 生成hexo d # 部署# 或直接hexo d -g # 在部署前先生成 记录 部署：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等 新建文章的 命名、分类、标签：不能包含#符号，Github上面会404，其他的\/.?之类的应该也不行，-_以及数字是可以的 自定义页面，不渲染hexo跳过指定文件的渲染在_config.yml文件中设置skip_render，都是相对source目录的路径： 跳过source目录下的test.html: test.html```12* 跳过`source`目录下`test`文件夹内所有文件：```skip_render: test/* 跳过source目录下test文件夹内所有文件包括子文件夹以及子文件夹内的文件： test/**```12345* 跳过多个路径：```ymlskip_render: - test.html - test/* _post文件夹下是可以新建自己的文件夹的 hexo标签插件jsFiddle在文章中嵌入 jsFiddle。1&#123;% jsfiddle shorttag [tabs] [skin] [width] [height] %&#125; Gist在文章中嵌入 Gist。1&#123;% gist gist_id [filename] %&#125; iframe在文章中插入 iframe。1&#123;% iframe url [width] [height] %&#125; Image在文章中插入指定大小的图片。1&#123;% img [class names] /path/to/image [width] [height] [title text [alt text]] %&#125; Link在文章中插入链接，并自动给外部链接添加 target=”_blank” 属性。1&#123;% link text url [external] [title] %&#125; 代码块高亮c#代码块标记（c#标记无效）：cs、csharp配置文件类型（*:*这种）：yml]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Git命令]]></title>
     <url>%2Fpost%2Fb6ef4fe0.html</url>
     <content type="text"><![CDATA[强制更新覆盖本地123$ git fetch --all #下载最新文件（未覆盖）$ git reset --hard origin/master #定向最新下载版本$ git pull origin master #更新，已经同步远程最新文件 删除已纳入版本控制，并后添加到.gitignore的文件（注意.）123git rm -r --cached .git add .git commit -m "update .gitignore" 修改已commit备注 输入 1git commit --amend 进入最后一次提交的内容（vim编辑器） &gt; a进入插入模式 &gt; 修改 &gt; Esc &gt; 输入:wq，保存退出]]></content>
       <tags>
         <tag>随笔</tag>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hexo搭建]]></title>
+    <url>%2Fpost%2F57ee7c1d.html</url>
+    <content type="text"><![CDATA[教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 主题github地址yilia https://github.com/litten/hexo-theme-yilia.gitNexT https://github.com/iissnan/hexo-theme-next.git hexo配置http://blog.csdn.net/xuezhisdc/article/details/53130383 新建文章1hexo new post "article title" 生成部署1234hexo g # 生成hexo d # 部署# 或直接hexo d -g # 在部署前先生成 记录 部署：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等 新建文章的 命名、分类、标签：不能包含#符号，Github上面会404，其他的\/.?之类的应该也不行，-_以及数字是可以的 自定义页面，不渲染hexo跳过指定文件的渲染在_config.yml文件中设置skip_render，都是相对source目录的路径： 跳过source目录下的test.html: test.html```12* 跳过`source`目录下`test`文件夹内所有文件：```skip_render: test/* 跳过source目录下test文件夹内所有文件包括子文件夹以及子文件夹内的文件： test/**```12345* 跳过多个路径：```ymlskip_render: - test.html - test/* _post文件夹下是可以新建自己的文件夹的 hexo标签插件jsFiddle在文章中嵌入 jsFiddle。1&#123;% jsfiddle shorttag [tabs] [skin] [width] [height] %&#125; Gist在文章中嵌入 Gist。1&#123;% gist gist_id [filename] %&#125; iframe在文章中插入 iframe。1&#123;% iframe url [width] [height] %&#125; Image在文章中插入指定大小的图片。1&#123;% img [class names] /path/to/image [width] [height] [title text [alt text]] %&#125; Link在文章中插入链接，并自动给外部链接添加 target=”_blank” 属性。1&#123;% link text url [external] [title] %&#125; 代码块高亮c#代码块标记（c#标记无效）：cs、csharp配置文件类型（*:*这种）：yml]]></content>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
