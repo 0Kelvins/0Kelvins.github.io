@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[随笔2018-3-14]]></title>
+    <url>%2Fpost%2F7d5ab8dd.html</url>
+    <content type="text"><![CDATA[过年回来有段时间没记点什么了，工作虽然没之前那么忙，还是没想清楚到底去积累点什么好吧，主要可能也是懒←_← 看了两个星期的 《数据挖掘概念与技术》 和 《机器学习实战》 （ PRML 实在是…太数学了… ，也理解了一下数据仓库、数据立方体、上卷、下钻等等…一些名词，明白了kNN、SMO、SVM等等算法的全称…（kNN、决策树还是看懂了的，就是后面朴素贝叶斯开始就慢慢有点模糊了…什么支持向量机啊就来回看了好几遍，查了不少东西才理解了些 =_= ，哎，觉得实在无法在脑海里跟实际问题映射上关系，也就难以应用了。于是，就没继续看了，虽然看一半放弃了，但是也算大致了解了 数据挖掘 相关的一系列东西吧，不亏！（强行 为了休息下我可怜的脑袋，上星期弄了下 Unity3D 玩，emmm，感觉没有找到适合我节奏的学习资料啊，官方文档太细太慢，各种博客又太粗略，待我闲时再把官方的几个工程改改修修，估计就能自己做个自己想的小游戏玩了(^▽^) 这两天算是没什么闲时了，今天趁刚有空回忆一下，免得回头感觉前面几个星期就白过了一样╮(╯_╰)╭]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【SQL】循环游标遍历]]></title>
     <url>%2Fpost%2Fc638d2ec.html</url>
     <content type="text"><![CDATA[记录用循环（ WHILE ）游标（ CURSOR ）实现，遍历系统视图，取出（ FETCH ）每条数据并计数+1（这里只是用来记下怎么用，查数量肯定还是用 COUNT() 。 12345678910111213141516171819202122232425CREATE PROCEDURE P_CHECK_DB_NUMASBEGIN DECLARE @num INT, @error INT DECLARE @temp VARCHAR(50) SET @num = 1 SET @error = 0 --申明游标为db_cursor DECLARE db_cursor CURSOR FOR (SELECT [name] FROM [master].[sys].[databases]) --打开游标-- OPEN db_cursor --开始循环游标变量-- FETCH NEXT FROM db_cursor INTO @temp WHILE @@FETCH_STATUS = 0 --返回被 FETCH语句执行的最后游标的状态-- BEGIN SET @num = @num + 1 SET @error = @error + @@ERROR --记录每次运行sql后是否正确，0正确 FETCH NEXT FROM db_cursor INTO @temp --转到下一个游标，没有会死循环 END CLOSE db_cursor --关闭游标 DEALLOCATE db_cursor --释放游标 RETURN @num;END 后言自从当初学完以后就好像没再用过了，今天偶然想起来，记录一下用法。]]></content>
@@ -9,8 +20,8 @@
       </categories>
       <tags>
         <tag>SQL</tag>
-        <tag>T-SQL</tag>
         <tag>SQL Server</tag>
+        <tag>T-SQL</tag>
       </tags>
   </entry>
   <entry>
@@ -44,8 +55,8 @@
         <category>Linq</category>
       </categories>
       <tags>
-        <tag>SQL</tag>
         <tag>Linq</tag>
+        <tag>SQL</tag>
       </tags>
   </entry>
   <entry>
@@ -177,8 +188,8 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>Bitwise</tag>
         <tag>Algorithm</tag>
+        <tag>Bitwise</tag>
       </tags>
   </entry>
   <entry>
@@ -226,8 +237,8 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
         <tag>CSharp</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -276,8 +287,8 @@
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
         <tag>随笔</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -413,8 +424,8 @@
     <url>%2Fpost%2F433774cf.html</url>
     <content type="text"><![CDATA[重装折腾win7，没关闭更新，更新100+补丁还失败还原，各种dll丢失。报错大致如下： D3DCompiler_47.dll、api-ms-win-core-libraryloader-l1-2-1.dll、gfx.dll……丢失 启动Word2016、SS和MSSQL Server MS的时候(依赖都比较新的软件)报错，缺少net46。报错大致如下: ““的类型初始值设定项引发异常缺少”.Net Framework 4.6” 原因：D3DCompiler_47.dll丢失，因为更新补丁失败还原的缘故其他的是卸载了或者本来就缺新的.Net Framework 解决方法： 打补丁Windows6.1-KB4019990-x64.msu，应该是补上D3DCompiler_47.dll一系列的库的。Win32Exception (0x80004005): 找不到指定的模块 重装电脑里版本需要的.Net框架，打完补丁就可以装了，一般运行的话装个比较高版本的就好，我装的是.Net Framework4.7，会修复版本.Net框架“缺少”之类的问题。 注：.Net Fx出现无法安装之类的问题见本文最后以上。结果弄了好几天。(╯‵□′)╯︵┻━┻ 插曲1 2017-11-2 15:00:26今天本来以为已经搞定了，结果发现VS2015里没有.Net Framework 4.5，于是又开始折腾。。。目前更糟糕了，VS起不来了，报没有.Net Fx4.6，然而卸载程序里面明明有的。未完待续，好烦。 插曲2 2017-11-2 16:49:13 首先，卸载明明安装着的.Net Fx 4.6是不明智的 其次，修复VS更是浪费青春 然后，重装电脑里最新的.Net Fx，我的是4.7，然后4.6的问题就解决了。但是并不能解决.Net Fx 4.5没有的问题，正在去官网下载4.5.2的Dev-Pack，328M，感觉装完有应该就会有4.5了 最后，吐槽一下，公司网真烂，太烂了，下载页好久才打开，加上电脑也烂，不然早弄好了 插曲终 2017-11-3 14:03:10问题原因：本机上有 net45 的文件没删干净，所以安装不了，但是肯定缺少文件了解决办法：.net framework 的安装目录在 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5清理干净，或者直接从其他电脑拷一份过来就好了。 完结撒花。]]></content>
       <tags>
-        <tag>随笔</tag>
         <tag>DotNet</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -425,8 +436,8 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
         <tag>CSharp</tag>
+        <tag>随笔</tag>
         <tag>SQL</tag>
       </tags>
   </entry>
@@ -465,6 +476,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Hexo搭建]]></title>
+    <url>%2Fpost%2F57ee7c1d.html</url>
+    <content type="text"><![CDATA[教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 主题github地址yilia https://github.com/litten/hexo-theme-yilia.gitNexT https://github.com/iissnan/hexo-theme-next.git hexo配置http://blog.csdn.net/xuezhisdc/article/details/53130383 新建文章1hexo new post "article title" 生成部署1234hexo g # 生成hexo d # 部署# 或直接hexo d -g # 在部署前先生成 记录 部署：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等 新建文章的 命名、分类、标签：不能包含#符号，Github上面会404，其他的\/.?之类的应该也不行，-_以及数字是可以的 自定义页面，不渲染hexo跳过指定文件的渲染在_config.yml文件中设置skip_render，都是相对source目录的路径： 跳过source目录下的test.html: test.html```12* 跳过`source`目录下`test`文件夹内所有文件：```skip_render: test/* 跳过source目录下test文件夹内所有文件包括子文件夹以及子文件夹内的文件： test/**```12345* 跳过多个路径：```ymlskip_render: - test.html - test/* _post文件夹下是可以新建自己的文件夹的 hexo标签插件jsFiddle在文章中嵌入 jsFiddle。1&#123;% jsfiddle shorttag [tabs] [skin] [width] [height] %&#125; Gist在文章中嵌入 Gist。1&#123;% gist gist_id [filename] %&#125; iframe在文章中插入 iframe。1&#123;% iframe url [width] [height] %&#125; Image在文章中插入指定大小的图片。1&#123;% img [class names] /path/to/image [width] [height] [title text [alt text]] %&#125; Link在文章中插入链接，并自动给外部链接添加 target=”_blank” 属性。1&#123;% link text url [external] [title] %&#125; 代码块高亮c#代码块标记（c#标记无效）：cs、csharp配置文件类型（*:*这种）：yml]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Git命令]]></title>
     <url>%2Fpost%2Fb6ef4fe0.html</url>
     <content type="text"><![CDATA[强制更新覆盖本地123$ git fetch --all #下载最新文件（未覆盖）$ git reset --hard origin/master #定向最新下载版本$ git pull origin master #更新，已经同步远程最新文件 删除已纳入版本控制，并后添加到.gitignore的文件（注意.）123git rm -r --cached .git add .git commit -m "update .gitignore" 修改已commit备注 输入 1git commit --amend 进入最后一次提交的内容（vim编辑器） &gt; a进入插入模式 &gt; 修改 &gt; Esc &gt; 输入:wq，保存退出]]></content>
@@ -474,26 +493,18 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hexo搭建]]></title>
-    <url>%2Fpost%2F57ee7c1d.html</url>
-    <content type="text"><![CDATA[教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 主题github地址yilia https://github.com/litten/hexo-theme-yilia.gitNexT https://github.com/iissnan/hexo-theme-next.git hexo配置http://blog.csdn.net/xuezhisdc/article/details/53130383 新建文章1hexo new post "article title" 生成部署1234hexo g # 生成hexo d # 部署# 或直接hexo d -g # 在部署前先生成 记录 部署：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等 新建文章的 命名、分类、标签：不能包含#符号，Github上面会404，其他的\/.?之类的应该也不行，-_以及数字是可以的 自定义页面，不渲染hexo跳过指定文件的渲染在_config.yml文件中设置skip_render，都是相对source目录的路径： 跳过source目录下的test.html: test.html```12* 跳过`source`目录下`test`文件夹内所有文件：```skip_render: test/* 跳过source目录下test文件夹内所有文件包括子文件夹以及子文件夹内的文件： test/**```12345* 跳过多个路径：```ymlskip_render: - test.html - test/* _post文件夹下是可以新建自己的文件夹的 hexo标签插件jsFiddle在文章中嵌入 jsFiddle。1&#123;% jsfiddle shorttag [tabs] [skin] [width] [height] %&#125; Gist在文章中嵌入 Gist。1&#123;% gist gist_id [filename] %&#125; iframe在文章中插入 iframe。1&#123;% iframe url [width] [height] %&#125; Image在文章中插入指定大小的图片。1&#123;% img [class names] /path/to/image [width] [height] [title text [alt text]] %&#125; Link在文章中插入链接，并自动给外部链接添加 target=”_blank” 属性。1&#123;% link text url [external] [title] %&#125; 代码块高亮c#代码块标记（c#标记无效）：cs、csharp配置文件类型（*:*这种）：yml]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[关于]]></title>
     <url>%2Fabout%2Findex.html</url>
     <content type="text"><![CDATA[回头写点什么。]]></content>
   </entry>
   <entry>
-    <title><![CDATA[tags]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[categories]]></title>
+    <url>%2Fcategories%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[categories]]></title>
-    <url>%2Fcategories%2Findex.html</url>
+    <title><![CDATA[tags]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>
