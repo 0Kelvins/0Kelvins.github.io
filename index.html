@@ -77,17 +77,14 @@
 
 
 
-<meta name="description" content="回头写点什么。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://0kelvins.github.io/about/index.html">
+<meta property="og:title" content="tags">
+<meta property="og:url" content="http://0kelvins.github.io/tags/index.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="回头写点什么。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-07T12:48:50.740Z">
+<meta property="og:updated_time" content="2017-11-16T10:44:41.981Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="回头写点什么。">
+<meta name="twitter:title" content="tags">
 
 
 
@@ -115,7 +112,7 @@
 
 
 
-  <link rel="canonical" href="http://0kelvins.github.io/about/"/>
+  <link rel="canonical" href="http://0kelvins.github.io/tags/"/>
 
 
 
@@ -258,6 +255,204 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/ce23289f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/ce23289f.html" itemprop="url">【SQL Server】发布订阅配置失败处理方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-20T18:55:10+08:00">2018-03-20</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SQL-Server/" itemprop="url" rel="index">
+                    <span itemprop="name">SQL-Server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>因为业务需求，需要“实时”的同步基础平台的一些信息，公司使用的又是 <code>SQL Server</code> ，简单稳定起见，选择使用 <strong>发布订阅</strong> 功能来实现数据的同步。</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>OS：Windows Server 2008 R2</p>
+<p>DB：SQL Server 2008 R2</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/DBArtist/p/5803271.html" target="_blank" rel="noopener">Sql Server 2008R2 数据库发布与订阅——DBArtist，博客园</a></p>
+<h3 id="配置失败处理"><a href="#配置失败处理" class="headerlink" title="配置失败处理"></a>配置失败处理</h3><ul>
+<li><p>删除发布失败：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_removedbreplication 'DBName'  <span class="comment">-- 强制删除被发布数据库的所有发布</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>订阅服务器连接根目录</code> -&gt; <code>复制</code> -&gt; <code>本地订阅</code> 内没有新建的订阅的情况下，删除多余的分发服务器：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sp_helpserver <span class="comment">-- 查看服务器</span></span><br><span class="line">sp_dropserver '[name]', 'droplogins' <span class="comment">-- 删除服务器</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>SQL Server代理</code> 重启，这个估计改名字的时候就要重启，不然会有报错</p>
+</li>
+</ul>
+<h3 id="主要流程"><a href="#主要流程" class="headerlink" title="主要流程"></a>主要流程</h3><ol>
+<li>确认数据库的服务名和服务器的机器名一致<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检查SQL Server 的服务器名称</span></span><br><span class="line"><span class="keyword">use</span> <span class="keyword">master</span></span><br><span class="line"><span class="keyword">go</span></span><br><span class="line"><span class="keyword">select</span> @@servername</span><br><span class="line"><span class="keyword">select</span> serverproperty(<span class="string">'servername'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 删除所有之前配置的publishers</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> msdb.dbo.MSdistpublishers</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> msdb.dbo.MSdistpublishers</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> msdb.dbo.MSdistpublishers</span><br><span class="line">exec sp_droplinkedsrvlogin <span class="string">'old_server_name'</span>,<span class="literal">null</span></span><br><span class="line">exec sp_dropserver <span class="string">'old_server_name'</span>, <span class="string">'droplogins'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 配置计算机名与服务名一致</span></span><br><span class="line"><span class="keyword">USE</span> <span class="keyword">master</span></span><br><span class="line"> <span class="keyword">GO</span></span><br><span class="line"> <span class="keyword">if</span> serverproperty(<span class="string">'servername'</span>) &lt;&gt; @@servername  </span><br><span class="line"><span class="keyword">begin</span>  </span><br><span class="line">       <span class="keyword">declare</span> @<span class="keyword">server</span> sysname  </span><br><span class="line">       <span class="keyword">set</span>   @<span class="keyword">server</span> = @@servername  </span><br><span class="line">       exec sp_dropserver @<span class="keyword">server</span> = @<span class="keyword">server</span>  </span><br><span class="line">       <span class="keyword">set</span>   @<span class="keyword">server</span> = <span class="keyword">cast</span>(serverproperty(<span class="string">'servername'</span>) <span class="keyword">as</span> sysname)  </span><br><span class="line">       exec sp_addserver @<span class="keyword">server</span> = @<span class="keyword">server</span> , @<span class="keyword">local</span> = <span class="string">'LOCAL'</span>  </span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>重启SQL Server服务、SQL Server代理服务</strong></p>
+<p>然后 <code>sp_helpserver</code> 可以查看到当前的服务器名称，没有配置过应该只有 <code>dbv32</code> 和一个当前机器名一样的服务器，</p>
+<ol>
+<li>配置别名</li>
+</ol>
+<p>打开发布服务器和分发服务器的 <code>SQL Server 配置管理器</code> 在 <strong>[SQL Native Client 10.0配置(32位)]</strong> 和 <strong>[SQL Native Client 10.0配置]</strong> 中配置别名</p>
+<blockquote>
+<p>别名：[第一步确认的机器名]</p>
+<p>端口号：1433</p>
+<p>服务器：对应的服务器机器的IP地址</p>
+<p>协议：TCP/IP</p>
+</blockquote>
+<p><strong>分发服务器需要配置自己和所有分发服务器的别名，分发服务器需要配置自己和发布服务器的别名</strong></p>
+<ol>
+<li>发布服务器建立发布</li>
+</ol>
+<ul>
+<li><code>发布服务器连接根目录</code> -&gt; <code>复制</code> -&gt; <code>本地发布</code></li>
+<li>右键 <code>新建发布</code>，然后根据提示选择性Next</li>
+<li>不行了看一下配置一下 <code>安全设置</code> ，上面选第二个 <code>在SQL Server 代理账户下运行</code>，然后下面选第二个配置 <code>SQL Server 登录名</code></li>
+<li>然后Next到完成，没报错就搞定了</li>
+</ul>
+<ol>
+<li>订阅服务器建立订阅</li>
+</ol>
+<ul>
+<li><code>订阅服务器连接根目录</code> -&gt; <code>复制</code> -&gt; <code>本地订阅</code></li>
+<li>右键 <code>新建订阅</code>，发布服务器选择：查找，添加你的发布服务器，用之前配的别名</li>
+<li>需要实时同步的话，分发代理位置选第一个，在发布服务器上运行分发服务，发布服务器主动推送。根据需要也可以选第二个</li>
+<li>订阅服务器和数据库，数据库可以点下拉然后拉到最上面自己新建</li>
+<li>分发服务器安全连接，配置之前 <code>发布服务器</code> 的 <code>安全设置</code></li>
+<li>然后根据提示选择性Next到完成，没报错就搞定了所有配置</li>
+</ul>
+<ol>
+<li>右键发布服务器的发布， <code>启动复制监视器</code> ，查看状态，没报错，然后快照完成，在订阅看到数据就可以了</li>
+</ol>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>一开始配置不知道哪里出问题了，快照不生成，代理启动就死，订阅的也没看到，发布也不给删，说有订阅。</p>
+<p>就找了半天删除的方法，后来发布订阅的服务器删干净， <code>SQL Server代理</code> 重启，重新配置了一遍就好了，也是心累╮(╯_╰)╭</p>
+<p>现在想想估计是代理服务没有重启导致的。总之，以后配置的话，记着顺手把这个也重启了吧。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1635,159 +1830,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/22331717.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0Kelvins">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0Kelvins的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/22331717.html" itemprop="url">随笔2017-12-26</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T18:56:50+08:00">2017-12-26</time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>工作了没有了期末，但是多了个年终。</p>
-</blockquote>
-<p>12月末。前些天忙得不行，就忽然来了一堆乱七八糟的事情，不过好在都还算顺利解决了。这两天比较清闲了，可以稍微休息休息，要好好思考一下，毕竟这样的时间现在已经很难得了。</p>
-<p>这两天工作在把之前的代码重构，虽说重构，也只是把结构整理了一遍，毕竟各种原因也是想弄也不能弄。不过，能同意我不少观点已经感到很欣慰了，与人相处，需要耐心，事情慢慢来就好了。</p>
-<blockquote>
-<p>2017的小结吧</p>
-</blockquote>
-<p>毕业这就算半年了，这段时间要说学到点什么，好像也没什么特别的。不过很多以前未曾想过的开发的相关问题，都仔细的去思考参与了，也算是收获吧。虽然没能接触到分布式、Hadoop什么的，但是自己学习了解的很多知识，也越发觉得现在的大部分技术使用起来其实并不太难，都有很多前人铺路了，难点在与像大数据的很多算法、数据结构等等，越了解技术越觉得这些理论知识显得重要了。</p>
-<blockquote>
-<p>时间很快，但是想要没站稳就跳远，往往会摔得很惨，一步一步继续前进吧，我想目标也不会太过遥远的</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1839,7 +1881,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1850,7 +1892,7 @@
                 
                 <div class="site-state-item site-state-categories">
                   <a href="/categories/index.html">
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1861,7 +1903,7 @@
                 
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
-                    <span class="site-state-item-count">39</span>
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

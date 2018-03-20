@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【SQL Server】发布订阅配置失败处理方法]]></title>
+    <url>%2Fpost%2Fce23289f.html</url>
+    <content type="text"><![CDATA[前言因为业务需求，需要“实时”的同步基础平台的一些信息，公司使用的又是 SQL Server ，简单稳定起见，选择使用 发布订阅 功能来实现数据的同步。 环境OS：Windows Server 2008 R2 DB：SQL Server 2008 R2 参考Sql Server 2008R2 数据库发布与订阅——DBArtist，博客园 配置失败处理 删除发布失败： 1sp_removedbreplication 'DBName' -- 强制删除被发布数据库的所有发布 订阅服务器连接根目录 -&gt; 复制 -&gt; 本地订阅 内没有新建的订阅的情况下，删除多余的分发服务器： 12sp_helpserver -- 查看服务器sp_dropserver '[name]', 'droplogins' -- 删除服务器 SQL Server代理 重启，这个估计改名字的时候就要重启，不然会有报错 主要流程 确认数据库的服务名和服务器的机器名一致123456789101112131415161718192021222324-- 检查SQL Server 的服务器名称use mastergoselect @@servernameselect serverproperty('servername')-- 删除所有之前配置的publishersselect * from msdb.dbo.MSdistpublishersDELETE FROM msdb.dbo.MSdistpublishersselect * from msdb.dbo.MSdistpublishersexec sp_droplinkedsrvlogin 'old_server_name',nullexec sp_dropserver 'old_server_name', 'droplogins'-- 配置计算机名与服务名一致USE master GO if serverproperty('servername') &lt;&gt; @@servername begin declare @server sysname set @server = @@servername exec sp_dropserver @server = @server set @server = cast(serverproperty('servername') as sysname) exec sp_addserver @server = @server , @local = 'LOCAL' end 重启SQL Server服务、SQL Server代理服务 然后 sp_helpserver 可以查看到当前的服务器名称，没有配置过应该只有 dbv32 和一个当前机器名一样的服务器， 配置别名 打开发布服务器和分发服务器的 SQL Server 配置管理器 在 [SQL Native Client 10.0配置(32位)] 和 [SQL Native Client 10.0配置] 中配置别名 别名：[第一步确认的机器名] 端口号：1433 服务器：对应的服务器机器的IP地址 协议：TCP/IP 分发服务器需要配置自己和所有分发服务器的别名，分发服务器需要配置自己和发布服务器的别名 发布服务器建立发布 发布服务器连接根目录 -&gt; 复制 -&gt; 本地发布 右键 新建发布，然后根据提示选择性Next 不行了看一下配置一下 安全设置 ，上面选第二个 在SQL Server 代理账户下运行，然后下面选第二个配置 SQL Server 登录名 然后Next到完成，没报错就搞定了 订阅服务器建立订阅 订阅服务器连接根目录 -&gt; 复制 -&gt; 本地订阅 右键 新建订阅，发布服务器选择：查找，添加你的发布服务器，用之前配的别名 需要实时同步的话，分发代理位置选第一个，在发布服务器上运行分发服务，发布服务器主动推送。根据需要也可以选第二个 订阅服务器和数据库，数据库可以点下拉然后拉到最上面自己新建 分发服务器安全连接，配置之前 发布服务器 的 安全设置 然后根据提示选择性Next到完成，没报错就搞定了所有配置 右键发布服务器的发布， 启动复制监视器 ，查看状态，没报错，然后快照完成，在订阅看到数据就可以了 后记一开始配置不知道哪里出问题了，快照不生成，代理启动就死，订阅的也没看到，发布也不给删，说有订阅。 就找了半天删除的方法，后来发布订阅的服务器删干净， SQL Server代理 重启，重新配置了一遍就好了，也是心累╮(╯_╰)╭ 现在想想估计是代理服务没有重启导致的。总之，以后配置的话，记着顺手把这个也重启了吧。]]></content>
+      <categories>
+        <category>SQL-Server</category>
+      </categories>
+      <tags>
+        <tag>SQL-Server</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[随笔2018-3-14]]></title>
     <url>%2Fpost%2F7d5ab8dd.html</url>
     <content type="text"><![CDATA[过年回来有段时间没记点什么了，工作虽然没之前那么忙，还是没想清楚到底去积累点什么好吧，主要可能也是懒←_← 看了两个星期的 《数据挖掘概念与技术》 和 《机器学习实战》 （ PRML 实在是…太数学了… ，也理解了一下数据仓库、数据立方体、上卷、下钻等等…一些名词，明白了kNN、SMO、SVM等等算法的全称…（kNN、决策树还是看懂了的，就是后面朴素贝叶斯开始就慢慢有点模糊了…什么支持向量机啊就来回看了好几遍，查了不少东西才理解了些 =_= ，哎，觉得实在无法在脑海里跟实际问题映射上关系，也就难以应用了。于是，就没继续看了，虽然看一半放弃了，但是也算大致了解了 数据挖掘 相关的一系列东西吧，不亏！（强行 为了休息下我可怜的脑袋，上星期弄了下 Unity3D 玩，emmm，感觉没有找到适合我节奏的学习资料啊，官方文档太细太慢，各种博客又太粗略，待我闲时再把官方的几个工程改改修修，估计就能自己做个自己想的小游戏玩了(^▽^) 这两天算是没什么闲时了，今天趁刚有空回忆一下，免得回头感觉前面几个星期就白过了一样╮(╯_╰)╭]]></content>
@@ -55,8 +66,8 @@
         <category>Linq</category>
       </categories>
       <tags>
-        <tag>Linq</tag>
         <tag>SQL</tag>
+        <tag>Linq</tag>
       </tags>
   </entry>
   <entry>
@@ -151,8 +162,8 @@
       </categories>
       <tags>
         <tag>SQL</tag>
-        <tag>SQL Server</tag>
         <tag>lock</tag>
+        <tag>SQL Server</tag>
       </tags>
   </entry>
   <entry>
@@ -225,8 +236,8 @@
       </categories>
       <tags>
         <tag>Vue</tag>
-        <tag>Bootstrap</tag>
         <tag>JavaScript</tag>
+        <tag>Bootstrap</tag>
       </tags>
   </entry>
   <entry>
@@ -237,8 +248,8 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>CSharp</tag>
         <tag>随笔</tag>
+        <tag>CSharp</tag>
       </tags>
   </entry>
   <entry>
@@ -424,8 +435,8 @@
     <url>%2Fpost%2F433774cf.html</url>
     <content type="text"><![CDATA[重装折腾win7，没关闭更新，更新100+补丁还失败还原，各种dll丢失。报错大致如下： D3DCompiler_47.dll、api-ms-win-core-libraryloader-l1-2-1.dll、gfx.dll……丢失 启动Word2016、SS和MSSQL Server MS的时候(依赖都比较新的软件)报错，缺少net46。报错大致如下: ““的类型初始值设定项引发异常缺少”.Net Framework 4.6” 原因：D3DCompiler_47.dll丢失，因为更新补丁失败还原的缘故其他的是卸载了或者本来就缺新的.Net Framework 解决方法： 打补丁Windows6.1-KB4019990-x64.msu，应该是补上D3DCompiler_47.dll一系列的库的。Win32Exception (0x80004005): 找不到指定的模块 重装电脑里版本需要的.Net框架，打完补丁就可以装了，一般运行的话装个比较高版本的就好，我装的是.Net Framework4.7，会修复版本.Net框架“缺少”之类的问题。 注：.Net Fx出现无法安装之类的问题见本文最后以上。结果弄了好几天。(╯‵□′)╯︵┻━┻ 插曲1 2017-11-2 15:00:26今天本来以为已经搞定了，结果发现VS2015里没有.Net Framework 4.5，于是又开始折腾。。。目前更糟糕了，VS起不来了，报没有.Net Fx4.6，然而卸载程序里面明明有的。未完待续，好烦。 插曲2 2017-11-2 16:49:13 首先，卸载明明安装着的.Net Fx 4.6是不明智的 其次，修复VS更是浪费青春 然后，重装电脑里最新的.Net Fx，我的是4.7，然后4.6的问题就解决了。但是并不能解决.Net Fx 4.5没有的问题，正在去官网下载4.5.2的Dev-Pack，328M，感觉装完有应该就会有4.5了 最后，吐槽一下，公司网真烂，太烂了，下载页好久才打开，加上电脑也烂，不然早弄好了 插曲终 2017-11-3 14:03:10问题原因：本机上有 net45 的文件没删干净，所以安装不了，但是肯定缺少文件了解决办法：.net framework 的安装目录在 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5清理干净，或者直接从其他电脑拷一份过来就好了。 完结撒花。]]></content>
       <tags>
-        <tag>DotNet</tag>
         <tag>随笔</tag>
+        <tag>DotNet</tag>
       </tags>
   </entry>
   <entry>
@@ -436,8 +447,8 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>CSharp</tag>
         <tag>随笔</tag>
+        <tag>CSharp</tag>
         <tag>SQL</tag>
       </tags>
   </entry>
@@ -498,13 +509,13 @@
     <content type="text"><![CDATA[回头写点什么。]]></content>
   </entry>
   <entry>
-    <title><![CDATA[categories]]></title>
-    <url>%2Fcategories%2Findex.html</url>
+    <title><![CDATA[tags]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[tags]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[categories]]></title>
+    <url>%2Fcategories%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>
