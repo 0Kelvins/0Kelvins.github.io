@@ -104,25 +104,25 @@
 
 
 
-  <meta name="description" content="问题在做统计的查询视图之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样 原因分析EF默认有缓存，视图没有建立主键，EF的缓存机制认为这两条除了时间不同的数据一致，就没有再从数据库取，然后出现SQL Server Profiler里面的SQL正常，但是拿到的数据死活都不对。 解决方法对视图使用.AsNoTracking()，取消EF对这个视图的缓存（然后可以使用Entity">
-<meta name="keywords" content="CSharp,DotNet,Entity Framework">
+  <meta name="description" content="问题有一张学生表，包含学生、班级、性别（男、女）等信息，要求查询出全是男生或全是女生的班级 分组统计一般要查询的字段不是表格的主要信息的时候，需要按照需要的字段分组。如在学生表查班级信息。 当需要根据分组后的数据统计筛选时，需要使用 HAVING 来进行 1234SELECT ClassIDFROM StudentsGROUP BY ClassIDHAVING COUNT(DISTINCT Gen">
+<meta name="keywords" content="SQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【EntityFramework】分页查询无主键视图数据重复异常">
-<meta property="og:url" content="http://0kelvins.github.io/post/78ebec87.html">
+<meta property="og:title" content="【SQL】GROUP BY分组统计">
+<meta property="og:url" content="http://0kelvins.github.io/post/ef45c8bd.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="问题在做统计的查询视图之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样 原因分析EF默认有缓存，视图没有建立主键，EF的缓存机制认为这两条除了时间不同的数据一致，就没有再从数据库取，然后出现SQL Server Profiler里面的SQL正常，但是拿到的数据死活都不对。 解决方法对视图使用.AsNoTracking()，取消EF对这个视图的缓存（然后可以使用Entity">
+<meta property="og:description" content="问题有一张学生表，包含学生、班级、性别（男、女）等信息，要求查询出全是男生或全是女生的班级 分组统计一般要查询的字段不是表格的主要信息的时候，需要按照需要的字段分组。如在学生表查班级信息。 当需要根据分组后的数据统计筛选时，需要使用 HAVING 来进行 1234SELECT ClassIDFROM StudentsGROUP BY ClassIDHAVING COUNT(DISTINCT Gen">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-17T08:48:26.959Z">
+<meta property="og:updated_time" content="2018-05-04T03:45:21.951Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【EntityFramework】分页查询无主键视图数据重复异常">
-<meta name="twitter:description" content="问题在做统计的查询视图之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样 原因分析EF默认有缓存，视图没有建立主键，EF的缓存机制认为这两条除了时间不同的数据一致，就没有再从数据库取，然后出现SQL Server Profiler里面的SQL正常，但是拿到的数据死活都不对。 解决方法对视图使用.AsNoTracking()，取消EF对这个视图的缓存（然后可以使用Entity">
+<meta name="twitter:title" content="【SQL】GROUP BY分组统计">
+<meta name="twitter:description" content="问题有一张学生表，包含学生、班级、性别（男、女）等信息，要求查询出全是男生或全是女生的班级 分组统计一般要查询的字段不是表格的主要信息的时候，需要按照需要的字段分组。如在学生表查班级信息。 当需要根据分组后的数据统计筛选时，需要使用 HAVING 来进行 1234SELECT ClassIDFROM StudentsGROUP BY ClassIDHAVING COUNT(DISTINCT Gen">
 
 
 
 
 
 
-  <link rel="canonical" href="http://0kelvins.github.io/post/78ebec87.html"/>
+  <link rel="canonical" href="http://0kelvins.github.io/post/ef45c8bd.html"/>
 
 
 
@@ -132,7 +132,7 @@
   };
 </script>
 
-  <title>【EntityFramework】分页查询无主键视图数据重复异常 | 0Kelvins的博客</title>
+  <title>【SQL】GROUP BY分组统计 | 0Kelvins的博客</title>
   
 
 
@@ -335,7 +335,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/78ebec87.html">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/ef45c8bd.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="0Kelvins">
@@ -352,7 +352,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【EntityFramework】分页查询无主键视图数据重复异常
+          <h1 class="post-title" itemprop="name headline">【SQL】GROUP BY分组统计
               
             
           </h1>
@@ -377,7 +377,7 @@
                 
               
 
-              <time title="创建时间：2018-01-17 14:57:42 / 修改时间：16:48:26" itemprop="dateCreated datePublished" datetime="2018-01-17T14:57:42+08:00">2018-01-17</time>
+              <time title="创建时间：2018-05-04 11:12:25 / 修改时间：11:45:21" itemprop="dateCreated datePublished" datetime="2018-05-04T11:12:25+08:00">2018-05-04</time>
             
 
             
@@ -399,7 +399,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DotNet/" itemprop="url" rel="index"><span itemprop="name">DotNet</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/SQL/" itemprop="url" rel="index"><span itemprop="name">SQL</span></a></span>
 
                 
                 
@@ -414,8 +414,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/post/78ebec87.html#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/post/78ebec87.html" itemprop="commentsCount"></span>
+                <a href="/post/ef45c8bd.html#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/post/ef45c8bd.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -443,9 +443,36 @@
       
 
       
-        <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>在做<a href="https://0kelvins.github.io/post/41b37696.html">统计的查询视图</a>之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样</p>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>EF默认有缓存，视图没有建立主键，EF的缓存机制认为这两条除了时间不同的数据一致，就没有再从数据库取，然后出现<code>SQL Server Profiler</code>里面的SQL正常，但是拿到的数据死活都不对。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>对视图使用<code>.AsNoTracking()</code>，取消EF对这个视图的缓存（然后可以使用<code>Entity Framework Plus</code>调用<code>MemoryCache</code>或<code>Redis</code>来做缓存）<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> s <span class="keyword">in</span> statView.AsNoTracking()</span><br><span class="line">        <span class="keyword">select</span> s;</span><br></pre></td></tr></table></figure></p>
+        <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>有一张学生表，包含学生、班级、性别（男、女）等信息，要求查询出全是男生或全是女生的班级</p>
+<h3 id="分组统计"><a href="#分组统计" class="headerlink" title="分组统计"></a>分组统计</h3><p>一般要查询的字段不是表格的主要信息的时候，需要按照需要的字段分组。如在学生表查班级信息。</p>
+<p>当需要根据分组后的数据统计筛选时，需要使用 <code>HAVING</code> 来进行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ClassID</span><br><span class="line"><span class="keyword">FROM</span> Students</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> ClassID</span><br><span class="line"><span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> Gender) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="记"><a href="#记" class="headerlink" title="记"></a>记</h3><p>好久没写过什么复杂查询了，看到这个问题，一时还没想对，如果使用 <code>GROUP BY ClassID, Gender</code> 进行分组的话，会最终以 <strong>班级 * 性别</strong> 的分组返回</p>
+<table>
+<thead>
+<tr>
+<th>ClassID</th>
+<th>Gender</th>
+<th>COUNT(Gender)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>class01</td>
+<td>男</td>
+<td>12</td>
+</tr>
+<tr>
+<td>class01</td>
+<td>女</td>
+<td>20</td>
+</tr>
+<tr>
+<td>……</td>
+</tr>
+</tbody>
+</table>
+<p>这样就无法对性别进行筛选了，所以分组时要注意分组统计的条件，是否应该加入分组</p>
 
       
     </div>
@@ -466,11 +493,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CSharp/" rel="tag"># CSharp</a>
-          
-            <a href="/tags/DotNet/" rel="tag"># DotNet</a>
-          
-            <a href="/tags/Entity-Framework/" rel="tag"># Entity Framework</a>
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
           
         </div>
       
@@ -483,8 +506,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/41b37696.html" rel="next" title="【SQL】一次查询统计多张表">
-                <i class="fa fa-chevron-left"></i> 【SQL】一次查询统计多张表
+              <a href="/post/ce23289f.html" rel="next" title="【SQL Server】发布订阅配置失败处理方法">
+                <i class="fa fa-chevron-left"></i> 【SQL Server】发布订阅配置失败处理方法
               </a>
             
           </div>
@@ -492,10 +515,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/post/e372f2fe.html" rel="prev" title="【Shell/Bat】脚本记录">
-                【Shell/Bat】脚本记录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -763,7 +782,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原因分析"><span class="nav-number">2.</span> <span class="nav-text">原因分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法"><span class="nav-number">3.</span> <span class="nav-text">解决方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分组统计"><span class="nav-number">2.</span> <span class="nav-text">分组统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记"><span class="nav-number">3.</span> <span class="nav-text">记</span></a></li></ol></div>
             
 
           </div>
