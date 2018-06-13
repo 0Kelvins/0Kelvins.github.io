@@ -331,6 +331,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/1a0d7b20.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/1a0d7b20.html" itemprop="url">
+                  【Vue】模块化项目构建
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-13 16:44:18 / 修改时间：17:58:03" itemprop="dateCreated datePublished" datetime="2018-06-13T16:44:18+08:00">2018-06-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Front/" itemprop="url" rel="index"><span itemprop="name">Front</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Vue-Typescript-模块化项目的构建"><a href="#Vue-Typescript-模块化项目的构建" class="headerlink" title="Vue + Typescript 模块化项目的构建"></a>Vue + Typescript 模块化项目的构建</h2><p>得益于 <code>vue-cli 3.0</code> 多了 <code>create</code>，项目构建变得非常的简单了</p>
+<h3 id="构建主要步骤"><a href="#构建主要步骤" class="headerlink" title="构建主要步骤"></a>构建主要步骤</h3><ol>
+<li><p>默认已经有 <code>node.js</code> 环境，最好8+版本</p>
+</li>
+<li><p>安装 <code>vue-cli 3.0</code></p>
+<p> 1.0 卸载旧版2.x版本，如果有的话</p>
+<p> 1.1 <code>npm i -g @vue/cli</code>，（chromedriver可能安装失败，需要从taobao镜像安装缓存，然后再安装cli）</p>
+<p> 1.2 <code>vue -V</code> 确认版本为 3.x（目前为3.0.0-beta.16）</p>
+</li>
+<li><p>使用 <code>vue-cli</code> 构建框架</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> vue create vue</span><br><span class="line"></span><br><span class="line">Vue CLI v3.0.0-beta.16</span><br><span class="line">? Please pick a preset: Manually select features</span><br><span class="line"></span><br><span class="line">? Check the features needed for your project:</span><br><span class="line"> (*) Babel</span><br><span class="line"> (*) TypeScript</span><br><span class="line"> ( ) Progressive Web App (PWA) Support # 网页App</span><br><span class="line"> (*) Router</span><br><span class="line"> (*) Vuex</span><br><span class="line"> (*) CSS Pre-processors</span><br><span class="line"> (*) Linter / Formatter</span><br><span class="line"> (*) Unit Testing</span><br><span class="line"> ( ) E2E Testing # 端到端调试</span><br><span class="line"></span><br><span class="line">? Use class-style component syntax? Yes</span><br><span class="line"></span><br><span class="line">? Use Babel alongside TypeScript for auto-detected polyfills? Yes</span><br><span class="line"></span><br><span class="line">? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): LESS</span><br><span class="line"></span><br><span class="line">? Pick a linter / formatter config: TSLint</span><br><span class="line"></span><br><span class="line">? Pick additional lint features: Lint on save</span><br><span class="line"></span><br><span class="line">? Pick a unit testing solution: Mocha</span><br><span class="line"></span><br><span class="line">? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.? In dedicated config files # 分离配置文件</span><br></pre></td></tr></table></figure>
+<p>以上为我的具体框架选择</p>
+<ol>
+<li><p><code>npm/yarn serve</code>运行即可</p>
+</li>
+<li><p>需要修改 <code>webpack</code> 等设置，新建 <code>vue.config.js</code> 可以自定义配置，具体配置见官方 <code>vue-cli</code> 仓库-&gt; docs -&gt; config</p>
+<p> 注：支持Jsx，内置webpack、babel、ts等，基本无需多余配置，开箱即用，相对2.x自己构建已经非常精简了</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"vue"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.1.0"</span>,</span><br><span class="line">    <span class="attr">"private"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">        <span class="attr">"serve"</span>: <span class="string">"vue-cli-service serve"</span>,</span><br><span class="line">        <span class="attr">"build"</span>: <span class="string">"vue-cli-service build"</span>,</span><br><span class="line">        <span class="attr">"lint"</span>: <span class="string">"vue-cli-service lint"</span>,</span><br><span class="line">        <span class="attr">"test:unit"</span>: <span class="string">"vue-cli-service test:unit"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">        <span class="attr">"bootstrap-vue"</span>: <span class="string">"^2.0.0-rc.11"</span>,</span><br><span class="line">        <span class="attr">"vue"</span>: <span class="string">"^2.5.16"</span>,</span><br><span class="line">        <span class="attr">"vue-class-component"</span>: <span class="string">"^6.0.0"</span>,</span><br><span class="line">        <span class="attr">"vue-property-decorator"</span>: <span class="string">"^6.0.0"</span>,</span><br><span class="line">        <span class="attr">"vue-router"</span>: <span class="string">"^3.0.1"</span>,</span><br><span class="line">        <span class="attr">"vuex"</span>: <span class="string">"^3.0.1"</span>,</span><br><span class="line">        <span class="attr">"vuex-class"</span>: <span class="string">"^0.3.1"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">        <span class="attr">"@types/chai"</span>: <span class="string">"^4.1.0"</span>,</span><br><span class="line">        <span class="attr">"@types/mocha"</span>: <span class="string">"^2.2.46"</span>,</span><br><span class="line">        <span class="attr">"@vue/cli-plugin-babel"</span>: <span class="string">"^3.0.0-beta.15"</span>,</span><br><span class="line">        <span class="attr">"@vue/cli-plugin-typescript"</span>: <span class="string">"^3.0.0-beta.15"</span>,</span><br><span class="line">        <span class="attr">"@vue/cli-plugin-unit-mocha"</span>: <span class="string">"^3.0.0-beta.15"</span>,</span><br><span class="line">        <span class="attr">"@vue/cli-service"</span>: <span class="string">"^3.0.0-beta.15"</span>,</span><br><span class="line">        <span class="attr">"@vue/test-utils"</span>: <span class="string">"^1.0.0-beta.16"</span>,</span><br><span class="line">        <span class="attr">"chai"</span>: <span class="string">"^4.1.2"</span>,</span><br><span class="line">        <span class="attr">"less"</span>: <span class="string">"^3.0.4"</span>,</span><br><span class="line">        <span class="attr">"less-loader"</span>: <span class="string">"^4.1.0"</span>,</span><br><span class="line">        <span class="attr">"vue-template-compiler"</span>: <span class="string">"^2.5.16"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"browserslist"</span>: [</span><br><span class="line">        <span class="string">"&gt; 1%"</span>,</span><br><span class="line">        <span class="string">"last 2 versions"</span>,</span><br><span class="line">        <span class="string">"not ie &lt;= 8"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>VSCode调试断点，安装Debugger插件，这里用的是 <code>Debugger for FireFox</code>，配置：</p>
+</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// launch.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">    <span class="attr">"configurations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Launch localhost"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"firefox"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"reAttach"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"url"</span>: <span class="string">"http://localhost:8080/#/"</span>,</span><br><span class="line">            <span class="attr">"webRoot"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">            <span class="attr">"firefoxExecutable"</span>: <span class="string">"C:/Program Files/Mozilla Firefox/firefox.exe"</span>,</span><br><span class="line">            <span class="attr">"firefoxArgs"</span>: [<span class="string">"-start-debugger-server"</span>, <span class="string">"-no-remote"</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>服务还是要先命令行运行<code>yarn serve</code>的</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://cli.vuejs.org/" target="_blank" rel="noopener">vue-cli官网</a>：有介绍及教程等（瞎折腾好久才发现）</p>
+<p><a href="https://github.com/vuejs/vue-cli" target="_blank" rel="noopener">官方仓库vue-cli</a></p>
+<p><a href="https://cnodejs.org/topic/589330c17274550b057a5cbf" target="_blank" rel="noopener">VSCode调试运行在Chrome, Firefox与Edge内的JS程序</a></p>
+<h3 id="记"><a href="#记" class="headerlink" title="记"></a>记</h3><p>一开始不知道有<code>vue-cli 3.0</code>，用的2.9.6，各种包一个个装，ts也要自己配置，搞了一两天，终于能跑了，但是VSCode就是提示找不到模块，想想应该是包装的太乱太杂了。3.0中间不需要按2.x一样装配ts、jsx等等，省的自己装的乱七八糟的，终于能安心看vue和ts了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/a978f3d9.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1963,166 +2150,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/78ebec87.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0Kelvins">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0Kelvins的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/78ebec87.html" itemprop="url">
-                  【EntityFramework】分页查询无主键视图数据重复异常
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-01-17 14:57:42 / 修改时间：16:48:26" itemprop="dateCreated datePublished" datetime="2018-01-17T14:57:42+08:00">2018-01-17</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DotNet/" itemprop="url" rel="index"><span itemprop="name">DotNet</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>在做<a href="https://0kelvins.github.io/post/41b37696.html">统计的查询视图</a>之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样</p>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>EF默认有缓存，视图没有建立主键，EF的缓存机制认为这两条除了时间不同的数据一致，就没有再从数据库取，然后出现<code>SQL Server Profiler</code>里面的SQL正常，但是拿到的数据死活都不对。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>对视图使用<code>.AsNoTracking()</code>，取消EF对这个视图的缓存（然后可以使用<code>Entity Framework Plus</code>调用<code>MemoryCache</code>或<code>Redis</code>来做缓存）<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> l = <span class="keyword">from</span> s <span class="keyword">in</span> statView.AsNoTracking()</span><br><span class="line">        <span class="keyword">select</span> s;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2174,7 +2201,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2306,7 +2333,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

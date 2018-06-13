@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【Vue】模块化项目构建]]></title>
+    <url>%2Fpost%2F1a0d7b20.html</url>
+    <content type="text"><![CDATA[Vue + Typescript 模块化项目的构建得益于 vue-cli 3.0 多了 create，项目构建变得非常的简单了 构建主要步骤 默认已经有 node.js 环境，最好8+版本 安装 vue-cli 3.0 1.0 卸载旧版2.x版本，如果有的话 1.1 npm i -g @vue/cli，（chromedriver可能安装失败，需要从taobao镜像安装缓存，然后再安装cli） 1.2 vue -V 确认版本为 3.x（目前为3.0.0-beta.16） 使用 vue-cli 构建框架 1234567891011121314151617181920212223242526272829&gt; vue create vueVue CLI v3.0.0-beta.16? Please pick a preset: Manually select features? Check the features needed for your project: (*) Babel (*) TypeScript ( ) Progressive Web App (PWA) Support # 网页App (*) Router (*) Vuex (*) CSS Pre-processors (*) Linter / Formatter (*) Unit Testing ( ) E2E Testing # 端到端调试? Use class-style component syntax? Yes? Use Babel alongside TypeScript for auto-detected polyfills? Yes? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): LESS? Pick a linter / formatter config: TSLint? Pick additional lint features: Lint on save? Pick a unit testing solution: Mocha? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.? In dedicated config files # 分离配置文件 以上为我的具体框架选择 npm/yarn serve运行即可 需要修改 webpack 等设置，新建 vue.config.js 可以自定义配置，具体配置见官方 vue-cli 仓库-&gt; docs -&gt; config 注：支持Jsx，内置webpack、babel、ts等，基本无需多余配置，开箱即用，相对2.x自己构建已经非常精简了 1234567891011121314151617181920212223242526272829303132333435363738&#123; "name": "vue", "version": "0.1.0", "private": true, "scripts": &#123; "serve": "vue-cli-service serve", "build": "vue-cli-service build", "lint": "vue-cli-service lint", "test:unit": "vue-cli-service test:unit" &#125;, "dependencies": &#123; "bootstrap-vue": "^2.0.0-rc.11", "vue": "^2.5.16", "vue-class-component": "^6.0.0", "vue-property-decorator": "^6.0.0", "vue-router": "^3.0.1", "vuex": "^3.0.1", "vuex-class": "^0.3.1" &#125;, "devDependencies": &#123; "@types/chai": "^4.1.0", "@types/mocha": "^2.2.46", "@vue/cli-plugin-babel": "^3.0.0-beta.15", "@vue/cli-plugin-typescript": "^3.0.0-beta.15", "@vue/cli-plugin-unit-mocha": "^3.0.0-beta.15", "@vue/cli-service": "^3.0.0-beta.15", "@vue/test-utils": "^1.0.0-beta.16", "chai": "^4.1.2", "less": "^3.0.4", "less-loader": "^4.1.0", "vue-template-compiler": "^2.5.16" &#125;, "browserslist": [ "&gt; 1%", "last 2 versions", "not ie &lt;= 8" ]&#125; VSCode调试断点，安装Debugger插件，这里用的是 Debugger for FireFox，配置： 12345678910111213141516// launch.json&#123; "version": "0.2.0", "configurations": [ &#123; "name": "Launch localhost", "type": "firefox", "request": "launch", "reAttach": true, "url": "http://localhost:8080/#/", "webRoot": "$&#123;workspaceFolder&#125;", "firefoxExecutable": "C:/Program Files/Mozilla Firefox/firefox.exe", "firefoxArgs": ["-start-debugger-server", "-no-remote"] &#125; ]&#125; 服务还是要先命令行运行yarn serve的 参考vue-cli官网：有介绍及教程等（瞎折腾好久才发现） 官方仓库vue-cli VSCode调试运行在Chrome, Firefox与Edge内的JS程序 记一开始不知道有vue-cli 3.0，用的2.9.6，各种包一个个装，ts也要自己配置，搞了一两天，终于能跑了，但是VSCode就是提示找不到模块，想想应该是包装的太乱太杂了。3.0中间不需要按2.x一样装配ts、jsx等等，省的自己装的乱七八糟的，终于能安心看vue和ts了。]]></content>
+      <categories>
+        <category>Front</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+        <tag>VSCode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【MSMQ】微软消息队列使用记录]]></title>
     <url>%2Fpost%2Fa978f3d9.html</url>
     <content type="text"><![CDATA[简介MSMQ（Microsoft Message Queue），消息队列是用于消息传输的中间存储容器，主要可以用于 异步处理、应用解耦、流量削峰、日志处理及消息通讯等等 使用记录 Peek 、 Recieve 两者都是获取队列消息的方法，区别的是，Peek 获取后不删除队列内消息，Recieve 则是获取后删除对应消息 异步接收消息 异步接收消息需要先提供异步事件处理方法，然后初始化一个异步接收操作，直到接收到消息，或超时。 12345678// 异步接收消息queue.PeekCompleted += new PeekCompletedEventHandler(method);queue.BeginPeek();// 异步接收并删除队列内对应消息queue.ReceiveCompleted += new ReceiveCompletedEventHandler(method);queue.BeginReceive();queue.BeginReceive(TimeSpan.FromMilliseconds(100)); 简单封装类，如需要更多方法，根据情况自行封装或者选择不封装 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980using System;using System.Messaging;namespace Utils&#123; public class MessageQueueHelper : IDisposable &#123; protected MessageQueueTransactionType transactionType = MessageQueueTransactionType.Automatic; protected MessageQueue queue; // 消息队列 protected TimeSpan timeout; // 接收监听超时时间 public MessageQueueHelper(string queuePath, int timeoutSeconds) &#123; Createqueue(queuePath); queue = new MessageQueue(queuePath); timeout = TimeSpan.FromSeconds(Convert.ToDouble(timeoutSeconds)); //设置当应用程序向消息对列发送消息时默认情况下使用的消息属性值 //queue.DefaultPropertiesToSend.AttachSenderId = false; //queue.DefaultPropertiesToSend.UseAuthentication = false; //queue.DefaultPropertiesToSend.UseEncryption = false; //queue.DefaultPropertiesToSend.AcknowledgeType = AcknowledgeTypes.None; //queue.DefaultPropertiesToSend.UseJournalQueue = false; &#125; /// &lt;summary&gt; /// 消息接收 /// &lt;/summary&gt; public virtual object Receive() &#123; try &#123; using (Message message = queue.Receive(timeout, transactionType)) return message; &#125; catch (MessageQueueException e) &#123; LogHelper.ErrorLog(typeof(MessageQueueHelper), e, "队列接收消息异常！"); if (e.MessageQueueErrorCode == MessageQueueErrorCode.IOTimeout) throw new TimeoutException(); throw e; &#125; &#125; /// &lt;summary&gt; /// 消息发送 /// &lt;/summary&gt; public virtual void Send(object msg) &#123; queue.Send(msg, transactionType); &#125; /// &lt;summary&gt; /// 创建使用指定路径的新消息队列 /// &lt;/summary&gt; /// &lt;param name="queuePath"&gt;队列存储路径&lt;/param&gt; public static void Createqueue(string queuePath) &#123; try &#123; if (!MessageQueue.Exists(queuePath)) &#123; MessageQueue.Create(queuePath, true); &#125; &#125; catch (MessageQueueException e) &#123; throw e; &#125; &#125; #region 实现 IDisposable 接口成员 public void Dispose() &#123; queue.Dispose(); &#125; #endregion &#125;&#125; 进一步实现特定队列 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110using System;using System.Collections.Generic;using System.Messaging;using Newtonsoft.Json;using System.Threading;using Utils; // Helper的命名空间namespace API.App_Start&#123; public class ReceiveProcessQueue : MessageQueueHelper &#123; // 获取配置文件中有关消息队列路径的参数 private static readonly string queuePath = @".\private$\rpmsmq"; private static int queueTimeout = 30; public ReceiveProcessQueue() : base(queuePath, queueTimeout) &#123; // 设置消息的序列化方式 queue.Formatter = new XmlMessageFormatter(new Type[] &#123; typeof(string) &#125;); &#125; /// &lt;summary&gt; /// 接收消息 /// &lt;/summary&gt; public void ReceiveData() &#123; // 指定消息队列事务的类型，Automatic枚举值允许发送发部事务和从外部事务接收 transactionType = MessageQueueTransactionType.Automatic; Message msg = (Message)base.Receive(); Process(msg); &#125; /// &lt;summary&gt; /// 接收消息指定超时时间 /// &lt;/summary&gt; /// &lt;param name="timeout"&gt;超时时间&lt;/param&gt; public void ReceiveData(int timeout) &#123; base.timeout = TimeSpan.FromSeconds(Convert.ToDouble(timeout)); ReceiveData(); &#125; /// &lt;summary&gt; /// 异步消息接收 /// &lt;/summary&gt; /// &lt;param name="method"&gt;异步处理方法&lt;/param&gt; public void ReceiveByAsync() &#123; queue.ReceiveCompleted += new ReceiveCompletedEventHandler(ReceiveCompleted); // 指定初始化异步并行处理数量 #if !DEBUG int MAX_THREAD = 16; #else int MAX_THREAD = 3; #endif for (int i = 0; i &lt; MAX_THREAD; i++) &#123; queue.BeginReceive(); &#125; &#125; /// &lt;summary&gt; /// 异步处理方法 /// &lt;/summary&gt; /// &lt;param name="source"&gt;队列&lt;/param&gt; /// &lt;param name="asyncResult"&gt;异步结果&lt;/param&gt; public void ReceiveCompleted(Object source, ReceiveCompletedEventArgs asyncResult) &#123; MessageQueue queue = (MessageQueue)source; queue.Formatter = new XmlMessageFormatter(new Type[] &#123; typeof(string) &#125;); // 完成指定的异步接收操作 Message msg = queue.EndReceive(asyncResult.AsyncResult); Process(msg); // 消息处理完成后，初始化新的异步接收操作 queue.BeginReceive(); &#125; /// &lt;summary&gt; /// 发送消息 /// &lt;/summary&gt; /// &lt;param name="msg"&gt;消息&lt;/param&gt; public void SendData(string msg) &#123; // 指定消息队列事务的类型，Single枚举值用于单个内部事务的事务类型 base.transactionType = MessageQueueTransactionType.Single; base.Send(msg); &#125; public void Process(Message msg) &#123; string msgStr = null; try &#123; if (ReferenceEquals(msg.Body, null)) &#123; Console.WriteLine("null"); return; &#125; msgStr = (string)msg.Body; Console.WriteLine(msgStr); Thread.Sleep(100); // 睡眠随机时间可以看到多线程异步效果 &#125; catch (Exception ex) &#123; throw ex; &#125; &#125; &#125;&#125; 结束经过单元测试，测试正常，后面就要根据业务来做调整了，考虑如何提升并行处理的效率，且不会爆栈。 解决方案有： 异步 + 多线程（现在的） 轮询动态增减消费者（使用定时任务，定时检查队列消息数量，动态增减消费者） 需要主要对系统开销，以及应对峰值等场景的效果，进行权衡 之前写过 RabbitMQ 的demo，现在发现不实际使用真的是很多问题都不知道。]]></content>
@@ -212,8 +224,8 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>Java</tag>
         <tag>LeetCode</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -261,8 +273,8 @@
       </categories>
       <tags>
         <tag>Vue</tag>
-        <tag>Bootstrap</tag>
         <tag>JavaScript</tag>
+        <tag>Bootstrap</tag>
       </tags>
   </entry>
   <entry>
@@ -286,8 +298,8 @@
       </categories>
       <tags>
         <tag>Algorithm</tag>
-        <tag>Java</tag>
         <tag>LeetCode</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -311,8 +323,8 @@
       </categories>
       <tags>
         <tag>Algorithm</tag>
-        <tag>Java</tag>
         <tag>LeetCode</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -360,8 +372,8 @@
       </categories>
       <tags>
         <tag>Algorithm</tag>
-        <tag>Java</tag>
         <tag>LeetCode</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -372,8 +384,8 @@
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
         <tag>SQL</tag>
+        <tag>随笔</tag>
         <tag>Server</tag>
         <tag>Docker</tag>
       </tags>
@@ -386,8 +398,8 @@
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
         <tag>Vue</tag>
+        <tag>随笔</tag>
         <tag>JavaScript</tag>
         <tag>Session</tag>
       </tags>
@@ -429,8 +441,8 @@
     <content type="text"><![CDATA[框架/工具 关键字 Maven SpringBoot Myatis MySQL Tomcat IDEA 部分操作 新建父工程，New &gt; Project &gt; Maven，不使用原型（不勾选Create from archetype） -&gt; 填写项目信息（GroupID:项目组织唯一标识，ArtifactID:项目唯一标识） 删除父工程下src目录 右键项目，新建子模块（New -&gt; Module），填写项目名称，其他默认即可|–&gt; 非web模块，不使用原型新建Maven模块|–&gt; web模块 |-&gt; 使用maven-archetype-webapp构建 |-&gt; Spring Initializr构建Spring相关项目 新建模块： 简单MVC项目结构如下所示： 在各个子模块的pom文件中添加互相的依赖（父工程在前一步自动添加了对应的子模块&lt;modules&gt;） 添加依赖到父工程的pom中（Spring Initializr构建web模块的，把web模块的pom.xml中的依赖改到父工程） 123456789101112131415161718192021222324252627282930313233343536373839404142&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.8.RELEASE&lt;/version&gt; &lt;relativePath/&gt;&lt;/parent&gt;&lt;properties&gt; &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt; &lt;java.version&gt;1.8&lt;/java.version&gt;&lt;/properties&gt;&lt;dependencies&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt; &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt; &lt;version&gt;1.3.1&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;mysql&lt;/groupId&gt; &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt; &lt;scope&gt;runtime&lt;/scope&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt;&lt;/dependencies&gt; 然后在父工程pom.xml后添加下面内容 12345678910111213141516171819202122232425&lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;!-- The plugin rewrites your manifest --&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.5.8.RELEASE&lt;/version&gt; &lt;configuration&gt;&lt;!-- 指定该Main Class为全局的唯一入口 --&gt; &lt;mainClass&gt;com.like.DemoWebApplication&lt;/mainClass&gt; &lt;layout&gt;ZIP&lt;/layout&gt; &lt;/configuration&gt; &lt;executions&gt; &lt;execution&gt; &lt;goals&gt; &lt;goal&gt;repackage&lt;/goal&gt;&lt;!--可以把依赖的包都打包到生成的Jar包中--&gt; &lt;/goals&gt; &lt;!--可以生成不含依赖包的不可执行Jar包--&gt; &lt;!-- configuration&gt; &lt;classifier&gt;exec&lt;/classifier&gt; &lt;/configuration&gt; --&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;/plugins&gt;&lt;/build&gt; web模块pom.xml添加 1234567891011121314151617&lt;build&gt; &lt;!-- 为jar包取名 --&gt; &lt;finalName&gt;demo-start&lt;/finalName&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt; &lt;/plugin&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;skipTests&gt;true&lt;/skipTests&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt;&lt;/build&gt; 右键父项目 &gt; Open Module Settings进入Project Structure &gt; 子模块 &gt; Dependencies &gt; + &gt; Module Dependency，添加子模块需要引用的其他子模块 maven打包 配置启动设置，配置为启动web子模块的配置即可 记录 maven统一打包命令(跳过测试) 1mvn package —Dmaven.test.skip=true 编译/打包报错程序包xxx.xxx.xxx不存在，尝试 1mvn clean 子模块间的引用要写在各自的pom文件里的 &lt;dependencies&gt;中，父工程配置&lt;modules&gt;即可 引用的jar包写在父工程pom的 &lt;dependencies&gt;中]]></content>
       <tags>
         <tag>随笔</tag>
-        <tag>Maven</tag>
         <tag>Java</tag>
+        <tag>Maven</tag>
       </tags>
   </entry>
   <entry>
@@ -472,9 +484,9 @@
         <category>CSharp</category>
       </categories>
       <tags>
+        <tag>SQL</tag>
         <tag>随笔</tag>
         <tag>CSharp</tag>
-        <tag>SQL</tag>
       </tags>
   </entry>
   <entry>
@@ -514,7 +526,7 @@
   <entry>
     <title><![CDATA[Git命令]]></title>
     <url>%2Fpost%2Fb6ef4fe0.html</url>
-    <content type="text"><![CDATA[强制更新覆盖本地123$ git fetch --all #下载最新文件（未覆盖）$ git reset --hard origin/master #定向最新下载版本$ git pull origin master #更新，已经同步远程最新文件 删除已纳入版本控制，并后添加到.gitignore的文件（注意.）123git rm -r --cached .git add .git commit -m "update .gitignore" 修改已commit备注 输入 1git commit --amend 进入最后一次提交的内容（vim编辑器） &gt; a进入插入模式 &gt; 修改 &gt; Esc &gt; 输入:wq，保存退出]]></content>
+    <content type="text"><![CDATA[强制更新覆盖本地 12345git fetch --all # 下载最新文件（未覆盖）git reset --hard origin/master # 定向最新下载版本git pull origin master # 更新，已经同步远程最新文件git pull origin master --allow-unrelated-histories # 允许无关联历史 分支变更回退 12345678910$ git reflog # 所有分支的所有操作记录272c92d (HEAD -&gt; master, origin/master) HEAD@&#123;0&#125;: reset: moving to HEAD272c92d (HEAD -&gt; master, origin/master) HEAD@&#123;1&#125;: reset: moving to origin/masterb6acea6 HEAD@&#123;2&#125;: commit: update3041a64 HEAD@&#123;3&#125;: commit: init1718038 HEAD@&#123;4&#125;: commit: update ignoref85aa76 HEAD@&#123;5&#125;: commit: init90ba2c6 HEAD@&#123;6&#125;: commit (initial): init$ git reset --hard b6acea6 # 回退到之前版本 删除已纳入版本控制，并后添加到.gitignore的文件（注意.） 123git rm -r --cached .git add .git commit -m "update .gitignore" 修改已commit备注 输入 1git commit --amend 进入最后一次提交的内容（vim编辑器） &gt; a进入插入模式 &gt; 修改 &gt; Esc &gt; 输入:wq，保存退出]]></content>
       <tags>
         <tag>随笔</tag>
         <tag>git</tag>
@@ -534,13 +546,13 @@
     <content type="text"><![CDATA[回头写点什么。]]></content>
   </entry>
   <entry>
-    <title><![CDATA[categories]]></title>
-    <url>%2Fcategories%2Findex.html</url>
+    <title><![CDATA[tags]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[tags]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[categories]]></title>
+    <url>%2Fcategories%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>

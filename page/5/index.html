@@ -331,6 +331,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/9dae95bf.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/9dae95bf.html" itemprop="url">
+                  【C#】预编译SQL
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-27 14:34:18" itemprop="dateCreated datePublished" datetime="2017-10-27T14:34:18+08:00">2017-10-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2017-12-05 19:13:37" itemprop="dateModified" datetime="2017-12-05T19:13:37+08:00">2017-12-05</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CSharp/" itemprop="url" rel="index"><span itemprop="name">CSharp</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>C#中预编译SQL方法如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// System.Data.Entity.Database</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ExecuteSqlCommand</span>(<span class="params"><span class="keyword">string</span> sql, <span class="keyword">params</span> <span class="keyword">object</span>[] parameters</span>)</span>;</span><br></pre></td></tr></table></figure></p>
+<p>使用EF6框架，仓库使用生成的数据库上下文：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> EFDbContext dbctx = <span class="keyword">new</span> EFDbContext();</span><br></pre></td></tr></table></figure></p>
+<p>使用示例：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除tableA中，name以"$"结尾的数据</span></span><br><span class="line"><span class="keyword">string</span> sql = <span class="string">"DELETE FROM tableA WHRER name like \"%@sign\""</span>;</span><br><span class="line"><span class="keyword">int</span> result = dbctx.Database.ExecuteSqlCommand(sql,</span><br><span class="line">               <span class="keyword">new</span> SqlParameter(<span class="string">"sign"</span>, <span class="string">"$"</span>)</span><br><span class="line">             );</span><br></pre></td></tr></table></figure></p>
+<p>查询方法，如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> parameters = <span class="keyword">new</span> SqlParameter[] &#123;</span><br><span class="line">    <span class="keyword">new</span> SqlParameter(<span class="string">"name"</span>, name),</span><br><span class="line">    <span class="keyword">new</span> SqlParameter(<span class="string">"age"</span>, age)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">string</span> sql = <span class="string">$"select * from user where name = @name and age = @age"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> l = db.Database.SqlQuery&lt;User&gt;(sql, parameters).ToList();</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/57d9e48b.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1012,7 +1185,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-01-22 15:30:37" itemprop="dateModified" datetime="2018-01-22T15:30:37+08:00">2018-01-22</time>
+                <time title="修改时间：2018-06-13 16:43:15" itemprop="dateModified" datetime="2018-06-13T16:43:15+08:00">2018-06-13</time>
               
             
           </span>
@@ -1047,15 +1220,19 @@
       
         
           
-            <p>强制更新覆盖本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch --all <span class="comment">#下载最新文件（未覆盖）</span></span><br><span class="line">$ git reset --hard origin/master <span class="comment">#定向最新下载版本</span></span><br><span class="line">$ git pull origin master <span class="comment">#更新，已经同步远程最新文件</span></span><br></pre></td></tr></table></figure></p>
-<p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"update .gitignore"</span></span><br></pre></td></tr></table></figure></p>
+            <p>强制更新覆盖本地</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git fetch --all # 下载最新文件（未覆盖）</span><br><span class="line">git reset --hard origin/master # 定向最新下载版本</span><br><span class="line">git pull origin master # 更新，已经同步远程最新文件</span><br><span class="line"></span><br><span class="line">git pull origin master --allow-unrelated-histories # 允许无关联历史</span><br></pre></td></tr></table></figure>
+<p>分支变更回退</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git reflog  <span class="comment"># 所有分支的所有操作记录</span></span></span><br><span class="line">272c92d (HEAD -&gt; master, origin/master) HEAD@&#123;0&#125;: reset: moving to HEAD</span><br><span class="line">272c92d (HEAD -&gt; master, origin/master) HEAD@&#123;1&#125;: reset: moving to origin/master</span><br><span class="line">b6acea6 HEAD@&#123;2&#125;: commit: update</span><br><span class="line">3041a64 HEAD@&#123;3&#125;: commit: init</span><br><span class="line">1718038 HEAD@&#123;4&#125;: commit: update ignore</span><br><span class="line">f85aa76 HEAD@&#123;5&#125;: commit: init</span><br><span class="line">90ba2c6 HEAD@&#123;6&#125;: commit (initial): init</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git reset --hard b6acea6 <span class="comment"># 回退到之前版本</span></span></span><br></pre></td></tr></table></figure>
+<p>删除已纳入版本控制，并后添加到<code>.gitignore</code>的文件（注意<code>.</code>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m "update .gitignore"</span><br></pre></td></tr></table></figure>
 <p>修改已<code>commit</code>备注</p>
 <ol>
-<li><p>输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进入最后一次提交的内容（vim编辑器） &gt; <code>a</code>进入插入模式 &gt; 修改 &gt; <code>Esc</code> &gt; 输入<code>:wq</code>，保存退出</p>
-</li>
+<li>输入</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<ol>
+<li>进入最后一次提交的内容（vim编辑器） &gt; <code>a</code>进入插入模式 &gt; 修改 &gt; <code>Esc</code> &gt; 输入<code>:wq</code>，保存退出</li>
 </ol>
 
           
@@ -1329,7 +1506,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1461,7 +1638,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -112,7 +112,7 @@
 <meta property="og:site_name" content="0Kelvins的博客">
 <meta property="og:description" content="问题在做统计的查询视图之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样 原因分析EF默认有缓存，视图没有建立主键，EF的缓存机制认为这两条除了时间不同的数据一致，就没有再从数据库取，然后出现SQL Server Profiler里面的SQL正常，但是拿到的数据死活都不对。 解决方法对视图使用.AsNoTracking()，取消EF对这个视图的缓存（然后可以使用Entity">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-17T08:48:26.959Z">
+<meta property="og:updated_time" content="2018-01-17T08:48:26.960Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【EntityFramework】分页查询无主键视图数据重复异常">
 <meta name="twitter:description" content="问题在做统计的查询视图之后，发现EF查询的结果第一条覆盖了第二条，两条数据只有一个时间字段不一样 原因分析EF默认有缓存，视图没有建立主键，EF的缓存机制认为这两条除了时间不同的数据一致，就没有再从数据库取，然后出现SQL Server Profiler里面的SQL正常，但是拿到的数据死活都不对。 解决方法对视图使用.AsNoTracking()，取消EF对这个视图的缓存（然后可以使用Entity">
@@ -580,7 +580,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -712,7 +712,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
