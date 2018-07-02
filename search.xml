@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【Jmeter】4.0的安装]]></title>
+    <url>%2Fpost%2Fa1d9e130.html</url>
+    <content type="text"><![CDATA[简述Jmeter4.0与前面的版本有所不一样，所有的插件由新的插件管理器下载，收集服务器性能信息的包也有点难找，远程脚本调试的配置也有点小坑 过程 官网下载，解压到自己的目录（最好没空格的路径），将bin目录添加至环境变量（可选） 修改配置文件 jmeter.properties ，搜索配置项进行修改 12345language=zh_CN # 默认UI语言remote_hosts=172.16.41.34:1099 # 一定是正在运行的所有服务，如果有没启动的服务会报错，坑。server_port=1099 # RMI通信端口，被远程的服务器需要换端口改这个#server.rmi.localport=1089 # 服务器端用于指定本地端口，默认随机可用端口，不是上面remote的端口！ 插件安装：https://jmeter-plugins.org/downloads/all/ Download plugins-manager.jar and put it into lib/ext directory, then restart JMeter. 3.1 将下载的 plugins-manager.jar 放到jmeter的 lib/ext 目录下，重启后 3.2 选项-&gt;Plugins Manager-&gt;Available Plugins-&gt;PerfMon (Servers Performance Monitoring)(勾选)-&gt;Apply… 安装PerfMon服务器端客户端，根据插件说明文档：https://jmeter-plugins.org/wiki/PerfMon/ InstallationServer Agent tool detailed description is placed here. 找到服务器收集性能数据的包 Server Agent，下载并安装到服务器 服务器端安装jmeter，用于远程脚本执行，配置注意 server_port 要于你客户端配置的 remote_hosts 里一样，客户端要注意如果出现 java.rmi.ConnectException: Connection refused to host: (your server ip); nested exception is:java.net.ConnectException: Connection timed out: connect 那么你的 remote_hosts 配置中的一个服务器端jmeter可能没有启动 记搭环境什么的最坑了Orz。]]></content>
+      <categories>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>Jemeter</tag>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【Vue】模块化项目构建]]></title>
     <url>%2Fpost%2F1a0d7b20.html</url>
     <content type="text"><![CDATA[Vue + Typescript 模块化项目的构建得益于 vue-cli 3.0 多了 create，项目构建变得非常的简单了 构建主要步骤 默认已经有 node.js 环境，最好8+版本 安装 vue-cli 3.0 1.0 卸载旧版2.x版本，如果有的话 1.1 npm i -g @vue/cli，（chromedriver可能安装失败，需要从taobao镜像安装缓存，然后再安装cli） 1.2 vue -V 确认版本为 3.x（目前为3.0.0-beta.16） 使用 vue-cli 构建框架 1234567891011121314151617181920212223242526272829&gt; vue create vueVue CLI v3.0.0-beta.16? Please pick a preset: Manually select features? Check the features needed for your project: (*) Babel (*) TypeScript ( ) Progressive Web App (PWA) Support # 网页App (*) Router (*) Vuex (*) CSS Pre-processors (*) Linter / Formatter (*) Unit Testing ( ) E2E Testing # 端到端调试? Use class-style component syntax? Yes? Use Babel alongside TypeScript for auto-detected polyfills? Yes? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): LESS? Pick a linter / formatter config: TSLint? Pick additional lint features: Lint on save? Pick a unit testing solution: Mocha? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.? In dedicated config files # 分离配置文件 以上为我的具体框架选择 npm/yarn serve运行即可 需要修改 webpack 等设置，新建 vue.config.js 可以自定义配置，具体配置见官方 vue-cli 仓库-&gt; docs -&gt; config 注：支持Jsx，内置webpack、babel、ts等，基本无需多余配置，开箱即用，相对2.x自己构建已经非常精简了 1234567891011121314151617181920212223242526272829303132333435363738&#123; "name": "vue", "version": "0.1.0", "private": true, "scripts": &#123; "serve": "vue-cli-service serve", "build": "vue-cli-service build", "lint": "vue-cli-service lint", "test:unit": "vue-cli-service test:unit" &#125;, "dependencies": &#123; "bootstrap-vue": "^2.0.0-rc.11", "vue": "^2.5.16", "vue-class-component": "^6.0.0", "vue-property-decorator": "^6.0.0", "vue-router": "^3.0.1", "vuex": "^3.0.1", "vuex-class": "^0.3.1" &#125;, "devDependencies": &#123; "@types/chai": "^4.1.0", "@types/mocha": "^2.2.46", "@vue/cli-plugin-babel": "^3.0.0-beta.15", "@vue/cli-plugin-typescript": "^3.0.0-beta.15", "@vue/cli-plugin-unit-mocha": "^3.0.0-beta.15", "@vue/cli-service": "^3.0.0-beta.15", "@vue/test-utils": "^1.0.0-beta.16", "chai": "^4.1.2", "less": "^3.0.4", "less-loader": "^4.1.0", "vue-template-compiler": "^2.5.16" &#125;, "browserslist": [ "&gt; 1%", "last 2 versions", "not ie &lt;= 8" ]&#125; VSCode调试断点，安装Debugger插件，这里用的是 Debugger for FireFox，配置： 12345678910111213141516// launch.json&#123; "version": "0.2.0", "configurations": [ &#123; "name": "Launch localhost", "type": "firefox", "request": "launch", "reAttach": true, "url": "http://localhost:8080/#/", "webRoot": "$&#123;workspaceFolder&#125;", "firefoxExecutable": "C:/Program Files/Mozilla Firefox/firefox.exe", "firefoxArgs": ["-start-debugger-server", "-no-remote"] &#125; ]&#125; 服务还是要先命令行运行yarn serve的 参考vue-cli官网：有介绍及教程等（瞎折腾好久才发现） 官方仓库vue-cli VSCode调试运行在Chrome, Firefox与Edge内的JS程序 记一开始不知道有vue-cli 3.0，用的2.9.6，各种包一个个装，ts也要自己配置，搞了一两天，终于能跑了，但是VSCode就是提示找不到模块，想想应该是包装的太乱太杂了。3.0中间不需要按2.x一样装配ts、jsx等等，省的自己装的乱七八糟的，终于能安心看vue和ts了。]]></content>
@@ -224,8 +236,8 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>LeetCode</tag>
         <tag>Java</tag>
+        <tag>LeetCode</tag>
       </tags>
   </entry>
   <entry>
@@ -236,8 +248,8 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>Bitwise</tag>
         <tag>Algorithm</tag>
+        <tag>Bitwise</tag>
       </tags>
   </entry>
   <entry>
@@ -273,8 +285,8 @@
       </categories>
       <tags>
         <tag>Vue</tag>
-        <tag>JavaScript</tag>
         <tag>Bootstrap</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -285,8 +297,8 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
         <tag>CSharp</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -298,8 +310,8 @@
       </categories>
       <tags>
         <tag>Algorithm</tag>
-        <tag>LeetCode</tag>
         <tag>Java</tag>
+        <tag>LeetCode</tag>
       </tags>
   </entry>
   <entry>
@@ -323,8 +335,8 @@
       </categories>
       <tags>
         <tag>Algorithm</tag>
-        <tag>LeetCode</tag>
         <tag>Java</tag>
+        <tag>LeetCode</tag>
       </tags>
   </entry>
   <entry>
@@ -372,8 +384,8 @@
       </categories>
       <tags>
         <tag>Algorithm</tag>
-        <tag>LeetCode</tag>
         <tag>Java</tag>
+        <tag>LeetCode</tag>
       </tags>
   </entry>
   <entry>
@@ -384,8 +396,8 @@
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>SQL</tag>
         <tag>随笔</tag>
+        <tag>SQL</tag>
         <tag>Server</tag>
         <tag>Docker</tag>
       </tags>
@@ -398,8 +410,8 @@
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>Vue</tag>
         <tag>随笔</tag>
+        <tag>Vue</tag>
         <tag>JavaScript</tag>
         <tag>Session</tag>
       </tags>
@@ -441,8 +453,8 @@
     <content type="text"><![CDATA[框架/工具 关键字 Maven SpringBoot Myatis MySQL Tomcat IDEA 部分操作 新建父工程，New &gt; Project &gt; Maven，不使用原型（不勾选Create from archetype） -&gt; 填写项目信息（GroupID:项目组织唯一标识，ArtifactID:项目唯一标识） 删除父工程下src目录 右键项目，新建子模块（New -&gt; Module），填写项目名称，其他默认即可|–&gt; 非web模块，不使用原型新建Maven模块|–&gt; web模块 |-&gt; 使用maven-archetype-webapp构建 |-&gt; Spring Initializr构建Spring相关项目 新建模块： 简单MVC项目结构如下所示： 在各个子模块的pom文件中添加互相的依赖（父工程在前一步自动添加了对应的子模块&lt;modules&gt;） 添加依赖到父工程的pom中（Spring Initializr构建web模块的，把web模块的pom.xml中的依赖改到父工程） 123456789101112131415161718192021222324252627282930313233343536373839404142&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.8.RELEASE&lt;/version&gt; &lt;relativePath/&gt;&lt;/parent&gt;&lt;properties&gt; &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt; &lt;java.version&gt;1.8&lt;/java.version&gt;&lt;/properties&gt;&lt;dependencies&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt; &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt; &lt;version&gt;1.3.1&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;mysql&lt;/groupId&gt; &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt; &lt;scope&gt;runtime&lt;/scope&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt;&lt;/dependencies&gt; 然后在父工程pom.xml后添加下面内容 12345678910111213141516171819202122232425&lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;!-- The plugin rewrites your manifest --&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.5.8.RELEASE&lt;/version&gt; &lt;configuration&gt;&lt;!-- 指定该Main Class为全局的唯一入口 --&gt; &lt;mainClass&gt;com.like.DemoWebApplication&lt;/mainClass&gt; &lt;layout&gt;ZIP&lt;/layout&gt; &lt;/configuration&gt; &lt;executions&gt; &lt;execution&gt; &lt;goals&gt; &lt;goal&gt;repackage&lt;/goal&gt;&lt;!--可以把依赖的包都打包到生成的Jar包中--&gt; &lt;/goals&gt; &lt;!--可以生成不含依赖包的不可执行Jar包--&gt; &lt;!-- configuration&gt; &lt;classifier&gt;exec&lt;/classifier&gt; &lt;/configuration&gt; --&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;/plugins&gt;&lt;/build&gt; web模块pom.xml添加 1234567891011121314151617&lt;build&gt; &lt;!-- 为jar包取名 --&gt; &lt;finalName&gt;demo-start&lt;/finalName&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt; &lt;/plugin&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;skipTests&gt;true&lt;/skipTests&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt;&lt;/build&gt; 右键父项目 &gt; Open Module Settings进入Project Structure &gt; 子模块 &gt; Dependencies &gt; + &gt; Module Dependency，添加子模块需要引用的其他子模块 maven打包 配置启动设置，配置为启动web子模块的配置即可 记录 maven统一打包命令(跳过测试) 1mvn package —Dmaven.test.skip=true 编译/打包报错程序包xxx.xxx.xxx不存在，尝试 1mvn clean 子模块间的引用要写在各自的pom文件里的 &lt;dependencies&gt;中，父工程配置&lt;modules&gt;即可 引用的jar包写在父工程pom的 &lt;dependencies&gt;中]]></content>
       <tags>
         <tag>随笔</tag>
-        <tag>Java</tag>
         <tag>Maven</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -472,8 +484,8 @@
     <url>%2Fpost%2F433774cf.html</url>
     <content type="text"><![CDATA[重装折腾win7，没关闭更新，更新100+补丁还失败还原，各种dll丢失。报错大致如下： D3DCompiler_47.dll、api-ms-win-core-libraryloader-l1-2-1.dll、gfx.dll……丢失 启动Word2016、SS和MSSQL Server MS的时候(依赖都比较新的软件)报错，缺少net46。报错大致如下: ““的类型初始值设定项引发异常缺少”.Net Framework 4.6” 原因：D3DCompiler_47.dll丢失，因为更新补丁失败还原的缘故其他的是卸载了或者本来就缺新的.Net Framework 解决方法： 打补丁Windows6.1-KB4019990-x64.msu，应该是补上D3DCompiler_47.dll一系列的库的。Win32Exception (0x80004005): 找不到指定的模块 重装电脑里版本需要的.Net框架，打完补丁就可以装了，一般运行的话装个比较高版本的就好，我装的是.Net Framework4.7，会修复版本.Net框架“缺少”之类的问题。 注：.Net Fx出现无法安装之类的问题见本文最后以上。结果弄了好几天。(╯‵□′)╯︵┻━┻ 插曲1 2017-11-2 15:00:26今天本来以为已经搞定了，结果发现VS2015里没有.Net Framework 4.5，于是又开始折腾。。。目前更糟糕了，VS起不来了，报没有.Net Fx4.6，然而卸载程序里面明明有的。未完待续，好烦。 插曲2 2017-11-2 16:49:13 首先，卸载明明安装着的.Net Fx 4.6是不明智的 其次，修复VS更是浪费青春 然后，重装电脑里最新的.Net Fx，我的是4.7，然后4.6的问题就解决了。但是并不能解决.Net Fx 4.5没有的问题，正在去官网下载4.5.2的Dev-Pack，328M，感觉装完有应该就会有4.5了 最后，吐槽一下，公司网真烂，太烂了，下载页好久才打开，加上电脑也烂，不然早弄好了 插曲终 2017-11-3 14:03:10问题原因：本机上有 net45 的文件没删干净，所以安装不了，但是肯定缺少文件了解决办法：.net framework 的安装目录在 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5清理干净，或者直接从其他电脑拷一份过来就好了。 完结撒花。]]></content>
       <tags>
-        <tag>随笔</tag>
         <tag>DotNet</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -484,9 +496,9 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>SQL</tag>
-        <tag>随笔</tag>
         <tag>CSharp</tag>
+        <tag>随笔</tag>
+        <tag>SQL</tag>
       </tags>
   </entry>
   <entry>
@@ -546,13 +558,13 @@
     <content type="text"><![CDATA[回头写点什么。]]></content>
   </entry>
   <entry>
-    <title><![CDATA[tags]]></title>
-    <url>%2Ftags%2Findex.html</url>
+    <title><![CDATA[categories]]></title>
+    <url>%2Fcategories%2Findex.html</url>
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[categories]]></title>
-    <url>%2Fcategories%2Findex.html</url>
+    <title><![CDATA[tags]]></title>
+    <url>%2Ftags%2Findex.html</url>
     <content type="text"></content>
   </entry>
 </search>

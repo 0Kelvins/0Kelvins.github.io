@@ -331,6 +331,208 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/e372f2fe.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/e372f2fe.html" itemprop="url">
+                  【Shell/Bat】脚本记录
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-21 19:54:30" itemprop="dateCreated datePublished" datetime="2018-01-21T19:54:30+08:00">2018-01-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-03-14 19:10:47" itemprop="dateModified" datetime="2018-03-14T19:10:47+08:00">2018-03-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>shell里可以使用<code>#</code>号，bat里可以使用<code>rem</code>、<code>::</code>，还有很多其他注释的方法</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ol>
+<li><p>shell 变量定义与重定义</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义变量</span></span><br><span class="line">$ var=<span class="string">"变量"</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$var</span></span><br><span class="line">变量</span><br><span class="line">$ var=<span class="string">"重定义变量"</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$var</span></span><br><span class="line">重定义变量</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入变量</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"是否更新Blog(y/n) :"</span> updateOp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bat 变量定义与重定义</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM 定义变量</span></span><br><span class="line"><span class="built_in">set</span> var=变量</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">%var%</span></span><br><span class="line">变量</span><br><span class="line"><span class="built_in">set</span> var=重定义变量</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">%var%</span></span><br><span class="line">重定义变量</span><br><span class="line"></span><br><span class="line"><span class="comment">REM 输入变量</span></span><br><span class="line"><span class="built_in">set</span> /p updateOp = "是否更新（y/n）："</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="if…else…"><a href="#if…else…" class="headerlink" title="if…else…"></a>if…else…</h3><ol>
+<li><p>shell的条件语句</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输入变量</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"输入var:"</span> var</span><br><span class="line"><span class="comment"># 判断变量是否等于 y （x为了避免比变量为空异常）</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$var</span>"</span>x = <span class="string">"y"</span>x ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"if内"</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"else内"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bat的条件语句</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM /p 从输入赋值变量</span></span><br><span class="line"><span class="built_in">set</span> /p updateOp="是否更新（y/n）："</span><br><span class="line"><span class="comment">REM 判断输入（Y/N），/i 忽略大小写</span></span><br><span class="line"><span class="keyword">if</span> /i "<span class="variable">%updateOp%</span>"=="y" (</span><br><span class="line">git pull origin master</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="端口占用查看"><a href="#端口占用查看" class="headerlink" title="端口占用查看"></a>端口占用查看</h3><ol>
+<li><p>shell的语句</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># lsof -i:端口号 用于查看某一端口的占用情况，比如查看8000端口使用情况</span></span><br><span class="line">lsof -i:8000</span><br><span class="line">netstat -tunlp | grep 8000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bat的语句</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM 查询443相关端口占用（查询结果里有 443 的</span></span><br><span class="line">&gt;netstat -ano | <span class="built_in">findstr</span> <span class="number">443</span></span><br><span class="line">  TCP    <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>:<span class="number">443</span>             <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>:<span class="number">0</span>              LISTENING       <span class="number">1480</span></span><br><span class="line">                            ... ...</span><br><span class="line"></span><br><span class="line"><span class="comment">REM 查询1480进程</span></span><br><span class="line">&gt;tasklist | <span class="built_in">findstr</span> <span class="number">1480</span></span><br><span class="line">httpd.exe                     <span class="number">1480</span> Services                   <span class="number">0</span>      <span class="number">4</span>,<span class="number">652</span> K</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><ol>
+<li>注意空格的使用，脚本里空格往往是分隔命令和参数的，不像Java什么的里面可以用很多空格来分隔变量和运算符，让代码看起来更清晰。</li>
+<li>脚本如果写的不对，经常没有异常代码什么的，所以要仔细看输出，自己也多写点echo，好辨别执行情况</li>
+</ol>
+<h3 id="后言"><a href="#后言" class="headerlink" title="后言"></a>后言</h3><ol>
+<li>这里只记录了一些我自己想记的东西哦</li>
+<li>记得当初上Linux的时候，我还自己安装Ubuntu练习使用了一阵子的命令行，这门课成绩也还行，只是考完试以后就没怎么碰过了，后来就自己折腾centos的时候用过一点，然后就是开始用github以后了，最近弄点小脚本来给自己省点事，顺便记录一些</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/78ebec87.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1871,181 +2073,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/4082dee2.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0Kelvins">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0Kelvins的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/4082dee2.html" itemprop="url">
-                  常用位运算操作
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-05 14:38:26" itemprop="dateCreated datePublished" datetime="2017-12-05T14:38:26+08:00">2017-12-05</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2017-12-12 19:33:00" itemprop="dateModified" datetime="2017-12-12T19:33:00+08:00">2017-12-12</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在进行一些计算时，可以使用位运算代替，从而提升代码执行速度。</p>
-<p>以下为常用提升效率的操作</p>
-<h3 id="求奇偶数："><a href="#求奇偶数：" class="headerlink" title="求奇偶数："></a>求奇偶数：</h3><p>奇数(Odd)：<code>11 &amp; 1 = 1</code><br>偶数(Even)：<code>24 &amp; 1 = 0</code></p>
-<h3 id="乘2的幂"><a href="#乘2的幂" class="headerlink" title="乘2的幂"></a>乘2的幂</h3><p><code>1 * 2</code>: <code>1 &lt;&lt; 1 = 2</code><br><code>1 * 4</code>: <code>1 &lt;&lt; 2 = 4</code></p>
-<h3 id="除2的幂"><a href="#除2的幂" class="headerlink" title="除2的幂"></a>除2的幂</h3><p><code>8 / 2</code>: <code>8 &gt;&gt; 1 = 4</code><br><code>8 / 4</code>: <code>8 &gt;&gt; 2 = 2</code></p>
-<p><strong>注：</strong>上面算式里的<code>*</code>号，在Markdown里用来做 <em>斜体</em> 、 <strong>加粗</strong> 什么的，直接用记着转义（ * ），还有其他特殊符号什么的以后写的时候要注意一下。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2097,7 +2124,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2132,7 +2159,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2231,7 +2260,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">45</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
