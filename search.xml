@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【SQL】批量建库分区]]></title>
+    <url>%2Fpost%2F170e08d7.html</url>
+    <content type="text"><![CDATA[环境SQL Server 2008 R2 说明表分区过程是为单个数据库建立多个 文件组（夹） 及里面的 文件 ，然后把表内数据按照 分区函数 和 方案 ，放到不同的数据库文件里。通过这样的处理，使得表的数据、索引等分成多个部分，缓解单表过大导致检索太慢等问题。 流程及脚本1. 建库、文件组及文件123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102USE masterGODECLARE @DbName VARCHAR(max), @Path NVARCHAR(1000), @InitSize VARCHAR(50), @FileGrowth VARCHAR(50)SELECT @Path = 'D:\PulicDataBase\', --指定根路径 @InitSize = '5MB', @FileGrowth='10%'--指定数据库名称，多个用逗号隔开SELECT @DbName = 'DBTest, DBTest2' BEGIN --定义数据库名称临时表@temp DECLARE @temp TABLE ( ID INT IDENTITY(1,1), --自动编号（获知顺序） Result VARCHAR(MAX) --拆分后结果 ) DECLARE @i INT, @SourceSql VARCHAR(max), @target NVARCHAR(MAX), @StrSeprate VARCHAR(10) SELECT @SourceSql = LTRIM(RTRIM(@DbName)), @StrSeprate=',' --指定源字符串、分隔符 IF RIGHT(@SourceSql, LEN(@StrSeprate)) &lt;&gt; @StrSeprate SET @SourceSql= @SourceSql + @StrSeprate SET @i = CHARINDEX(@StrSeprate,@SourceSql) WHILE @i &gt;= 1 BEGIN SET @target = LTRIM(RTRIM(left(@SourceSql, @i-1))) IF @target IS NOT NULL AND @target &lt;&gt; '' INSERT @temp VALUES(@target) ELSE INSERT @temp VALUES(NULL) SET @SourceSql = SUBSTRING(@SourceSql, @i+1, LEN(@SourceSql)-@i) SET @i = CHARINDEX(@StrSeprate,@SourceSql) END --开始遍历@temp建库 DECLARE @DataBaseName NVARCHAR(50), @sql NVARCHAR(MAX), @DBPath NVARCHAR(500) DECLARE @i_Group INT --文件组个数 DECLARE @Flag VARCHAR(10) --数据库标识 IF RTRIM(LTRIM(ISNULL(@Path, ''))) = '' SET @Path = 'D:\PulicDataBase\' SET @Path = RTRIM(LTRIM(@Path)) IF RIGHT(@Path, 1) &lt;&gt; '\' SET @Path = @Path+'\' SELECT * FROM @temp DECLARE db_cursor CURSOR FOR SELECT Result FROM @temp WHERE ISNULL(Result, '') &lt;&gt; '' ORDER BY ID --开始游标 OPEN db_cursor FETCH NEXT FROM db_cursor INTO @DataBaseName WHILE @@fetch_status = 0 BEGIN BEGIN TRY IF CHARINDEX('DBTest', @DataBaseName) &gt; 0 SET @DBPath = @Path + 'DBTest' +'\' --数据库目录 IF EXISTS(SELECT * FROM sysdatabases WHERE name = @DataBaseName) BEGIN PRINT '【创建数据库】'+ @DataBaseName +'已存在，不必重复创建！' FETCH NEXT FROM db_cursor INTO @DataBaseName CONTINUE; END ELSE BEGIN SET @sql='create database ['+ @DataBaseName + '] on primary ( name=N'''+ @DataBaseName +''', filename=N'''+ @DBPath + @DataBaseName +'.mdf'', size='+ @InitSize +', filegrowth='+ @FileGrowth +' ) log on ( name=N'''+ @DataBaseName +'_Log'', filename=N'''+ @DBPath + @DataBaseName +'_Log.ldf'', size='+ @InitSize +', filegrowth='+ @FileGrowth +' )' EXECUTE (@sql) PRINT '【创建数据库】'+ @DataBaseName +'创建成功！' END --创建指定数据库文件组及文件 SELECT @i_Group = 1, @Flag = '1' IF CHARINDEX(','+ @DataBaseName +',',','+ 'DBTest, DBTest2' +',') &gt; 0 BEGIN WHILE @i_Group&lt;=11 BEGIN SET @sql = 'IF NOT EXISTS(SELECT * FROM sysfilegroups sp_helpfilegroup WHERE groupname = ''FileGroup_' + @Flag + '_' + CAST(@i_Group AS VARCHAR(10)) +''') ' + 'ALTER DATABASE ['+ @DataBaseName +'] ADD FILEGROUP FileGroup_' + @Flag + '_' + CAST(@i_Group AS VARCHAR(10)) + ' ' + 'IF NOT EXISTS(SELECT * FROM sys.database_files WHERE name = ''' + @DataBaseName + '_File_' + CAST(@i_Group AS VARCHAR(10)) +''') ' + 'ALTER DATABASE ['+ @DataBaseName +'] ADD FILE (name = ''' + @DataBaseName + '_File_' + CAST(@i_Group AS VARCHAR(10)) +''', filename = ''' + @DBPath + @DataBaseName + '_File_' + CAST(@i_Group AS VARCHAR(10)) + '.mdf'', maxsize = UNLIMITED, filegrowth = 10%) to filegroup [FileGroup_' + @Flag + '_' + CAST(@i_Group AS VARCHAR(10)) +']' EXECUTE (@sql) SET @i_Group = @i_Group + 1 END END END TRY BEGIN CATCH PRINT '【创建数据库】'+ @DataBaseName + '创建时出错：' + ERROR_MESSAGE() FETCH NEXT FROM db_cursor INTO @DataBaseName CONTINUE END CATCH FETCH NEXT FROM db_cursor INTO @DataBaseName END CLOSE db_cursor DEALLOCATE db_cursorENDGO 2. 创建分区函数及方案123456789101112131415161718USE DBTestGO-- 表分区函数IF NOT EXISTS (SELECT * FROM sys.partition_functions WHERE name='PF_PRE_FIVEMILLOIN')BEGIN CREATE PARTITION FUNCTION PF_PRE_FIVEMILLOIN(INT) AS RANGE LEFT FOR VALUES(5000000, 10000000, 15000000, 20000000, 25000000, 30000000, 35000000, 40000000, 45000000, 50000000)END--表分区方案IF NOT EXISTS (SELECT * FROM sys.partition_schemes WHERE name='PS_ALL_GROUP')BEGIN CREATE PARTITION SCHEME PS_ALL_GROUP AS PARTITION PF_PRE_FIVEMILLOIN TO (FileGroup_843_1, FileGroup_843_2, FileGroup_843_3, FileGroup_843_4, FileGroup_843_5, FileGroup_843_6, FileGroup_843_7, FileGroup_843_8, FileGroup_843_9, FileGroup_843_10, FileGroup_843_11)ENDGO 3. 建表，使用分区索引1234567891011121314151617181920212223--建表IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_Test]') AND type IN (N'U'))BEGINCREATE TABLE [dbo].T_Test( [Id] [INT] NOT NULL, [No] [VARCHAR](50) NOT NULL, [Name] [VARCHAR](1000) NULL, [RecordTime] [DATETIME] NOT NULL, CONSTRAINT [PK_T_Test] PRIMARY KEY CLUSTERED ( [Id] ASC ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PS_ALL_GROUP]([Id]) )ENDGO-- 索引IF NOT EXISTS (SELECT * FROM SYSINDEXES WHERE NAME='IX_T_Test_No_Time') CREATE NONCLUSTERED INDEX IX_T_Test_No_Time ON [dbo].[T_Test ] ( [No] ASC, [RecordTime] DESC )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PS_ALL_GROUP]([Id])GO 4. 查看表各分区记录情况123SELECT $partition.PF_PRE_FIVEMILLOIN(Id) AS PartitionNumber, count(*) AS RecordCountFROM T_TestGROUP BY $partition.PF_PRE_FIVEMILLOIN(Id) 小记在目前项目中，某些数据会存在积累速度快，但是需要长时间保存的情况，所以为对应表进行分区。如果所有的表都有大数据的压力，那就考虑数据库集群吧。 考虑到单表数据量还是不会减少，所以这并不能满足大数据量的单表做到用户是实时交互体验，如果有必要，需要做部分数据缓存，如果要统计需要做定时统计结果缓存等等。 分区数量最好考虑到服务器的CPU核数，考虑索引和分区函数方案的效果等等。 如果数据不能清理，始终会增加，考虑按月按年分区，可以使用作业计划调用动态建立文件（组）及表分区的存储过程来实现。]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>分区</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[【Jmeter】4.0的安装]]></title>
     <url>%2Fpost%2Fa1d9e130.html</url>
     <content type="text"><![CDATA[简述Jmeter4.0与前面的版本有所不一样，所有的插件由新的插件管理器下载，收集服务器性能信息的包也有点难找，远程脚本调试的配置也有点小坑 过程 官网下载，解压到自己的目录（最好没空格的路径），将bin目录添加至环境变量（可选） 修改配置文件 jmeter.properties ，搜索配置项进行修改 12345language=zh_CN # 默认UI语言remote_hosts=172.16.41.34:1099 # 一定是正在运行的所有服务，如果有没启动的服务会报错，坑。server_port=1099 # RMI通信端口，被远程的服务器需要换端口改这个#server.rmi.localport=1089 # 服务器端用于指定本地端口，默认随机可用端口，不是上面remote的端口！ 插件安装：https://jmeter-plugins.org/downloads/all/ Download plugins-manager.jar and put it into lib/ext directory, then restart JMeter. 3.1 将下载的 plugins-manager.jar 放到jmeter的 lib/ext 目录下，重启后 3.2 选项-&gt;Plugins Manager-&gt;Available Plugins-&gt;PerfMon (Servers Performance Monitoring)(勾选)-&gt;Apply… 安装PerfMon服务器端客户端，根据插件说明文档：https://jmeter-plugins.org/wiki/PerfMon/ InstallationServer Agent tool detailed description is placed here. 找到服务器收集性能数据的包 Server Agent，下载并安装到服务器 服务器端安装jmeter，用于远程脚本执行，配置注意 server_port 要于你客户端配置的 remote_hosts 里一样，客户端要注意如果出现 java.rmi.ConnectException: Connection refused to host: (your server ip); nested exception is:java.net.ConnectException: Connection timed out: connect 那么你的 remote_hosts 配置中的一个服务器端jmeter可能没有启动 记搭环境什么的最坑了Orz。]]></content>
@@ -211,8 +223,8 @@
       </categories>
       <tags>
         <tag>SQL</tag>
-        <tag>SQL Server</tag>
         <tag>lock</tag>
+        <tag>SQL Server</tag>
       </tags>
   </entry>
   <entry>
@@ -297,8 +309,8 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>CSharp</tag>
         <tag>随笔</tag>
+        <tag>CSharp</tag>
       </tags>
   </entry>
   <entry>
@@ -484,8 +496,8 @@
     <url>%2Fpost%2F433774cf.html</url>
     <content type="text"><![CDATA[重装折腾win7，没关闭更新，更新100+补丁还失败还原，各种dll丢失。报错大致如下： D3DCompiler_47.dll、api-ms-win-core-libraryloader-l1-2-1.dll、gfx.dll……丢失 启动Word2016、SS和MSSQL Server MS的时候(依赖都比较新的软件)报错，缺少net46。报错大致如下: ““的类型初始值设定项引发异常缺少”.Net Framework 4.6” 原因：D3DCompiler_47.dll丢失，因为更新补丁失败还原的缘故其他的是卸载了或者本来就缺新的.Net Framework 解决方法： 打补丁Windows6.1-KB4019990-x64.msu，应该是补上D3DCompiler_47.dll一系列的库的。Win32Exception (0x80004005): 找不到指定的模块 重装电脑里版本需要的.Net框架，打完补丁就可以装了，一般运行的话装个比较高版本的就好，我装的是.Net Framework4.7，会修复版本.Net框架“缺少”之类的问题。 注：.Net Fx出现无法安装之类的问题见本文最后以上。结果弄了好几天。(╯‵□′)╯︵┻━┻ 插曲1 2017-11-2 15:00:26今天本来以为已经搞定了，结果发现VS2015里没有.Net Framework 4.5，于是又开始折腾。。。目前更糟糕了，VS起不来了，报没有.Net Fx4.6，然而卸载程序里面明明有的。未完待续，好烦。 插曲2 2017-11-2 16:49:13 首先，卸载明明安装着的.Net Fx 4.6是不明智的 其次，修复VS更是浪费青春 然后，重装电脑里最新的.Net Fx，我的是4.7，然后4.6的问题就解决了。但是并不能解决.Net Fx 4.5没有的问题，正在去官网下载4.5.2的Dev-Pack，328M，感觉装完有应该就会有4.5了 最后，吐槽一下，公司网真烂，太烂了，下载页好久才打开，加上电脑也烂，不然早弄好了 插曲终 2017-11-3 14:03:10问题原因：本机上有 net45 的文件没删干净，所以安装不了，但是肯定缺少文件了解决办法：.net framework 的安装目录在 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5清理干净，或者直接从其他电脑拷一份过来就好了。 完结撒花。]]></content>
       <tags>
-        <tag>DotNet</tag>
         <tag>随笔</tag>
+        <tag>DotNet</tag>
       </tags>
   </entry>
   <entry>
@@ -496,8 +508,8 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>CSharp</tag>
         <tag>随笔</tag>
+        <tag>CSharp</tag>
         <tag>SQL</tag>
       </tags>
   </entry>
@@ -536,6 +548,14 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Hexo搭建]]></title>
+    <url>%2Fpost%2F57ee7c1d.html</url>
+    <content type="text"><![CDATA[教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 主题github地址yilia https://github.com/litten/hexo-theme-yilia.gitNexT https://github.com/iissnan/hexo-theme-next.git hexo配置http://blog.csdn.net/xuezhisdc/article/details/53130383 新建文章1hexo new post "article title" 生成部署1234hexo g # 生成hexo d # 部署# 或直接hexo d -g # 在部署前先生成 记录 部署：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等 新建文章的 命名、分类、标签：不能包含#符号，Github上面会404，其他的\/.?之类的应该也不行，-_以及数字是可以的 自定义页面，不渲染hexo跳过指定文件的渲染在_config.yml文件中设置skip_render，都是相对source目录的路径： 跳过source目录下的test.html: test.html```12* 跳过`source`目录下`test`文件夹内所有文件：```skip_render: test/* 跳过source目录下test文件夹内所有文件包括子文件夹以及子文件夹内的文件： test/**```12345* 跳过多个路径：```ymlskip_render: - test.html - test/* _post文件夹下是可以新建自己的文件夹的 hexo标签插件jsFiddle在文章中嵌入 jsFiddle。1&#123;% jsfiddle shorttag [tabs] [skin] [width] [height] %&#125; Gist在文章中嵌入 Gist。1&#123;% gist gist_id [filename] %&#125; iframe在文章中插入 iframe。1&#123;% iframe url [width] [height] %&#125; Image在文章中插入指定大小的图片。1&#123;% img [class names] /path/to/image [width] [height] [title text [alt text]] %&#125; Link在文章中插入链接，并自动给外部链接添加 target=”_blank” 属性。1&#123;% link text url [external] [title] %&#125; 代码块高亮c#代码块标记（c#标记无效）：cs、csharp配置文件类型（*:*这种）：yml]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Git命令]]></title>
     <url>%2Fpost%2Fb6ef4fe0.html</url>
     <content type="text"><![CDATA[强制更新覆盖本地 12345git fetch --all # 下载最新文件（未覆盖）git reset --hard origin/master # 定向最新下载版本git pull origin master # 更新，已经同步远程最新文件git pull origin master --allow-unrelated-histories # 允许无关联历史 分支变更回退 12345678910$ git reflog # 所有分支的所有操作记录272c92d (HEAD -&gt; master, origin/master) HEAD@&#123;0&#125;: reset: moving to HEAD272c92d (HEAD -&gt; master, origin/master) HEAD@&#123;1&#125;: reset: moving to origin/masterb6acea6 HEAD@&#123;2&#125;: commit: update3041a64 HEAD@&#123;3&#125;: commit: init1718038 HEAD@&#123;4&#125;: commit: update ignoref85aa76 HEAD@&#123;5&#125;: commit: init90ba2c6 HEAD@&#123;6&#125;: commit (initial): init$ git reset --hard b6acea6 # 回退到之前版本 删除已纳入版本控制，并后添加到.gitignore的文件（注意.） 123git rm -r --cached .git add .git commit -m "update .gitignore" 修改已commit备注 输入 1git commit --amend 进入最后一次提交的内容（vim编辑器） &gt; a进入插入模式 &gt; 修改 &gt; Esc &gt; 输入:wq，保存退出]]></content>
@@ -545,17 +565,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hexo搭建]]></title>
-    <url>%2Fpost%2F57ee7c1d.html</url>
-    <content type="text"><![CDATA[教程http://blog.csdn.net/gdutxiaoxu/article/details/53576018 主题github地址yilia https://github.com/litten/hexo-theme-yilia.gitNexT https://github.com/iissnan/hexo-theme-next.git hexo配置http://blog.csdn.net/xuezhisdc/article/details/53130383 新建文章1hexo new post "article title" 生成部署1234hexo g # 生成hexo d # 部署# 或直接hexo d -g # 在部署前先生成 记录 部署：将生成在public文件夹内的文件复制到deploy.git内后，自动推送到git，自动部署需要安装插件，并配置发布地址等 新建文章的 命名、分类、标签：不能包含#符号，Github上面会404，其他的\/.?之类的应该也不行，-_以及数字是可以的 自定义页面，不渲染hexo跳过指定文件的渲染在_config.yml文件中设置skip_render，都是相对source目录的路径： 跳过source目录下的test.html: test.html```12* 跳过`source`目录下`test`文件夹内所有文件：```skip_render: test/* 跳过source目录下test文件夹内所有文件包括子文件夹以及子文件夹内的文件： test/**```12345* 跳过多个路径：```ymlskip_render: - test.html - test/* _post文件夹下是可以新建自己的文件夹的 hexo标签插件jsFiddle在文章中嵌入 jsFiddle。1&#123;% jsfiddle shorttag [tabs] [skin] [width] [height] %&#125; Gist在文章中嵌入 Gist。1&#123;% gist gist_id [filename] %&#125; iframe在文章中插入 iframe。1&#123;% iframe url [width] [height] %&#125; Image在文章中插入指定大小的图片。1&#123;% img [class names] /path/to/image [width] [height] [title text [alt text]] %&#125; Link在文章中插入链接，并自动给外部链接添加 target=”_blank” 属性。1&#123;% link text url [external] [title] %&#125; 代码块高亮c#代码块标记（c#标记无效）：cs、csharp配置文件类型（*:*这种）：yml]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[关于]]></title>
-    <url>%2Fabout%2Findex.html</url>
-    <content type="text"><![CDATA[回头写点什么。]]></content>
+    <title><![CDATA[tags]]></title>
+    <url>%2Ftags%2Findex.html</url>
+    <content type="text"></content>
   </entry>
   <entry>
     <title><![CDATA[categories]]></title>
@@ -563,8 +575,8 @@
     <content type="text"></content>
   </entry>
   <entry>
-    <title><![CDATA[tags]]></title>
-    <url>%2Ftags%2Findex.html</url>
-    <content type="text"></content>
+    <title><![CDATA[关于]]></title>
+    <url>%2Fabout%2Findex.html</url>
+    <content type="text"><![CDATA[回头写点什么。]]></content>
   </entry>
 </search>
