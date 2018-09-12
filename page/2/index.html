@@ -331,6 +331,181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/83629cbf.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/83629cbf.html" itemprop="url">
+                  【SQL】SQL-Server递归查询
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-01-30 19:52:08" itemprop="dateCreated datePublished" datetime="2018-01-30T19:52:08+08:00">2018-01-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-02-01 09:29:53" itemprop="dateModified" datetime="2018-02-01T09:29:53+08:00">2018-02-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/SQL/" itemprop="url" rel="index"><span itemprop="name">SQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>有一张国内区域表，要查询一个区域及其子区域的区域编码</p>
+<p>效果：<br><img src="/assets/images/sql_recursive_query_region/sql_recursive_query_region.png" alt="区域表查询效果"></p>
+<p>表结构：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].[Region](</span><br><span class="line">	[REGION_ID] [<span class="built_in">int</span>] PRIMARY <span class="keyword">KEY</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_CODE] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_NAME] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[PARENT_ID] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_LEVEL] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_ORDER] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_NAME_EN] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_SHORTNAME_EN] [<span class="built_in">varchar</span>](<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p><code>PARENT_ID</code>为父区域的<code>REGION_ID</code>，这种结构就让我想能不能递归查询，减少连接数据库进行查询请求的次数。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://technet.microsoft.com/zh-cn/library/ms186243(v=sql.105" target="_blank" rel="noopener">使用公用表表达式的递归查询 —— technet，microsoft</a>.aspx)<br><a href="https://www.cnblogs.com/sheng-jie/p/6347835.html" target="_blank" rel="noopener">SQL递归查询知多少 —— 圣杰，博客园</a></p>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><p>使用多次查询虽然可以完成，但是效率不够高，并且代码冗余，<code>SQL Server</code>使用公用表表达式（Common Table Expression，CTE）可以实现递归查询<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> [dbo].[P_REGION] @RegionCode <span class="built_in">VARCHAR</span>(<span class="number">50</span>)=<span class="string">''</span> <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> CTE_REGION(REGION_ID, REGION_CODE, REGION_NAME, PARENT_ID, REGION_LEVEL, REGION_ORDER, REGION_NAME_EN, REGION_SHORTNAME_EN) <span class="keyword">AS</span></span><br><span class="line">(</span><br><span class="line">    <span class="keyword">SELECT</span> REGION_ID, REGION_CODE, REGION_NAME, PARENT_ID, REGION_LEVEL, REGION_ORDER, REGION_NAME_EN, REGION_SHORTNAME_EN</span><br><span class="line">	  <span class="keyword">FROM</span> [dbo].[Region]</span><br><span class="line">	 <span class="keyword">WHERE</span> REGION_LEVEL &lt; <span class="number">3</span> <span class="keyword">AND</span> REGION_CODE = @RegionCode</span><br><span class="line">    <span class="keyword">UNION</span> ALL</span><br><span class="line">    <span class="keyword">SELECT</span> a.REGION_ID, a.REGION_CODE, a.REGION_NAME, a.PARENT_ID, a.REGION_LEVEL, a.REGION_ORDER, a.REGION_NAME_EN, a.REGION_SHORTNAME_EN</span><br><span class="line">	  <span class="keyword">FROM</span> [dbo].[Region] a</span><br><span class="line">		  <span class="keyword">INNER</span> <span class="keyword">JOIN</span> CTE_REGION b</span><br><span class="line">		  <span class="keyword">ON</span> a.PARENT_ID = b.REGION_ID</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> REGION_CODE <span class="keyword">FROM</span> CTE_REGION</span><br><span class="line"></span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/10424fa.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1944,168 +2119,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/post/e7380cd.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0Kelvins">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0Kelvins的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/e7380cd.html" itemprop="url">
-                  随笔2017-12-12
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-12-12 10:42:11 / 修改时间：12:02:58" itemprop="dateCreated datePublished" datetime="2017-12-12T10:42:11+08:00">2017-12-12</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近项目正式测试，做的工具使用中遇到了问题，静态变量到底怎么用。</p>
-<p>在希望变量可以多次重复使用的时候，会想用静态变量来降低内存消耗，但是这时候也会引入多进程并发使用时的问题。如果使用了静态变量，并且这个变量在每一个进程都应该不一样的话，这样的变量也不是静态的，会出现变量内容覆盖的问题。</p>
-<p><strong>在Web多会话的情况下，静态变量是使用的同一内存地址，所以，在考虑在单线程多个类中重用变量时，还是用传参之类的地址引用吧。</strong></p>
-<p>如果是完全静态不会变（静态字符串什么的），或者所有进程共享的变量（统计访问量什么的），可以使用静态变量来处理，降低内存消耗。</p>
-<p>以前很少经历并发的情况，对相关的思维还是不清晰，以后需要多加留意。以前明明都学过，但是都没注意过。(╯‵□′)╯︵┻━┻</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2157,7 +2170,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">49</span>
+                    <span class="site-state-item-count">50</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2299,7 +2312,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">46</span>
+                      
+                    
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
