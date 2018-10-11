@@ -104,19 +104,19 @@
 
 
 
-  <meta name="description" content="需求有一张国内区域表，要查询一个区域及其子区域的区域编码 效果： 表结构：12345678910CREATE TABLE [dbo].[Region](	[REGION_ID] [int] PRIMARY KEY NOT NULL,	[REGION_CODE] [varchar](100) NOT NULL,	[REGION_NAME] [varchar](100) NOT NULL,	[PARE">
+  <meta name="description" content="需求有一张国内区域表，要查询一个区域及其子区域的区域编码">
 <meta name="keywords" content="SQL,SQL Server">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【SQL】SQL-Server递归查询">
 <meta property="og:url" content="http://0kelvins.github.io/post/83629cbf.html">
 <meta property="og:site_name" content="0Kelvins的博客">
-<meta property="og:description" content="需求有一张国内区域表，要查询一个区域及其子区域的区域编码 效果： 表结构：12345678910CREATE TABLE [dbo].[Region](	[REGION_ID] [int] PRIMARY KEY NOT NULL,	[REGION_CODE] [varchar](100) NOT NULL,	[REGION_NAME] [varchar](100) NOT NULL,	[PARE">
+<meta property="og:description" content="需求有一张国内区域表，要查询一个区域及其子区域的区域编码">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://0kelvins.github.io/assets/images/sql_recursive_query_region/sql_recursive_query_region.png">
-<meta property="og:updated_time" content="2018-02-01T01:29:53.132Z">
+<meta property="og:updated_time" content="2018-10-11T06:29:51.442Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【SQL】SQL-Server递归查询">
-<meta name="twitter:description" content="需求有一张国内区域表，要查询一个区域及其子区域的区域编码 效果： 表结构：12345678910CREATE TABLE [dbo].[Region](	[REGION_ID] [int] PRIMARY KEY NOT NULL,	[REGION_CODE] [varchar](100) NOT NULL,	[REGION_NAME] [varchar](100) NOT NULL,	[PARE">
+<meta name="twitter:description" content="需求有一张国内区域表，要查询一个区域及其子区域的区域编码">
 <meta name="twitter:image" content="http://0kelvins.github.io/assets/images/sql_recursive_query_region/sql_recursive_query_region.png">
 
 
@@ -396,7 +396,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-02-01 09:29:53" itemprop="dateModified" datetime="2018-02-01T09:29:53+08:00">2018-02-01</time>
+                <time title="修改时间：2018-10-11 14:29:51" itemprop="dateModified" datetime="2018-10-11T14:29:51+08:00">2018-10-11</time>
               
             
           </span>
@@ -457,7 +457,7 @@
       
 
       
-        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>有一张国内区域表，要查询一个区域及其子区域的区域编码</p>
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>有一张国内区域表，要查询一个区域及其子区域的区域编码<br><a id="more"></a></p>
 <p>效果：<br><img src="/assets/images/sql_recursive_query_region/sql_recursive_query_region.png" alt="区域表查询效果"></p>
 <p>表结构：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].[Region](</span><br><span class="line">	[REGION_ID] [<span class="built_in">int</span>] PRIMARY <span class="keyword">KEY</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_CODE] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_NAME] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[PARENT_ID] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_LEVEL] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_ORDER] [<span class="built_in">int</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_NAME_EN] [<span class="built_in">varchar</span>](<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[REGION_SHORTNAME_EN] [<span class="built_in">varchar</span>](<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
 <p><code>PARENT_ID</code>为父区域的<code>REGION_ID</code>，这种结构就让我想能不能递归查询，减少连接数据库进行查询请求的次数。</p>

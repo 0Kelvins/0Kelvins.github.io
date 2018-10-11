@@ -377,12 +377,24 @@
                 
               
 
-              <time title="创建时间：2018-09-12 17:13:53 / 修改时间：18:03:07" itemprop="dateCreated datePublished" datetime="2018-09-12T17:13:53+08:00">2018-09-12</time>
+              <time title="创建时间：2018-09-12 17:13:53" itemprop="dateCreated datePublished" datetime="2018-09-12T17:13:53+08:00">2018-09-12</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-11 13:56:55" itemprop="dateModified" datetime="2018-10-11T13:56:55+08:00">2018-10-11</time>
               
             
           </span>
@@ -434,28 +446,14 @@
 
       
         
-          
-            <h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>存在原子记录表，数据量月累计最大千万，不能使用分区，不至于分布式存储，于是使用历史记录转存历史表方案</p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ol>
-<li>动态创建历史表，并转存历史数据的存储过程</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> [dbo].[P_W_QuestionHisRedeposit]</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">DECLARE</span> @lastMonth DATETIME, @tableDate <span class="keyword">NVARCHAR</span>(<span class="number">10</span>), @tableName <span class="keyword">NVARCHAR</span>(<span class="number">50</span>), @<span class="keyword">sql</span> <span class="keyword">NVARCHAR</span>(<span class="number">2000</span>), @<span class="keyword">error</span> <span class="built_in">INT</span>;</span><br><span class="line">	<span class="keyword">SET</span> @lastMonth = <span class="keyword">DATEADD</span>(<span class="keyword">MONTH</span>, <span class="number">-1</span>, <span class="keyword">GETDATE</span>()); <span class="comment">-- 上月同一天</span></span><br><span class="line">	<span class="keyword">SET</span> @tableDate = <span class="keyword">CONVERT</span>(<span class="built_in">VARCHAR</span>(<span class="number">10</span>), <span class="keyword">DATEADD</span>(<span class="keyword">MONTH</span>, <span class="keyword">DATEDIFF</span>(<span class="keyword">MONTH</span>, <span class="number">0</span>, @lastMonth), <span class="number">0</span>), <span class="number">120</span>); <span class="comment">-- 上月第一天</span></span><br><span class="line">	<span class="keyword">SET</span> @tableName = <span class="string">'[dbo].[Question_His_'</span> + @tableDate + <span class="string">']'</span>; <span class="comment">-- 历史表名</span></span><br><span class="line">	<span class="keyword">SET</span> @<span class="keyword">error</span> = <span class="number">0</span>; <span class="comment">-- 是否有错</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 检查历史表是否已存在，月定时作业执行，应不会重复</span></span><br><span class="line">	IF NOT EXISTS(<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> sys.objects <span class="keyword">WHERE</span> object_id = OBJECT_ID(@tableName) <span class="keyword">AND</span> <span class="keyword">type</span> <span class="keyword">IN</span> (N<span class="string">'U'</span>))</span><br><span class="line">	<span class="keyword">BEGIN</span></span><br><span class="line">		<span class="keyword">BEGIN</span> TRY</span><br><span class="line">			<span class="keyword">BEGIN</span> <span class="keyword">TRANSACTION</span></span><br><span class="line">                <span class="comment">-- 建表</span></span><br><span class="line">				<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">'CREATE TABLE '</span> + @tableName + <span class="string">' (</span></span><br><span class="line"><span class="string">					[Id] [INT],</span></span><br><span class="line"><span class="string">					[QuestionID] [VARCHAR](500),</span></span><br><span class="line"><span class="string">					[Answers] [VARCHAR](MAX),</span></span><br><span class="line"><span class="string">					[Result] [FLOAT],</span></span><br><span class="line"><span class="string">					[UserID] [VARCHAR](100),</span></span><br><span class="line"><span class="string">					[RecordTime] [DATETIME]</span></span><br><span class="line"><span class="string">				)'</span>;</span><br><span class="line">				<span class="keyword">EXECUTE</span>(@<span class="keyword">sql</span>);</span><br><span class="line">				<span class="keyword">SET</span> @<span class="keyword">error</span> = @<span class="keyword">error</span> + @@<span class="keyword">ERROR</span>;</span><br><span class="line"></span><br><span class="line">                <span class="comment">-- 转存前一个月的历史数据</span></span><br><span class="line">				<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">'INSERT INTO '</span>+ @tableName +<span class="string">' SELECT * FROM [dbo].[Question_His]'</span></span><br><span class="line">						 + <span class="string">' WHERE DATEDIFF(MONTH, [RecordTime], GETDATE()) &gt;= 1'</span>;</span><br><span class="line">				<span class="keyword">EXECUTE</span>(@<span class="keyword">sql</span>);</span><br><span class="line">				<span class="keyword">SET</span> @<span class="keyword">error</span> = @<span class="keyword">error</span> + @@<span class="keyword">ERROR</span>;</span><br><span class="line"></span><br><span class="line">                <span class="comment">-- 删除历史表一个月前数据</span></span><br><span class="line">				<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">'DELETE FROM [dbo].[Question_His] WHERE DATEDIFF(MONTH, [RecordTime], GETDATE()) &gt;= 1'</span>;</span><br><span class="line">				<span class="keyword">EXECUTE</span>(@<span class="keyword">sql</span>);</span><br><span class="line">				<span class="keyword">SET</span> @<span class="keyword">error</span> = @<span class="keyword">error</span> + @@<span class="keyword">ERROR</span>;</span><br><span class="line">			<span class="keyword">COMMIT</span></span><br><span class="line">		<span class="keyword">END</span> TRY</span><br><span class="line">		<span class="keyword">BEGIN</span> CATCH</span><br><span class="line">			<span class="keyword">IF</span> @@TRANCOUNT &gt; <span class="number">0</span> <span class="comment">-- 失败回滚</span></span><br><span class="line">				<span class="keyword">ROLLBACK</span></span><br><span class="line"></span><br><span class="line">			<span class="keyword">DECLARE</span> @ErrMsg <span class="keyword">NVARCHAR</span>(<span class="number">4000</span>), @ErrSeverity <span class="built_in">INT</span></span><br><span class="line">			<span class="keyword">SELECT</span> @ErrMsg = ERROR_MESSAGE(),</span><br><span class="line">				   @ErrSeverity = ERROR_SEVERITY()</span><br><span class="line"></span><br><span class="line">			RAISERROR(@ErrMsg, @ErrSeverity, <span class="number">1</span>)</span><br><span class="line">		<span class="keyword">END</span> CATCH</span><br><span class="line">	<span class="keyword">END</span></span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>创建每月作业，创建执行转存历史的存储过程，建议使用DBMS操作，简单方便</p>
-<p> 入口：SQL Server 代理 -&gt; 新建作业</p>
-<p> 关键的地方：</p>
-<p> 2.1 新建步骤【选择T-SQL; 选择执行数据库; 命令如下;】</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXEC [dbo].[P_W_LP_QuestionHisRedeposit]</span><br></pre></td></tr></table></figure>
-<p> 2.2 新建计划 -&gt; 频率，执行：天 <code>1</code> 每 <code>1</code> 个月，</p>
-</li>
-</ol>
-<ol>
-<li>历史数据查询存储过程，使用时间筛选查询表</li>
-</ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> PROC [dbo].[P_HisTableQuery]</span><br><span class="line">(</span><br><span class="line">@TableNamePrefix <span class="keyword">NVARCHAR</span>(<span class="number">100</span>),  <span class="comment">-- 历史表名</span></span><br><span class="line">@TimeColumnName <span class="keyword">NVARCHAR</span>(<span class="number">100</span>),   <span class="comment">-- 时间列</span></span><br><span class="line">@FromTime DATETIME,              <span class="comment">-- 开始时间</span></span><br><span class="line">@ToTime DATETIME,                <span class="comment">-- 截止时间</span></span><br><span class="line">@QueryCondition <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>) = <span class="string">''</span> <span class="comment">-- 其他查询条件，要格外注意字符串的引号转义问题</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">DECLARE</span> @tableName <span class="keyword">NVARCHAR</span>(<span class="number">100</span>), @<span class="keyword">sql</span> <span class="keyword">NVARCHAR</span>(<span class="keyword">max</span>)</span><br><span class="line">	<span class="keyword">SET</span> @tableName = <span class="string">''</span></span><br><span class="line">	<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 查出时间内所有历史表名</span></span><br><span class="line">	<span class="keyword">DECLARE</span> t_cursor <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sys.tables <span class="keyword">WHERE</span> <span class="keyword">name</span> <span class="keyword">IN</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sys.tables</span><br><span class="line">		 <span class="keyword">WHERE</span> <span class="keyword">name</span> = @TableNamePrefix </span><br><span class="line">		 <span class="keyword">UNION</span> </span><br><span class="line">		<span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sys.tables</span><br><span class="line">		 <span class="keyword">WHERE</span> <span class="keyword">name</span> <span class="keyword">LIKE</span> @TableNamePrefix+<span class="string">'_%'</span> <span class="keyword">AND</span> <span class="keyword">ISDATE</span>(<span class="keyword">RIGHT</span>(<span class="keyword">name</span>, <span class="number">10</span>)) = <span class="number">1</span></span><br><span class="line">		   <span class="keyword">AND</span> <span class="keyword">CONVERT</span>(DATETIME, <span class="keyword">CAST</span>(<span class="keyword">RIGHT</span>(<span class="keyword">name</span>, <span class="number">10</span>) <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)), <span class="number">120</span>) &gt;= @FromTime </span><br><span class="line">		   <span class="keyword">AND</span> <span class="keyword">CONVERT</span>(DATETIME, <span class="keyword">CAST</span>(<span class="keyword">RIGHT</span>(<span class="keyword">name</span>, <span class="number">10</span>) <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)), <span class="number">120</span>) &lt;= @ToTime</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 拼接各历史表查询结果</span></span><br><span class="line">	<span class="keyword">OPEN</span> t_cursor</span><br><span class="line">	<span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> t_cursor <span class="keyword">INTO</span> @tableName</span><br><span class="line">	<span class="keyword">WHILE</span> @@FETCH_STATUS = <span class="number">0</span></span><br><span class="line">	<span class="keyword">BEGIN</span></span><br><span class="line">		<span class="keyword">SET</span> @<span class="keyword">sql</span> += + <span class="string">' UNION SELECT * FROM ['</span> + @tableName + <span class="string">']'</span></span><br><span class="line">					+ <span class="string">' WHERE ['</span> + @TimeColumnName + <span class="string">'] &gt;= '''</span> + <span class="keyword">CONVERT</span>(<span class="built_in">VARCHAR</span>(<span class="number">20</span>), @FromTime, <span class="number">120</span>) + <span class="string">''''</span></span><br><span class="line">					+ <span class="string">' AND ['</span> + @TimeColumnName + <span class="string">'] &lt;= '''</span> + <span class="keyword">CONVERT</span>(<span class="built_in">VARCHAR</span>(<span class="number">20</span>), @ToTime, <span class="number">120</span>) + <span class="string">''''</span></span><br><span class="line">					+ @QueryCondition</span><br><span class="line">	<span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span>  t_cursor <span class="keyword">INTO</span> @tableName</span><br><span class="line">	<span class="keyword">END</span></span><br><span class="line">	<span class="keyword">CLOSE</span> t_cursor</span><br><span class="line">	<span class="keyword">DEALLOCATE</span> t_cursor</span><br><span class="line"></span><br><span class="line">	<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="keyword">SUBSTRING</span>(@<span class="keyword">sql</span>, <span class="number">7</span>, <span class="keyword">LEN</span>(@<span class="keyword">sql</span>)); <span class="comment">-- 截掉最开始的UNION，可以重复使用UNION ALL</span></span><br><span class="line"></span><br><span class="line">	EXEC(@sql)</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>有条件（可以分区or搞分布式）就不要这样搞，开发维护起来太麻烦了(╯‵□′)╯︵┻━┻</p>
-
-          
+          <p>存在原子记录表，数据量月累计最大千万，不能使用分区，不至于分布式存储，于是使用历史记录转存历史表方案<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/ad7c26a4.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -553,12 +551,24 @@
                 
               
 
-              <time title="创建时间：2018-08-30 19:49:56 / 修改时间：21:09:18" itemprop="dateCreated datePublished" datetime="2018-08-30T19:49:56+08:00">2018-08-30</time>
+              <time title="创建时间：2018-08-30 19:49:56" itemprop="dateCreated datePublished" datetime="2018-08-30T19:49:56+08:00">2018-08-30</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-11 14:00:19" itemprop="dateModified" datetime="2018-10-11T14:00:19+08:00">2018-10-11</time>
               
             
           </span>
@@ -610,20 +620,14 @@
 
       
         
-          
-            <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>SQL Server 2008 R2</p>
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>表分区过程是为单个数据库建立多个 <code>文件组（夹）</code> 及里面的 <code>文件</code> ，然后把表内数据按照 <code>分区函数</code> 和 <code>方案</code> ，放到不同的数据库文件里。通过这样的处理，使得表的数据、索引等分成多个部分，缓解单表过大导致检索太慢等问题。</p>
-<h2 id="流程及脚本"><a href="#流程及脚本" class="headerlink" title="流程及脚本"></a>流程及脚本</h2><h3 id="1-建库、文件组及文件"><a href="#1-建库、文件组及文件" class="headerlink" title="1. 建库、文件组及文件"></a>1. 建库、文件组及文件</h3><p>建库前要求先建好目录，然后修改下面脚本建立自己的库（注意下面脚本反斜杠替换为单个）</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> <span class="keyword">master</span></span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">DECLARE</span> @DbName <span class="built_in">VARCHAR</span>(<span class="keyword">max</span>), @<span class="keyword">Path</span> <span class="keyword">NVARCHAR</span>(<span class="number">1000</span>), @InitSize <span class="built_in">VARCHAR</span>(<span class="number">50</span>), @FileGrowth <span class="built_in">VARCHAR</span>(<span class="number">50</span>)</span><br><span class="line"><span class="keyword">SELECT</span> @<span class="keyword">Path</span> = <span class="string">'D:\\PulicDataBase\\'</span>,	<span class="comment">-- 指定根路径(\\, hight light fix, 请自行替换为单反斜杠，下同)</span></span><br><span class="line">	   @InitSize = <span class="string">'5MB'</span>, @FileGrowth = <span class="string">'10%'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 指定数据库名称，多个用逗号隔开</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> @DbName	= <span class="string">'DBTest, DBTest2'</span>;</span><br><span class="line">				</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="comment">-- 定义数据库名称临时表@temp</span></span><br><span class="line">	<span class="keyword">DECLARE</span> @temp <span class="keyword">TABLE</span></span><br><span class="line">	(</span><br><span class="line">		<span class="keyword">ID</span> <span class="built_in">INT</span> <span class="keyword">IDENTITY</span>(<span class="number">1</span>,<span class="number">1</span>),	<span class="comment">--自动编号（获知顺序）</span></span><br><span class="line">		<span class="keyword">Result</span> <span class="built_in">VARCHAR</span>(<span class="keyword">MAX</span>)		<span class="comment">--拆分后结果</span></span><br><span class="line">	);</span><br><span class="line">	<span class="keyword">DECLARE</span> @i <span class="built_in">INT</span>, @SourceSql <span class="built_in">VARCHAR</span>(<span class="keyword">max</span>), @target <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>), @StrSeprate <span class="built_in">VARCHAR</span>(<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">SELECT</span> @SourceSql = <span class="keyword">LTRIM</span>(<span class="keyword">RTRIM</span>(@DbName)), @StrSeprate=<span class="string">','</span>	<span class="comment">--指定源字符串、分隔符</span></span><br><span class="line">    <span class="keyword">IF</span> <span class="keyword">RIGHT</span>(@SourceSql, <span class="keyword">LEN</span>(@StrSeprate)) &lt;&gt; @StrSeprate	<span class="keyword">SET</span> @SourceSql= @SourceSql + @StrSeprate</span><br><span class="line">    <span class="keyword">SET</span> @i = <span class="keyword">CHARINDEX</span>(@StrSeprate,@SourceSql)</span><br><span class="line">    <span class="keyword">WHILE</span> @i &gt;= <span class="number">1</span></span><br><span class="line">    <span class="keyword">BEGIN</span></span><br><span class="line">        <span class="keyword">SET</span> @target = <span class="keyword">LTRIM</span>(<span class="keyword">RTRIM</span>(<span class="keyword">left</span>(@SourceSql, @i<span class="number">-1</span>)))</span><br><span class="line">        <span class="keyword">IF</span> @target <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">AND</span> @target &lt;&gt; <span class="string">''</span>	<span class="keyword">INSERT</span> @temp <span class="keyword">VALUES</span>(@target)</span><br><span class="line">		<span class="keyword">ELSE</span>  <span class="keyword">INSERT</span> @temp <span class="keyword">VALUES</span>(<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">SET</span> @SourceSql = <span class="keyword">SUBSTRING</span>(@SourceSql, @i+<span class="number">1</span>, <span class="keyword">LEN</span>(@SourceSql)-@i)</span><br><span class="line">        <span class="keyword">SET</span> @i = <span class="keyword">CHARINDEX</span>(@StrSeprate,@SourceSql)</span><br><span class="line">    <span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">--开始遍历@temp建库</span></span><br><span class="line">	<span class="keyword">DECLARE</span> @DataBaseName <span class="keyword">NVARCHAR</span>(<span class="number">50</span>), @<span class="keyword">sql</span> <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>), @DBPath <span class="keyword">NVARCHAR</span>(<span class="number">500</span>)	</span><br><span class="line">	<span class="keyword">DECLARE</span> @i_Group <span class="built_in">INT</span>			<span class="comment">--文件组个数</span></span><br><span class="line">	<span class="keyword">DECLARE</span> @Flag <span class="built_in">VARCHAR</span>(<span class="number">10</span>)		<span class="comment">--数据库标识</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">IF</span> <span class="keyword">RTRIM</span>(<span class="keyword">LTRIM</span>(<span class="keyword">ISNULL</span>(@<span class="keyword">Path</span>, <span class="string">''</span>))) = <span class="string">''</span>	<span class="keyword">SET</span> @<span class="keyword">Path</span> = <span class="string">'D:\\PulicDataBase\\'</span></span><br><span class="line">	<span class="keyword">SET</span> @<span class="keyword">Path</span> = <span class="keyword">RTRIM</span>(<span class="keyword">LTRIM</span>(@<span class="keyword">Path</span>))</span><br><span class="line">	<span class="keyword">IF</span> <span class="keyword">RIGHT</span>(@<span class="keyword">Path</span>, <span class="number">1</span>) &lt;&gt; <span class="string">'\\'</span>	<span class="keyword">SET</span> @<span class="keyword">Path</span> = @<span class="keyword">Path</span> + <span class="string">'\\'</span></span><br><span class="line">	<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> @temp</span><br><span class="line">	<span class="keyword">DECLARE</span> db_cursor <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span> <span class="keyword">Result</span> <span class="keyword">FROM</span> @temp <span class="keyword">WHERE</span> <span class="keyword">ISNULL</span>(<span class="keyword">Result</span>, <span class="string">''</span>) &lt;&gt; <span class="string">''</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">ID</span></span><br><span class="line">	<span class="comment">--开始游标</span></span><br><span class="line">	<span class="keyword">OPEN</span> db_cursor  </span><br><span class="line">	<span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> db_cursor <span class="keyword">INTO</span> @DataBaseName</span><br><span class="line">	<span class="keyword">WHILE</span> @@fetch_status = <span class="number">0</span> </span><br><span class="line">	<span class="keyword">BEGIN</span></span><br><span class="line">		<span class="keyword">BEGIN</span> TRY		</span><br><span class="line">			<span class="keyword">IF</span> <span class="keyword">CHARINDEX</span>(<span class="string">'DBTest'</span>, @DataBaseName) &gt; <span class="number">0</span> <span class="keyword">SET</span> @DBPath = @<span class="keyword">Path</span> + <span class="string">'DBTest'</span> + <span class="string">'\\'</span>	<span class="comment">--数据库目录</span></span><br><span class="line"></span><br><span class="line">			<span class="keyword">IF</span> <span class="keyword">EXISTS</span>(<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> sysdatabases <span class="keyword">WHERE</span> <span class="keyword">name</span> = @DataBaseName) </span><br><span class="line">			<span class="keyword">BEGIN</span></span><br><span class="line">				PRINT <span class="string">'【创建数据库】'</span>+ @DataBaseName +<span class="string">'已存在，不必重复创建！'</span>  </span><br><span class="line">				<span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> db_cursor <span class="keyword">INTO</span> @DataBaseName</span><br><span class="line">				CONTINUE;</span><br><span class="line">			<span class="keyword">END</span></span><br><span class="line">			<span class="keyword">ELSE</span></span><br><span class="line">			<span class="keyword">BEGIN</span></span><br><span class="line">				<span class="keyword">SET</span> @<span class="keyword">sql</span>=<span class="string">'create database ['</span>+ @DataBaseName + <span class="string">'] on primary</span></span><br><span class="line"><span class="string">				(</span></span><br><span class="line"><span class="string">					name=N'''</span>+ @DataBaseName +<span class="string">''',</span></span><br><span class="line"><span class="string">					filename=N'''</span>+ @DBPath + @DataBaseName +<span class="string">'.mdf'',</span></span><br><span class="line"><span class="string">					size='</span>+ @InitSize +<span class="string">',</span></span><br><span class="line"><span class="string">					filegrowth='</span>+ @FileGrowth +<span class="string">'</span></span><br><span class="line"><span class="string">				)</span></span><br><span class="line"><span class="string">				log on</span></span><br><span class="line"><span class="string">				(</span></span><br><span class="line"><span class="string">					name=N'''</span>+ @DataBaseName +<span class="string">'_Log'',</span></span><br><span class="line"><span class="string">					filename=N'''</span>+ @DBPath + @DataBaseName +<span class="string">'_Log.ldf'',</span></span><br><span class="line"><span class="string">					size='</span>+ @InitSize +<span class="string">',</span></span><br><span class="line"><span class="string">					filegrowth='</span>+ @FileGrowth +<span class="string">'</span></span><br><span class="line"><span class="string">				)'</span></span><br><span class="line">				<span class="keyword">EXECUTE</span> (@<span class="keyword">sql</span>)</span><br><span class="line">				PRINT <span class="string">'【创建数据库】'</span>+ @DataBaseName +<span class="string">'创建成功！'</span></span><br><span class="line">			<span class="keyword">END</span></span><br><span class="line">	</span><br><span class="line">			<span class="comment">--创建指定数据库文件组及文件</span></span><br><span class="line">			<span class="keyword">SELECT</span> @i_Group = <span class="number">1</span>, @Flag = <span class="string">'1'</span></span><br><span class="line">			<span class="keyword">IF</span> <span class="keyword">CHARINDEX</span>(<span class="string">','</span>+ @DataBaseName +<span class="string">','</span>,<span class="string">','</span>+ <span class="string">'DBTest, DBTest2'</span> +<span class="string">','</span>) &gt; <span class="number">0</span></span><br><span class="line">			<span class="keyword">BEGIN</span></span><br><span class="line">				<span class="keyword">WHILE</span> @i_Group&lt;=<span class="number">11</span></span><br><span class="line">				<span class="keyword">BEGIN</span></span><br><span class="line">					<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">'IF NOT EXISTS(SELECT * FROM sysfilegroups sp_helpfilegroup WHERE groupname = ''FileGroup_'</span> + @Flag + <span class="string">'_'</span> + <span class="keyword">CAST</span>(@i_Group <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)) +<span class="string">''') '</span></span><br><span class="line">							+ <span class="string">'ALTER DATABASE ['</span>+ @DataBaseName +<span class="string">'] ADD FILEGROUP FileGroup_'</span> + @Flag + <span class="string">'_'</span> + <span class="keyword">CAST</span>(@i_Group <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)) + <span class="string">' '</span></span><br><span class="line">							+ <span class="string">'IF NOT EXISTS(SELECT * FROM sys.database_files WHERE name = '''</span> + @DataBaseName + <span class="string">'_File_'</span> + <span class="keyword">CAST</span>(@i_Group <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)) +<span class="string">''') '</span></span><br><span class="line">							+ <span class="string">'ALTER DATABASE ['</span>+ @DataBaseName +<span class="string">'] ADD FILE (name = '''</span> + @DataBaseName + <span class="string">'_File_'</span> + <span class="keyword">CAST</span>(@i_Group <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)) +<span class="string">''', filename = '''</span> + @DBPath + @DataBaseName + <span class="string">'_File_'</span> + <span class="keyword">CAST</span>(@i_Group <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)) + <span class="string">'.mdf'', maxsize = UNLIMITED, filegrowth = 10%) to filegroup [FileGroup_'</span> + @Flag + <span class="string">'_'</span> + <span class="keyword">CAST</span>(@i_Group <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)) +<span class="string">']'</span></span><br><span class="line">		</span><br><span class="line">					<span class="keyword">EXECUTE</span> (@<span class="keyword">sql</span>)</span><br><span class="line">					<span class="keyword">SET</span> @i_Group = @i_Group + <span class="number">1</span></span><br><span class="line">				<span class="keyword">END</span></span><br><span class="line">			<span class="keyword">END</span></span><br><span class="line">		<span class="keyword">END</span> TRY</span><br><span class="line">		<span class="keyword">BEGIN</span> CATCH</span><br><span class="line">			PRINT <span class="string">'【创建数据库】'</span>+ @DataBaseName + <span class="string">'创建时出错：'</span> + ERROR_MESSAGE()</span><br><span class="line">			<span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> db_cursor <span class="keyword">INTO</span> @DataBaseName</span><br><span class="line">			CONTINUE</span><br><span class="line">		<span class="keyword">END</span> CATCH</span><br><span class="line">	<span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> db_cursor <span class="keyword">INTO</span> @DataBaseName</span><br><span class="line">	<span class="keyword">END</span></span><br><span class="line">	<span class="keyword">CLOSE</span> db_cursor</span><br><span class="line">	<span class="keyword">DEALLOCATE</span> db_cursor</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="keyword">GO</span></span><br></pre></td></tr></table></figure>
-<h3 id="2-创建分区函数及方案"><a href="#2-创建分区函数及方案" class="headerlink" title="2. 创建分区函数及方案"></a>2. 创建分区函数及方案</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> DBTest</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 表分区函数</span></span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> sys.partition_functions <span class="keyword">WHERE</span> <span class="keyword">name</span>=<span class="string">'PF_PRE_FIVEMILLOIN'</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">CREATE</span> <span class="keyword">PARTITION</span> <span class="keyword">FUNCTION</span> PF_PRE_FIVEMILLOIN(<span class="built_in">INT</span>)</span><br><span class="line">	<span class="keyword">AS</span> <span class="keyword">RANGE</span> <span class="keyword">LEFT</span></span><br><span class="line">	<span class="keyword">FOR</span> <span class="keyword">VALUES</span>(<span class="number">5000000</span>, <span class="number">10000000</span>, <span class="number">15000000</span>, <span class="number">20000000</span>, <span class="number">25000000</span>, <span class="number">30000000</span>, <span class="number">35000000</span>, <span class="number">40000000</span>, <span class="number">45000000</span>, <span class="number">50000000</span>)</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="comment">--表分区方案</span></span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> sys.partition_schemes <span class="keyword">WHERE</span> <span class="keyword">name</span>=<span class="string">'PS_ALL_GROUP'</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">CREATE</span> <span class="keyword">PARTITION</span> SCHEME PS_ALL_GROUP</span><br><span class="line">	<span class="keyword">AS</span> <span class="keyword">PARTITION</span> PF_PRE_FIVEMILLOIN</span><br><span class="line">	<span class="keyword">TO</span> (FileGroup_843_1, FileGroup_843_2, FileGroup_843_3, FileGroup_843_4, FileGroup_843_5, FileGroup_843_6, FileGroup_843_7, FileGroup_843_8, FileGroup_843_9, FileGroup_843_10, FileGroup_843_11)</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="keyword">GO</span></span><br></pre></td></tr></table></figure>
-<h3 id="3-建表，使用分区索引"><a href="#3-建表，使用分区索引" class="headerlink" title="3. 建表，使用分区索引"></a>3. 建表，使用分区索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--建表</span></span><br><span class="line">IF NOT EXISTS (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> sys.objects <span class="keyword">WHERE</span> object_id = OBJECT_ID(N<span class="string">'[dbo].[T_Test]'</span>) <span class="keyword">AND</span> <span class="keyword">type</span> <span class="keyword">IN</span> (N<span class="string">'U'</span>))</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> [dbo].T_Test(</span><br><span class="line">	[<span class="keyword">Id</span>] [<span class="built_in">INT</span>] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[<span class="keyword">No</span>] [<span class="built_in">VARCHAR</span>](<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	[<span class="keyword">Name</span>] [<span class="built_in">VARCHAR</span>](<span class="number">1000</span>) <span class="literal">NULL</span>,</span><br><span class="line">	[RecordTime] [DATETIME] <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">	<span class="keyword">CONSTRAINT</span> [PK_T_Test] PRIMARY <span class="keyword">KEY</span> CLUSTERED </span><br><span class="line">	(</span><br><span class="line">		[<span class="keyword">Id</span>] <span class="keyword">ASC</span></span><br><span class="line">	) <span class="keyword">WITH</span> (PAD_INDEX = <span class="keyword">OFF</span>, STATISTICS_NORECOMPUTE = <span class="keyword">OFF</span>, IGNORE_DUP_KEY = <span class="keyword">OFF</span>, ALLOW_ROW_LOCKS = <span class="keyword">ON</span>, ALLOW_PAGE_LOCKS = <span class="keyword">ON</span>) <span class="keyword">ON</span> [PS_ALL_GROUP]([<span class="keyword">Id</span>])</span><br><span class="line"> )</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="comment">-- 索引</span></span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> SYSINDEXES <span class="keyword">WHERE</span> <span class="keyword">NAME</span>=<span class="string">'IX_T_Test_No_Time'</span>)</span><br><span class="line">	<span class="keyword">CREATE</span> NONCLUSTERED <span class="keyword">INDEX</span> IX_T_Test_No_Time <span class="keyword">ON</span> [dbo].[T_Test ]</span><br><span class="line">	(</span><br><span class="line">	    [<span class="keyword">No</span>] <span class="keyword">ASC</span>,</span><br><span class="line">	    [RecordTime] <span class="keyword">DESC</span></span><br><span class="line">	)<span class="keyword">WITH</span> (PAD_INDEX  = <span class="keyword">OFF</span>, STATISTICS_NORECOMPUTE  = <span class="keyword">OFF</span>, SORT_IN_TEMPDB = <span class="keyword">OFF</span>, IGNORE_DUP_KEY = <span class="keyword">OFF</span>, DROP_EXISTING = <span class="keyword">OFF</span>, <span class="keyword">ONLINE</span> = <span class="keyword">OFF</span>, ALLOW_ROW_LOCKS  = <span class="keyword">ON</span>, ALLOW_PAGE_LOCKS  = <span class="keyword">ON</span>) <span class="keyword">ON</span> [PS_ALL_GROUP]([<span class="keyword">Id</span>])</span><br><span class="line"><span class="keyword">GO</span></span><br></pre></td></tr></table></figure>
-<h3 id="4-查看表各分区记录情况"><a href="#4-查看表各分区记录情况" class="headerlink" title="4. 查看表各分区记录情况"></a>4. 查看表各分区记录情况</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> $partition.PF_PRE_FIVEMILLOIN(<span class="keyword">Id</span>) <span class="keyword">AS</span> PartitionNumber, <span class="keyword">count</span>(*) <span class="keyword">AS</span> RecordCount</span><br><span class="line"><span class="keyword">FROM</span> T_Test</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> $partition.PF_PRE_FIVEMILLOIN(<span class="keyword">Id</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="小记"><a href="#小记" class="headerlink" title="小记"></a>小记</h2><p>在目前项目中，某些数据会存在积累速度快，但是需要长时间保存的情况，所以为对应表进行分区。如果所有的表都有大数据的压力，那就考虑数据库集群吧。</p>
-<p>考虑到单表数据量还是不会减少，所以这并不能满足大数据量的单表做到用户是实时交互体验，如果有必要，需要做部分数据缓存，如果要统计需要做定时统计结果缓存等等。</p>
-<p>分区数量最好考虑到服务器的CPU核数，考虑索引和分区函数方案的效果等等。</p>
-<p>如果数据不能清理，始终会增加，考虑按月按年分区，可以使用作业计划调用动态建立文件（组）及表分区的存储过程来实现。</p>
-
-          
+          <p>表分区过程是为单个数据库建立多个 <code>文件组（夹）</code> 及里面的 <code>文件</code> ，然后把表内数据按照 <code>分区函数</code> 和 <code>方案</code> ，放到不同的数据库文件里。通过这样的处理，使得表的数据、索引等分成多个部分，缓解单表过大导致检索太慢等问题。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/170e08d7.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -721,12 +725,24 @@
                 
               
 
-              <time title="创建时间：2018-07-02 08:50:11 / 修改时间：11:56:28" itemprop="dateCreated datePublished" datetime="2018-07-02T08:50:11+08:00">2018-07-02</time>
+              <time title="创建时间：2018-07-02 08:50:11" itemprop="dateCreated datePublished" datetime="2018-07-02T08:50:11+08:00">2018-07-02</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-11 14:29:31" itemprop="dateModified" datetime="2018-10-11T14:29:31+08:00">2018-10-11</time>
               
             
           </span>
@@ -778,41 +794,14 @@
 
       
         
-          
-            <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>Jmeter4.0与前面的版本有所不一样，所有的插件由新的插件管理器下载，收集服务器性能信息的包也有点难找，远程脚本调试的配置也有点小坑</p>
-<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><ol>
-<li><p><a href="https://jmeter.apache.org/" target="_blank" rel="noopener">官网</a>下载，解压到自己的目录（最好没空格的路径），将bin目录添加至环境变量（可选）</p>
-</li>
-<li><p>修改配置文件 <code>jmeter.properties</code> ，搜索配置项进行修改</p>
-</li>
-</ol>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">language=zh_CN</span> <span class="comment"># 默认UI语言</span></span><br><span class="line"><span class="string">remote_hosts=172.16.41.34:1099</span> <span class="comment"># 一定是正在运行的所有服务，如果有没启动的服务会报错，坑。</span></span><br><span class="line"><span class="string">server_port=1099</span> <span class="comment"># RMI通信端口，被远程的服务器需要换端口改这个</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#server.rmi.localport=1089 # 服务器端用于指定本地端口，默认随机可用端口，不是上面remote的端口！</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>插件安装：<a href="https://jmeter-plugins.org/downloads/all/" target="_blank" rel="noopener">https://jmeter-plugins.org/downloads/all/</a></p>
-<blockquote>
-<p>Download plugins-manager.jar and put it into lib/ext directory, then restart JMeter. </p>
-</blockquote>
-<p> 3.1 将下载的 <code>plugins-manager.jar</code> 放到jmeter的 <code>lib/ext</code> 目录下，重启后</p>
-<p> 3.2 选项-&gt;Plugins Manager-&gt;Available Plugins-&gt;PerfMon (Servers Performance Monitoring)(勾选)-&gt;Apply…</p>
-</li>
-</ol>
-<ol>
-<li><p>安装PerfMon服务器端客户端，根据插件说明文档：<a href="https://jmeter-plugins.org/wiki/PerfMon/" target="_blank" rel="noopener">https://jmeter-plugins.org/wiki/PerfMon/</a></p>
-<blockquote>
-<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><p>Server Agent tool detailed description is placed <a href="https://github.com/undera/perfmon-agent/blob/master/README.md" target="_blank" rel="noopener">here</a>.</p>
-</blockquote>
-<p> 找到服务器收集性能数据的包 <code>Server Agent</code>，下载并安装到服务器</p>
-</li>
-<li><p>服务器端安装jmeter，用于远程脚本执行，配置注意 <code>server_port</code> 要于你客户端配置的 <code>remote_hosts</code> 里一样，客户端要注意如果出现</p>
-<blockquote>
-<p>java.rmi.ConnectException: Connection refused to host: (your server ip); nested exception is:<br>java.net.ConnectException: Connection timed out: connect</p>
-</blockquote>
-<p> 那么你的 <code>remote_hosts</code> 配置中的一个服务器端jmeter可能没有启动</p>
-</li>
-</ol>
-<h3 id="记"><a href="#记" class="headerlink" title="记"></a>记</h3><p>搭环境什么的最坑了Orz。</p>
-
-          
+          <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>Jmeter4.0与前面的版本有所不一样，所有的插件由新的插件管理器下载，收集服务器性能信息的包也有点难找，远程脚本调试的配置也有点小坑<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/a1d9e130.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -968,38 +957,21 @@
       
         
           
-            <h2 id="Vue-Typescript-模块化项目的构建"><a href="#Vue-Typescript-模块化项目的构建" class="headerlink" title="Vue + Typescript 模块化项目的构建"></a>Vue + Typescript 模块化项目的构建</h2><p>得益于 <code>vue-cli 3.0</code> 多了 <code>create</code>，项目构建变得非常的简单了</p>
-<h3 id="构建主要步骤"><a href="#构建主要步骤" class="headerlink" title="构建主要步骤"></a>构建主要步骤</h3><ol>
-<li><p>默认已经有 <code>node.js</code> 环境，最好8+版本</p>
-</li>
-<li><p>安装 <code>vue-cli 3.0</code></p>
-<p> 1.0 卸载旧版2.x版本，如果有的话</p>
-<p> 1.1 <code>npm i -g @vue/cli</code>，（chromedriver可能安装失败，需要从taobao镜像安装缓存，然后再安装cli）</p>
-<p> 1.2 <code>vue -V</code> 确认版本为 3.x（目前为3.0.0-beta.16）</p>
-</li>
-<li><p>使用 <code>vue-cli</code> 构建框架</p>
-</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> vue create vue</span></span><br><span class="line"></span><br><span class="line">Vue CLI v3.0.0-beta.16</span><br><span class="line">? Please pick a preset: Manually select features</span><br><span class="line"></span><br><span class="line">? Check the features needed for your project:</span><br><span class="line"> (*) Babel</span><br><span class="line"> (*) TypeScript</span><br><span class="line"> ( ) Progressive Web App (PWA) Support # 网页App</span><br><span class="line"> (*) Router</span><br><span class="line"> (*) Vuex</span><br><span class="line"> (*) CSS Pre-processors</span><br><span class="line"> (*) Linter / Formatter</span><br><span class="line"> (*) Unit Testing</span><br><span class="line"> ( ) E2E Testing # 端到端调试</span><br><span class="line"></span><br><span class="line">? Use class-style component syntax? Yes</span><br><span class="line"></span><br><span class="line">? Use Babel alongside TypeScript for auto-detected polyfills? Yes</span><br><span class="line"></span><br><span class="line">? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): LESS</span><br><span class="line"></span><br><span class="line">? Pick a linter / formatter config: TSLint</span><br><span class="line"></span><br><span class="line">? Pick additional lint features: Lint on save</span><br><span class="line"></span><br><span class="line">? Pick a unit testing solution: Mocha</span><br><span class="line"></span><br><span class="line">? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.? In dedicated config files # 分离配置文件</span><br></pre></td></tr></table></figure>
-<p>以上为我的具体框架选择</p>
-<ol>
-<li><p><code>npm/yarn serve</code>运行即可</p>
-</li>
-<li><p>需要修改 <code>webpack</code> 等设置，新建 <code>vue.config.js</code> 可以自定义配置，具体配置见官方 <code>vue-cli</code> 仓库-&gt; docs -&gt; config</p>
-<p> 注：支持Jsx，内置webpack、babel、ts等，基本无需多余配置，开箱即用，相对2.x自己构建已经非常精简了</p>
- <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"vue"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.1.0"</span>,</span><br><span class="line">    <span class="attr">"private"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">        <span class="attr">"serve"</span>: <span class="string">"vue-cli-service serve"</span>,</span><br><span class="line">        <span class="attr">"build"</span>: <span class="string">"vue-cli-service build"</span>,</span><br><span class="line">        <span class="attr">"lint"</span>: <span class="string">"vue-cli-service lint"</span>,</span><br><span class="line">        <span class="attr">"test:unit"</span>: <span class="string">"vue-cli-service test:unit"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">        <span class="attr">"bootstrap-vue"</span>: <span class="string">"^2.0.0-rc.11"</span>,</span><br><span class="line">        <span class="attr">"vue"</span>: <span class="string">"^2.5.16"</span>,</span><br><span class="line">        <span class="attr">"vue-class-component"</span>: <span class="string">"^6.0.0"</span>,</span><br><span class="line">        <span class="attr">"vue-property-decorator"</span>: <span class="string">"^6.0.0"</span>,</span><br><span class="line">        <span class="attr">"vue-router"</span>: <span class="string">"^3.0.1"</span>,</span><br><span class="line">        <span class="attr">"vuex"</span>: <span class="string">"^3.0.1"</span>,</span><br><span class="line">        <span class="attr">"vuex-class"</span>: <span class="string">"^0.3.1"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">        <span class="attr">"@types/chai"</span>: <span class="string">"^4.1.0"</span>,</span><br><span class="line">        <span class="attr">"@types/mocha"</span>: <span class="string">"^2.2.46"</span>,</span><br><span class="line">        <span class="attr">"@vue/cli-plugin-babel"</span>: <span class="string">"^3.0.0-beta.15"</span>,</span><br><span class="line">        <span class="attr">"@vue/cli-plugin-typescript"</span>: <span class="string">"^3.0.0-beta.15"</span>,</span><br><span class="line">        <span class="attr">"@vue/cli-plugin-unit-mocha"</span>: <span class="string">"^3.0.0-beta.15"</span>,</span><br><span class="line">        <span class="attr">"@vue/cli-service"</span>: <span class="string">"^3.0.0-beta.15"</span>,</span><br><span class="line">        <span class="attr">"@vue/test-utils"</span>: <span class="string">"^1.0.0-beta.16"</span>,</span><br><span class="line">        <span class="attr">"chai"</span>: <span class="string">"^4.1.2"</span>,</span><br><span class="line">        <span class="attr">"less"</span>: <span class="string">"^3.0.4"</span>,</span><br><span class="line">        <span class="attr">"less-loader"</span>: <span class="string">"^4.1.0"</span>,</span><br><span class="line">        <span class="attr">"vue-template-compiler"</span>: <span class="string">"^2.5.16"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"browserslist"</span>: [</span><br><span class="line">        <span class="string">"&gt; 1%"</span>,</span><br><span class="line">        <span class="string">"last 2 versions"</span>,</span><br><span class="line">        <span class="string">"not ie &lt;= 8"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>VSCode调试断点，安装Debugger插件，这里用的是 <code>Debugger for FireFox</code>，配置：</p>
-</li>
-</ol>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// launch.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">    <span class="attr">"configurations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Launch localhost"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"firefox"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"reAttach"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"url"</span>: <span class="string">"http://localhost:8080/#/"</span>,</span><br><span class="line">            <span class="attr">"webRoot"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">            <span class="attr">"firefoxExecutable"</span>: <span class="string">"C:/Program Files/Mozilla Firefox/firefox.exe"</span>,</span><br><span class="line">            <span class="attr">"firefoxArgs"</span>: [<span class="string">"-start-debugger-server"</span>, <span class="string">"-no-remote"</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>服务还是要先命令行运行<code>yarn serve</code>的</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://cli.vuejs.org/" target="_blank" rel="noopener">vue-cli官网</a>：有介绍及教程等（瞎折腾好久才发现）</p>
-<p><a href="https://github.com/vuejs/vue-cli" target="_blank" rel="noopener">官方仓库vue-cli</a></p>
-<p><a href="https://cnodejs.org/topic/589330c17274550b057a5cbf" target="_blank" rel="noopener">VSCode调试运行在Chrome, Firefox与Edge内的JS程序</a></p>
-<h3 id="记"><a href="#记" class="headerlink" title="记"></a>记</h3><p>一开始不知道有<code>vue-cli 3.0</code>，用的2.9.6，各种包一个个装，ts也要自己配置，搞了一两天，终于能跑了，但是VSCode就是提示找不到模块，想想应该是包装的太乱太杂了。3.0中间不需要按2.x一样装配ts、jsx等等，省的自己装的乱七八糟的，终于能安心看vue和ts了。</p>
+          Vue + Typescript 模块化项目的构建得益于 vue-cli 3.0 多了 create，项目构建变得非常的简单了
+构建主要步骤
+默认已经有 node.js 环境，最好8+版本
 
-          
+安装 vue-cli 3.0
+ 1.0 卸载旧版2.x版本，如果有的话
+ 1.1 npm i -g @vue
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/1a0d7b20.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1155,33 +1127,18 @@
       
         
           
-            <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>MSMQ（Microsoft Message Queue），消息队列是用于消息传输的中间存储容器，主要可以用于 <strong>异步处理、应用解耦、流量削峰、日志处理及消息通讯等等</strong></p>
-<h3 id="使用记录"><a href="#使用记录" class="headerlink" title="使用记录"></a>使用记录</h3><ol>
-<li><p><code>Peek</code> 、 <code>Recieve</code></p>
-<p> 两者都是获取队列消息的方法，区别的是，<code>Peek</code> 获取后不删除队列内消息，<code>Recieve</code> 则是获取后删除对应消息</p>
-</li>
-<li><p>异步接收消息</p>
-<p> 异步接收消息需要先提供异步事件处理方法，然后初始化一个异步接收操作，直到接收到消息，或超时。</p>
- <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步接收消息</span></span><br><span class="line">queue.PeekCompleted += <span class="keyword">new</span> PeekCompletedEventHandler(method);</span><br><span class="line">queue.BeginPeek();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 异步接收并删除队列内对应消息</span></span><br><span class="line">queue.ReceiveCompleted += <span class="keyword">new</span> ReceiveCompletedEventHandler(method);</span><br><span class="line">queue.BeginReceive();</span><br><span class="line">queue.BeginReceive(TimeSpan.FromMilliseconds(<span class="number">100</span>));</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>简单封装类，如需要更多方法，根据情况自行封装或者选择不封装</p>
- <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Messaging;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Utils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MessageQueueHelper</span> : <span class="title">IDisposable</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">protected</span> MessageQueueTransactionType transactionType = MessageQueueTransactionType.Automatic;</span><br><span class="line">        <span class="keyword">protected</span> MessageQueue queue; <span class="comment">// 消息队列</span></span><br><span class="line">        <span class="keyword">protected</span> TimeSpan timeout; <span class="comment">// 接收监听超时时间</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MessageQueueHelper</span>(<span class="params"><span class="keyword">string</span> queuePath, <span class="keyword">int</span> timeoutSeconds</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Createqueue(queuePath);</span><br><span class="line">            queue = <span class="keyword">new</span> MessageQueue(queuePath);</span><br><span class="line">            timeout = TimeSpan.FromSeconds(Convert.ToDouble(timeoutSeconds));</span><br><span class="line"></span><br><span class="line">            <span class="comment">//设置当应用程序向消息对列发送消息时默认情况下使用的消息属性值</span></span><br><span class="line">            <span class="comment">//queue.DefaultPropertiesToSend.AttachSenderId = false;</span></span><br><span class="line">            <span class="comment">//queue.DefaultPropertiesToSend.UseAuthentication = false;</span></span><br><span class="line">            <span class="comment">//queue.DefaultPropertiesToSend.UseEncryption = false;</span></span><br><span class="line">            <span class="comment">//queue.DefaultPropertiesToSend.AcknowledgeType = AcknowledgeTypes.None;</span></span><br><span class="line">            <span class="comment">//queue.DefaultPropertiesToSend.UseJournalQueue = false;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 消息接收</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">object</span> <span class="title">Receive</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">using</span> (Message message = queue.Receive(timeout, transactionType))</span><br><span class="line">                    <span class="keyword">return</span> message;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (MessageQueueException e)</span><br><span class="line">            &#123;</span><br><span class="line">                LogHelper.ErrorLog(<span class="keyword">typeof</span>(MessageQueueHelper), e, <span class="string">"队列接收消息异常！"</span>);</span><br><span class="line">                <span class="keyword">if</span> (e.MessageQueueErrorCode == MessageQueueErrorCode.IOTimeout)</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> TimeoutException();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">throw</span> e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 消息发送</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Send</span>(<span class="params"><span class="keyword">object</span> msg</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            queue.Send(msg, transactionType);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 创建使用指定路径的新消息队列</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="queuePath"&gt;</span>队列存储路径<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Createqueue</span>(<span class="params"><span class="keyword">string</span> queuePath</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (!MessageQueue.Exists(queuePath))</span><br><span class="line">                &#123;</span><br><span class="line">                    MessageQueue.Create(queuePath, <span class="literal">true</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (MessageQueueException e)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">throw</span> e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">#<span class="meta-keyword">region</span> 实现 IDisposable 接口成员</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            queue.Dispose();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">#<span class="meta-keyword">endregion</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 进一步实现特定队列</p>
- <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Messaging;</span><br><span class="line"><span class="keyword">using</span> Newtonsoft.Json;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"><span class="keyword">using</span> Utils; <span class="comment">// Helper的命名空间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">API.App_Start</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ReceiveProcessQueue</span> : <span class="title">MessageQueueHelper</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 获取配置文件中有关消息队列路径的参数</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="keyword">string</span> queuePath = <span class="string">@".\private$\rpmsmq"</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> queueTimeout = <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ReceiveProcessQueue</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">            : <span class="title">base</span>(<span class="params">queuePath, queueTimeout</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="comment">// 设置消息的序列化方式</span></span><br><span class="line">            queue.Formatter = <span class="keyword">new</span> XmlMessageFormatter(<span class="keyword">new</span> Type[] &#123; <span class="keyword">typeof</span>(<span class="keyword">string</span>) &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 接收消息</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ReceiveData</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="comment">// 指定消息队列事务的类型，Automatic枚举值允许发送发部事务和从外部事务接收</span></span><br><span class="line">            transactionType = MessageQueueTransactionType.Automatic;</span><br><span class="line">            Message msg = (Message)<span class="keyword">base</span>.Receive();</span><br><span class="line">            Process(msg);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 接收消息指定超时时间</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="timeout"&gt;</span>超时时间<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ReceiveData</span>(<span class="params"><span class="keyword">int</span> timeout</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">base</span>.timeout = TimeSpan.FromSeconds(Convert.ToDouble(timeout));</span><br><span class="line">            ReceiveData();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 异步消息接收</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="method"&gt;</span>异步处理方法<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ReceiveByAsync</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            queue.ReceiveCompleted += <span class="keyword">new</span> ReceiveCompletedEventHandler(ReceiveCompleted);</span><br><span class="line">            <span class="comment">// 指定初始化异步并行处理数量</span></span><br><span class="line">            <span class="meta">#<span class="meta-keyword">if</span> !DEBUG</span></span><br><span class="line">            <span class="keyword">int</span> MAX_THREAD = <span class="number">16</span>;</span><br><span class="line">            <span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">            <span class="keyword">int</span> MAX_THREAD = <span class="number">3</span>;</span><br><span class="line">            <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; MAX_THREAD; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                queue.BeginReceive();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 异步处理方法</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="source"&gt;</span>队列<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="asyncResult"&gt;</span>异步结果<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ReceiveCompleted</span>(<span class="params">Object source, ReceiveCompletedEventArgs asyncResult</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            MessageQueue queue = (MessageQueue)source;</span><br><span class="line">            queue.Formatter = <span class="keyword">new</span> XmlMessageFormatter(<span class="keyword">new</span> Type[] &#123; <span class="keyword">typeof</span>(<span class="keyword">string</span>) &#125;);</span><br><span class="line">            <span class="comment">// 完成指定的异步接收操作</span></span><br><span class="line">            Message msg = queue.EndReceive(asyncResult.AsyncResult);</span><br><span class="line">            Process(msg);</span><br><span class="line">            <span class="comment">// 消息处理完成后，初始化新的异步接收操作</span></span><br><span class="line">            queue.BeginReceive();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 发送消息</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="msg"&gt;</span>消息<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SendData</span>(<span class="params"><span class="keyword">string</span> msg</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="comment">// 指定消息队列事务的类型，Single枚举值用于单个内部事务的事务类型</span></span><br><span class="line">            <span class="keyword">base</span>.transactionType = MessageQueueTransactionType.Single;</span><br><span class="line">            <span class="keyword">base</span>.Send(msg);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Process</span>(<span class="params">Message msg</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">string</span> msgStr = <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (ReferenceEquals(msg.Body, <span class="literal">null</span>))</span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine(<span class="string">"null"</span>);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                msgStr = (<span class="keyword">string</span>)msg.Body;</span><br><span class="line">                Console.WriteLine(msgStr);</span><br><span class="line">                Thread.Sleep(<span class="number">100</span>);  <span class="comment">// 睡眠随机时间可以看到多线程异步效果</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">throw</span> ex;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>经过单元测试，测试正常，后面就要根据业务来做调整了，考虑如何提升并行处理的效率，且不会爆栈。</p>
-<p>解决方案有：</p>
-<ol>
-<li><p>异步 + 多线程（现在的）</p>
-</li>
-<li><p>轮询动态增减消费者（使用定时任务，定时检查队列消息数量，动态增减消费者）</p>
-</li>
-</ol>
-<p>需要主要对系统开销，以及应对峰值等场景的效果，进行权衡</p>
-<p>之前写过 <code>RabbitMQ</code> 的demo，现在发现不实际使用真的是很多问题都不知道。</p>
-
-          
+          简介MSMQ（Microsoft Message Queue），消息队列是用于消息传输的中间存储容器，主要可以用于 异步处理、应用解耦、流量削峰、日志处理及消息通讯等等
+使用记录
+Peek 、 Recieve
+ 两者都是获取队列消息的方法，区别的是，Peek 获取后不删除队列内消息，Recieve 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/a978f3d9.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1279,12 +1236,24 @@
                 
               
 
-              <time title="创建时间：2018-05-04 11:12:25 / 修改时间：11:45:42" itemprop="dateCreated datePublished" datetime="2018-05-04T11:12:25+08:00">2018-05-04</time>
+              <time title="创建时间：2018-05-04 11:12:25" itemprop="dateCreated datePublished" datetime="2018-05-04T11:12:25+08:00">2018-05-04</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-11 14:03:02" itemprop="dateModified" datetime="2018-10-11T14:03:02+08:00">2018-10-11</time>
               
             
           </span>
@@ -1336,39 +1305,14 @@
 
       
         
-          
-            <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>有一张学生表，包含学生、班级、性别（男、女）等信息，要求查询出全是男生或全是女生的班级</p>
-<h3 id="分组统计"><a href="#分组统计" class="headerlink" title="分组统计"></a>分组统计</h3><p>一般要查询的字段不是表格的主要信息的时候，需要按照需要的字段分组。如在学生表查班级信息。</p>
-<p>当需要根据分组后的数据统计筛选时，需要使用 <code>HAVING</code> 来进行</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ClassID</span><br><span class="line"><span class="keyword">FROM</span> Students</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> ClassID</span><br><span class="line"><span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> Gender) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h3 id="记"><a href="#记" class="headerlink" title="记"></a>记</h3><p>好久没写过什么复杂查询了，看到这个问题，一时还没想对，如果使用 <code>GROUP BY ClassID, Gender</code> 进行分组的话，会最终以 <strong>班级 * 性别</strong> 的分组返回</p>
-<table>
-<thead>
-<tr>
-<th>ClassID</th>
-<th>Gender</th>
-<th>COUNT(Gender)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>class01</td>
-<td>男</td>
-<td>12</td>
-</tr>
-<tr>
-<td>class01</td>
-<td>女</td>
-<td>20</td>
-</tr>
-<tr>
-<td>……</td>
-</tr>
-</tbody>
-</table>
-<p>这样就无法对性别进行筛选了，所以分组时要注意分组统计的条件，是否应该加入分组</p>
-
-          
+          <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>有一张学生表，包含学生、班级、性别（男、女）等信息，要求查询出全是男生或全是女生的班级<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/ef45c8bd.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1466,12 +1410,24 @@
                 
               
 
-              <time title="创建时间：2018-03-20 18:55:10 / 修改时间：21:02:41" itemprop="dateCreated datePublished" datetime="2018-03-20T18:55:10+08:00">2018-03-20</time>
+              <time title="创建时间：2018-03-20 18:55:10" itemprop="dateCreated datePublished" datetime="2018-03-20T18:55:10+08:00">2018-03-20</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-11 14:29:18" itemprop="dateModified" datetime="2018-10-11T14:29:18+08:00">2018-10-11</time>
               
             
           </span>
@@ -1523,63 +1479,14 @@
 
       
         
-          
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>因为业务需求，需要“实时”的同步基础平台的一些信息，公司使用的又是 <code>SQL Server</code> ，简单稳定起见，选择使用 <strong>发布订阅</strong> 功能来实现数据的同步。</p>
-<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>OS：Windows Server 2008 R2</p>
-<p>DB：SQL Server 2008 R2</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/DBArtist/p/5803271.html" target="_blank" rel="noopener">Sql Server 2008R2 数据库发布与订阅——DBArtist，博客园</a></p>
-<h3 id="配置失败处理"><a href="#配置失败处理" class="headerlink" title="配置失败处理"></a>配置失败处理</h3><ul>
-<li><p>发布服务器，删除本地发布失败：</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sp_removedbreplication 'DBName'  <span class="comment">-- 强制删除被发布数据库的所有发布</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>订阅服务器连接根目录</code> -&gt; <code>复制</code> -&gt; <code>本地订阅</code> 内没有新建的订阅的情况下，删除多余的订阅服务器：</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sp_helpserver <span class="comment">-- 查看服务器</span></span><br><span class="line">sp_dropserver '[name]', 'droplogins' <span class="comment">-- 删除服务器</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>SQL Server代理</code> 重启，这个估计改名字的时候就要重启，不然会有报错</p>
-</li>
-</ul>
-<h3 id="主要流程"><a href="#主要流程" class="headerlink" title="主要流程"></a>主要流程</h3><ol>
-<li><p>确认数据库的服务名和服务器的机器名一致</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检查SQL Server 的服务器名称</span></span><br><span class="line"><span class="keyword">use</span> <span class="keyword">master</span></span><br><span class="line"><span class="keyword">go</span></span><br><span class="line"><span class="keyword">select</span> @@servername</span><br><span class="line"><span class="keyword">select</span> serverproperty(<span class="string">'servername'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 删除所有之前配置的publishers</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> msdb.dbo.MSdistpublishers</span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> msdb.dbo.MSdistpublishers</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> msdb.dbo.MSdistpublishers</span><br><span class="line">exec sp_droplinkedsrvlogin <span class="string">'old_server_name'</span>,<span class="literal">null</span></span><br><span class="line">exec sp_dropserver <span class="string">'old_server_name'</span>, <span class="string">'droplogins'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 配置计算机名与服务名一致</span></span><br><span class="line"><span class="keyword">USE</span> <span class="keyword">master</span></span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">if</span> serverproperty(<span class="string">'servername'</span>) &lt;&gt; @@servername  </span><br><span class="line"><span class="keyword">begin</span>  </span><br><span class="line">    <span class="keyword">declare</span> @<span class="keyword">server</span> sysname  </span><br><span class="line">    <span class="keyword">set</span>   @<span class="keyword">server</span> = @@servername  </span><br><span class="line">    exec sp_dropserver @<span class="keyword">server</span> = @<span class="keyword">server</span>  </span><br><span class="line">    <span class="keyword">set</span>   @<span class="keyword">server</span> = <span class="keyword">cast</span>(serverproperty(<span class="string">'servername'</span>) <span class="keyword">as</span> sysname)  </span><br><span class="line">    exec sp_addserver @<span class="keyword">server</span> = @<span class="keyword">server</span> , @<span class="keyword">local</span> = <span class="string">'LOCAL'</span>  </span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p> <strong>重启SQL Server服务、SQL Server代理服务</strong></p>
-<p> 然后 <code>sp_helpserver</code> 可以查看到当前的服务器名称，没有配置过应该只有 <code>dbv32</code> 和一个当前机器名一样的服务器，</p>
-</li>
-<li><p>配置别名</p>
-<p> 打开发布服务器和订阅服务器的 <code>SQL Server 配置管理器</code> 在 <strong>[SQL Native Client 10.0配置(32位)]</strong> 和 <strong>[SQL Native Client 10.0配置]</strong> 中配置别名</p>
-<blockquote>
-<p>别名：[第一步确认的机器名]</p>
-<p>端口号：1433</p>
-<p>服务器：对应的服务器机器的IP地址</p>
-<p>协议：TCP/IP</p>
-</blockquote>
-<p> <strong>发布服务器需要配置自己和所有订阅服务器的别名，订阅服务器需要配置自己和发布服务器的别名</strong></p>
-</li>
-<li><p>发布服务器建立发布</p>
-<ul>
-<li><code>发布服务器连接根目录</code> -&gt; <code>复制</code> -&gt; <code>本地发布</code></li>
-<li>右键 <code>新建发布</code>，然后根据提示选择性Next</li>
-<li>不行了看一下配置一下 <code>安全设置</code> ，上面选第二个 <code>在SQL Server 代理账户下运行</code>，然后下面选第二个配置 <code>SQL Server 登录名</code></li>
-<li>然后Next到完成，没报错就搞定了</li>
-</ul>
-</li>
-<li><p>订阅服务器建立订阅</p>
-<ul>
-<li><code>订阅服务器连接根目录</code> -&gt; <code>复制</code> -&gt; <code>本地订阅</code></li>
-<li>右键 <code>新建订阅</code>，发布服务器选择：查找，添加你的发布服务器，用之前配的别名</li>
-<li>需要实时同步的话，分发代理位置选第一个，在发布服务器上运行分发服务，发布服务器主动推送。根据需要也可以选第二个</li>
-<li>订阅服务器和数据库，数据库可以点下拉然后拉到最上面自己新建</li>
-<li>分发服务器安全连接，配置之前 <code>发布服务器</code> 的 <code>安全设置</code></li>
-<li>然后根据提示选择性Next到完成，没报错就搞定了所有配置</li>
-</ul>
-</li>
-<li><p>右键发布服务器的发布， <code>启动复制监视器</code> ，查看状态，没报错，然后快照完成，在订阅看到数据就可以了</p>
-</li>
-</ol>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>一开始配置不知道哪里出问题了，快照不生成，快照代理启动就挂掉，订阅服务器的数据库也没看到数据，发布也不给删，报错发布下面还有订阅</p>
-<p>就找了半天删除的方法，后来发布订阅的服务器删干净， <code>SQL Server代理</code> 重启，重新配置了一遍就好了，也是心累╮(╯_╰)╭</p>
-<p>现在想想估计是代理服务没有重启导致的。总之，以后配置的话，记着顺手把这个也重启了吧。</p>
-
-          
+          <p>因为业务需求，需要“实时”的同步基础平台的一些信息，公司使用的又是 <code>SQL Server</code> ，简单稳定起见，选择使用 <strong>发布订阅</strong> 功能来实现数据的同步。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/ce23289f.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1735,12 +1642,16 @@
       
         
           
-            <p>过年回来有段时间没记点什么了，工作虽然没之前那么忙，还是没想清楚到底去积累点什么好吧，主要可能也是懒←_←</p>
-<p>看了两个星期的 <strong>《数据挖掘概念与技术》</strong> 和 <strong>《机器学习实战》</strong> （ <code>PRML</code> 实在是…太数学了… ，也理解了一下数据仓库、数据立方体、上卷、下钻等等…一些名词，明白了kNN、SMO、SVM等等算法的全称…（kNN、决策树还是看懂了的，就是后面朴素贝叶斯开始就慢慢有点模糊了…什么支持向量机啊就来回看了好几遍，查了不少东西才理解了些 =_= ，哎，觉得实在无法在脑海里跟实际问题映射上关系，也就难以应用了。于是，就没继续看了，虽然看一半放弃了，但是也算大致了解了 数据挖掘 相关的一系列东西吧，不亏！（强行</p>
-<p>为了休息下我可怜的脑袋，上星期弄了下 <code>Unity3D</code> 玩，emmm，感觉没有找到适合我节奏的学习资料啊，官方文档太细太慢，各种博客又太粗略，待我闲时再把官方的几个工程改改修修，估计就能自己做个自己想的小游戏玩了(<em>^▽^</em>)</p>
-<p>这两天算是没什么闲时了，今天趁刚有空回忆一下，免得回头感觉前面几个星期就白过了一样╮(╯_╰)╭</p>
-
-          
+          过年回来有段时间没记点什么了，工作虽然没之前那么忙，还是没想清楚到底去积累点什么好吧，主要可能也是懒←_←
+看了两个星期的 《数据挖掘概念与技术》 和 《机器学习实战》 （ PRML 实在是…太数学了… ，也理解了一下数据仓库、数据立方体、上卷、下钻等等…一些名词，明白了kNN、SMO、SVM等等算
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/7d5ab8dd.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1838,12 +1749,24 @@
                 
               
 
-              <time title="创建时间：2018-02-01 20:13:18 / 修改时间：20:26:04" itemprop="dateCreated datePublished" datetime="2018-02-01T20:13:18+08:00">2018-02-01</time>
+              <time title="创建时间：2018-02-01 20:13:18" itemprop="dateCreated datePublished" datetime="2018-02-01T20:13:18+08:00">2018-02-01</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-11 14:04:07" itemprop="dateModified" datetime="2018-10-11T14:04:07+08:00">2018-10-11</time>
               
             
           </span>
@@ -1895,12 +1818,14 @@
 
       
         
-          
-            <h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><p>用循环（ <code>WHILE</code> ）游标（ <code>CURSOR</code> ）实现，遍历系统视图，取出（ <code>FETCH</code> ）每条数据并计数+1（这里只是用来记下怎么用，查数量肯定还是用 <code>COUNT()</code> 。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> P_CHECK_DB_NUM</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">DECLARE</span> @<span class="keyword">num</span> <span class="built_in">INT</span>, @<span class="keyword">error</span> <span class="built_in">INT</span></span><br><span class="line">    <span class="keyword">DECLARE</span> @temp <span class="built_in">VARCHAR</span>(<span class="number">50</span>)</span><br><span class="line">    <span class="keyword">SET</span> @<span class="keyword">num</span> = <span class="number">1</span></span><br><span class="line">    <span class="keyword">SET</span> @<span class="keyword">error</span> = <span class="number">0</span></span><br><span class="line">    <span class="comment">--申明游标为db_cursor</span></span><br><span class="line">    <span class="keyword">DECLARE</span> db_cursor <span class="keyword">CURSOR</span></span><br><span class="line">		<span class="keyword">FOR</span> (<span class="keyword">SELECT</span> [<span class="keyword">name</span>] <span class="keyword">FROM</span> [<span class="keyword">master</span>].[<span class="keyword">sys</span>].[<span class="keyword">databases</span>])</span><br><span class="line">    <span class="comment">--打开游标--</span></span><br><span class="line">    <span class="keyword">OPEN</span> db_cursor</span><br><span class="line">    <span class="comment">--开始循环游标变量--</span></span><br><span class="line">    <span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> db_cursor <span class="keyword">INTO</span> @temp</span><br><span class="line">    <span class="keyword">WHILE</span> @@FETCH_STATUS = <span class="number">0</span>    <span class="comment">--返回被 FETCH语句执行的最后游标的状态--</span></span><br><span class="line">        <span class="keyword">BEGIN</span>            </span><br><span class="line">            <span class="keyword">SET</span> @<span class="keyword">num</span> = @<span class="keyword">num</span> + <span class="number">1</span></span><br><span class="line">            <span class="keyword">SET</span> @<span class="keyword">error</span> = @<span class="keyword">error</span> + @@<span class="keyword">ERROR</span>   <span class="comment">--记录每次运行sql后是否正确，0正确</span></span><br><span class="line">            <span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> db_cursor <span class="keyword">INTO</span> @temp   <span class="comment">--转到下一个游标，没有会死循环</span></span><br><span class="line">        <span class="keyword">END</span>   </span><br><span class="line">    <span class="keyword">CLOSE</span> db_cursor  <span class="comment">--关闭游标</span></span><br><span class="line">    <span class="keyword">DEALLOCATE</span> db_cursor   <span class="comment">--释放游标</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">RETURN</span> @<span class="keyword">num</span>;</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
-<h3 id="后言"><a href="#后言" class="headerlink" title="后言"></a>后言</h3><p>自从当初学完以后就好像没再用过了，今天偶然想起来，记录一下用法。</p>
-
-          
+          <h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><p>用循环（ <code>WHILE</code> ）游标（ <code>CURSOR</code> ）实现，遍历系统视图，取出（ <code>FETCH</code> ）每条数据并计数+1（这里只是用来记下怎么用，查数量肯定还是用 <code>COUNT()</code> 。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/c638d2ec.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1998,12 +1923,24 @@
                 
               
 
-              <time title="创建时间：2018-02-01 09:37:18 / 修改时间：10:40:26" itemprop="dateCreated datePublished" datetime="2018-02-01T09:37:18+08:00">2018-02-01</time>
+              <time title="创建时间：2018-02-01 09:37:18" itemprop="dateCreated datePublished" datetime="2018-02-01T09:37:18+08:00">2018-02-01</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-11 14:05:07" itemprop="dateModified" datetime="2018-10-11T14:05:07+08:00">2018-10-11</time>
               
             
           </span>
@@ -2055,28 +1992,14 @@
 
       
         
-          
-            <p>记一下<code>Js</code>的一些知识点</p>
-<h3 id="和-的区别"><a href="#和-的区别" class="headerlink" title="==和===的区别"></a><code>==</code>和<code>===</code>的区别</h3><p><code>==</code>是值相等比较（会做类型转换后比较），<code>===</code>是严格相等比较（还要比较类型）</p>
-<ol>
-<li>对于 <code>string</code> ，<code>number</code> 等基础类型， <code>==</code> 和 <code>===</code> 是有区别的<ol>
-<li>不同类型间比较，<code>==</code>之比较“转化成同一类型后的值”看“值”是否相等，<code>===</code> 如果类型不同，其结果就是不等</li>
-<li>同类型比较，直接进行“值”比较，两者结果一样</li>
-</ol>
-</li>
-<li>对于 <code>Array</code> ， <code>Object</code> 等高级类型， <code>==</code> 和 <code>===</code> 是没有区别的进行“指针地址”比较</li>
-<li>基础类型与高级类型， <code>==</code> 和 <code>===</code> 是有区别的<ol>
-<li>对于 <code>==</code> ，将高级转化为基础类型，进行“值”比较</li>
-<li>因为类型不同， <code>===</code> 结果为 <code>false</code></li>
-</ol>
-</li>
-</ol>
-<p>我的一篇随笔里有记过一个例子，这里再放一下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span> == <span class="string">''</span> -&gt; <span class="literal">true</span></span><br><span class="line"><span class="number">0</span> === <span class="string">''</span> -&gt; <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="没有块级作用域"><a href="#没有块级作用域" class="headerlink" title="没有块级作用域"></a>没有块级作用域</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> data = <span class="string">''</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (data != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> tips = <span class="string">'data not null'</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(tips);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> tips = <span class="string">'data is null'</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(tips);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">test(data);</span><br></pre></td></tr></table></figure>
-<p>上面的代码浏览器可以运行的，但是Js语法检查的话会报错吧，<code>tips</code> 变量在 <code>test()</code> 内被定义在两个代码块内，但是js没有块级作用域，函数作为Js内的最小作用域，所以 <code>tips</code> 变量这里重复定义了。</p>
-<p>记：Js中没有用 <code>var</code> 声明的变量都是全局变量，而且是顶层对象的属性</p>
-
-          
+          <p>记一下<code>Js</code>的一些知识点<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/ae10444e.html#更多" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
