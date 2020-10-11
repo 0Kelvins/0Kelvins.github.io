@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"0kelvins.github.io","root":"/","scheme":"Pisces","version":"8.0.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="存在原子记录表，数据量月累计最大千万，不能使用分区，不至于分布式存储，于是使用历史记录转存历史表方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【SQL】历史表及历史查询">
+<meta property="og:url" content="http://0kelvins.github.io/2018/09/12/SQL/%E3%80%90SQL%E3%80%91%E5%8E%86%E5%8F%B2%E8%A1%A8%E5%8F%8A%E5%8E%86%E5%8F%B2%E6%9F%A5%E8%AF%A2/index.html">
+<meta property="og:site_name" content="0Kelvins的个人博客">
+<meta property="og:description" content="存在原子记录表，数据量月累计最大千万，不能使用分区，不至于分布式存储，于是使用历史记录转存历史表方案">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-09-12T09:13:53.000Z">
+<meta property="article:modified_time" content="2020-09-21T02:14:39.217Z">
+<meta property="article:author" content="0Kelvins">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="分表">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://0kelvins.github.io/2018/09/12/SQL/%E3%80%90SQL%E3%80%91%E5%8E%86%E5%8F%B2%E8%A1%A8%E5%8F%8A%E5%8E%86%E5%8F%B2%E6%9F%A5%E8%AF%A2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【SQL】历史表及历史查询 | 0Kelvins的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">0Kelvins的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">小结</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="0Kelvins"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">0Kelvins</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/0Kelvins" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;0Kelvins" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://cnblogs.com/Locked-J/" title="cnblogs → https:&#x2F;&#x2F;cnblogs.com&#x2F;Locked-J&#x2F;" rel="noopener" target="_blank"><i class="fa fa-tag fa-fw"></i>cnblogs</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jackyliujunjie@foxmail.com" title="E-Mail → mailto:jackyliujunjie@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/2018/09/12/SQL/%E3%80%90SQL%E3%80%91%E5%8E%86%E5%8F%B2%E8%A1%A8%E5%8F%8A%E5%8E%86%E5%8F%B2%E6%9F%A5%E8%AF%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【SQL】历史表及历史查询
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-12 17:13:53" itemprop="dateCreated datePublished" datetime="2018-09-12T17:13:53+08:00">2018-09-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-09-21 10:14:39" itemprop="dateModified" datetime="2020-09-21T10:14:39+08:00">2020-09-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/SQL/" itemprop="url" rel="index"><span itemprop="name">SQL</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>存在原子记录表，数据量月累计最大千万，不能使用分区，不至于分布式存储，于是使用历史记录转存历史表方案<br><a id="more"></a></p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ol>
+<li>动态创建历史表，并转存历史数据的存储过程</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> [dbo].[P_W_QuestionHisRedeposit]</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">DECLARE</span> @tableMonth DATETIME, @tableDate <span class="keyword">NVARCHAR</span>(<span class="number">10</span>), @tableName <span class="keyword">NVARCHAR</span>(<span class="number">50</span>), @<span class="keyword">sql</span> <span class="keyword">NVARCHAR</span>(<span class="number">2000</span>), @<span class="keyword">error</span> <span class="built_in">INT</span>;</span><br><span class="line">	<span class="keyword">SET</span> @<span class="keyword">error</span> = <span class="number">0</span>; <span class="comment">-- 是否有错</span></span><br><span class="line">	<span class="keyword">DECLARE</span> @monthSpan <span class="built_in">INT</span>; <span class="comment">-- 最早数据的距今的月数</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">SELECT</span> @tableMonth = <span class="keyword">MIN</span>([RecordTime]) <span class="keyword">FROM</span> [dbo].[Question_His];</span><br><span class="line">	<span class="keyword">SET</span> @monthSpan = <span class="keyword">DATEDIFF</span>(<span class="keyword">MONTH</span>, @tableMonth, <span class="keyword">GETDATE</span>());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">DECLARE</span> @i <span class="built_in">INT</span>, @ErrMsg <span class="keyword">nvarchar</span>(<span class="number">4000</span>), @ErrSeverity <span class="built_in">int</span>;</span><br><span class="line">	<span class="keyword">SET</span> @i = <span class="number">1</span>;</span><br><span class="line">	WHILE @i &lt;= @monthSpan	-- 遍历转存每月历史数据</span><br><span class="line">	<span class="keyword">BEGIN</span></span><br><span class="line">		<span class="keyword">SET</span> @tableMonth = <span class="keyword">DATEADD</span>(<span class="keyword">MONTH</span>, -@i, <span class="keyword">GETDATE</span>());</span><br><span class="line">		<span class="keyword">SET</span> @tableDate = <span class="keyword">CONVERT</span>(<span class="built_in">VARCHAR</span>(<span class="number">10</span>), <span class="keyword">DATEADD</span>(<span class="keyword">MONTH</span>, <span class="keyword">DATEDIFF</span>(<span class="keyword">MONTH</span>, <span class="number">0</span>, @tableMonth), <span class="number">0</span>), <span class="number">120</span>);</span><br><span class="line">		<span class="keyword">SET</span> @tableName = <span class="string">'[dbo].[Question_His_'</span> + @tableDate + <span class="string">']'</span>; <span class="comment">-- 历史表名</span></span><br><span class="line"></span><br><span class="line">		IF NOT EXISTS (<span class="keyword">SELECT</span> <span class="number">1</span> <span class="keyword">FROM</span> [dbo].[Question_His] <span class="keyword">WHERE</span> <span class="keyword">DATEDIFF</span>(<span class="keyword">MONTH</span>, [RecordTime], <span class="keyword">GETDATE</span>()) = @i)</span><br><span class="line">		<span class="keyword">BEGIN</span></span><br><span class="line">			<span class="keyword">SET</span> @i = @i + <span class="number">1</span>;</span><br><span class="line">			CONTINUE;</span><br><span class="line">		<span class="keyword">END</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">-- 检查历史表是否已存在，月定时作业执行，应不会重复</span></span><br><span class="line">		<span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>(<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> sys.objects <span class="keyword">WHERE</span> object_id = OBJECT_ID(@tableName) <span class="keyword">AND</span> <span class="keyword">type</span> <span class="keyword">IN</span> (N<span class="string">'U'</span>))</span><br><span class="line">		<span class="keyword">BEGIN</span></span><br><span class="line">			<span class="keyword">BEGIN</span> TRY</span><br><span class="line">				<span class="keyword">BEGIN</span> <span class="keyword">TRANSACTION</span></span><br><span class="line">					<span class="comment">-- 建表</span></span><br><span class="line">					<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">'CREATE TABLE '</span> + @tableName + <span class="string">' (</span></span><br><span class="line"><span class="string">						[Id] [INT],</span></span><br><span class="line"><span class="string">						[QuestionID] [VARCHAR](500),</span></span><br><span class="line"><span class="string">						[Answers] [VARCHAR](MAX),</span></span><br><span class="line"><span class="string">						[Result] [FLOAT],</span></span><br><span class="line"><span class="string">						[UserID] [VARCHAR](100),</span></span><br><span class="line"><span class="string">						[RecordTime] [DATETIME]</span></span><br><span class="line"><span class="string">					)'</span>;</span><br><span class="line">					<span class="keyword">EXECUTE</span>(@<span class="keyword">sql</span>);</span><br><span class="line">					<span class="keyword">SET</span> @<span class="keyword">error</span> = @<span class="keyword">error</span> + @@<span class="keyword">ERROR</span>;</span><br><span class="line"></span><br><span class="line">					<span class="comment">-- 转存该月的历史数据</span></span><br><span class="line">					<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">'INSERT INTO '</span>+ @tableName +<span class="string">' SELECT * FROM [dbo].[Question_His]'</span></span><br><span class="line">							+ <span class="string">' WHERE DATEDIFF(MONTH, [RecordTime], GETDATE()) = '</span>+ <span class="keyword">CAST</span>(@i <span class="keyword">AS</span> <span class="keyword">NVARCHAR</span>(<span class="number">10</span>));</span><br><span class="line">					<span class="keyword">EXECUTE</span>(@<span class="keyword">sql</span>);</span><br><span class="line">					<span class="keyword">SET</span> @<span class="keyword">error</span> = @<span class="keyword">error</span> + @@<span class="keyword">ERROR</span>;</span><br><span class="line"></span><br><span class="line">					<span class="comment">-- 删除历史表该月数据</span></span><br><span class="line">					<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">'DELETE FROM [dbo].[Question_His] WHERE DATEDIFF(MONTH, [RecordTime], GETDATE()) = '</span>+ <span class="keyword">CAST</span>(@i <span class="keyword">AS</span> <span class="keyword">NVARCHAR</span>(<span class="number">10</span>));</span><br><span class="line">					<span class="keyword">EXECUTE</span>(@<span class="keyword">sql</span>);</span><br><span class="line">					<span class="keyword">SET</span> @<span class="keyword">error</span> = @<span class="keyword">error</span> + @@<span class="keyword">ERROR</span>;</span><br><span class="line">				<span class="keyword">COMMIT</span></span><br><span class="line">			<span class="keyword">END</span> TRY</span><br><span class="line">			<span class="keyword">BEGIN</span> CATCH</span><br><span class="line">				<span class="keyword">IF</span> @@TRANCOUNT &gt; <span class="number">0</span> <span class="comment">-- 失败回滚</span></span><br><span class="line">					<span class="keyword">ROLLBACK</span></span><br><span class="line"></span><br><span class="line">				<span class="keyword">SELECT</span> @ErrMsg = ERROR_MESSAGE(),</span><br><span class="line">					@ErrSeverity = ERROR_SEVERITY()</span><br><span class="line"></span><br><span class="line">				RAISERROR(@ErrMsg, @ErrSeverity, <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">END</span> CATCH</span><br><span class="line">		<span class="keyword">END</span></span><br><span class="line">		<span class="keyword">SET</span> @i = @i + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">END</span></span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>创建每月作业，创建执行转存历史的存储过程，建议使用DBMS操作，简单方便</p>
+<p> 入口：SQL Server 代理 -&gt; 新建作业</p>
+<p> 关键的地方：</p>
+<p> 2.1 新建步骤【选择T-SQL; 选择执行数据库; 命令如下;】</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXEC [dbo].[P_W_LP_QuestionHisRedeposit]</span><br></pre></td></tr></table></figure>
+<p> 2.2 新建计划 -&gt; 频率，执行：天 <code>1</code> 每 <code>1</code> 个月，</p>
+</li>
+</ol>
+<ol>
+<li>历史数据查询存储过程，使用时间筛选查询表</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> PROC [dbo].[P_HisTableQuery]</span><br><span class="line">(</span><br><span class="line">@TableNamePrefix <span class="keyword">NVARCHAR</span>(<span class="number">100</span>),  <span class="comment">-- 历史表名</span></span><br><span class="line">@TimeColumnName <span class="keyword">NVARCHAR</span>(<span class="number">100</span>),   <span class="comment">-- 时间列</span></span><br><span class="line">@FromTime DATETIME,              <span class="comment">-- 开始时间</span></span><br><span class="line">@ToTime DATETIME,                <span class="comment">-- 截止时间</span></span><br><span class="line">@QueryCondition <span class="keyword">NVARCHAR</span>(<span class="keyword">MAX</span>) = <span class="string">''</span> <span class="comment">-- 其他查询条件，要格外注意字符串的引号转义问题</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">DECLARE</span> @tableName <span class="keyword">NVARCHAR</span>(<span class="number">100</span>), @<span class="keyword">sql</span> <span class="keyword">NVARCHAR</span>(<span class="keyword">max</span>)</span><br><span class="line">	<span class="keyword">SET</span> @tableName = <span class="string">''</span></span><br><span class="line">	<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 查出时间内所有历史表名</span></span><br><span class="line">	<span class="keyword">DECLARE</span> t_cursor <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sys.tables <span class="keyword">WHERE</span> <span class="keyword">name</span> <span class="keyword">IN</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sys.tables</span><br><span class="line">		 <span class="keyword">WHERE</span> <span class="keyword">name</span> = @TableNamePrefix </span><br><span class="line">		 <span class="keyword">UNION</span> </span><br><span class="line">		<span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sys.tables</span><br><span class="line">		 <span class="keyword">WHERE</span> <span class="keyword">name</span> <span class="keyword">LIKE</span> @TableNamePrefix+<span class="string">'_%'</span> <span class="keyword">AND</span> <span class="keyword">ISDATE</span>(<span class="keyword">RIGHT</span>(<span class="keyword">name</span>, <span class="number">10</span>)) = <span class="number">1</span></span><br><span class="line">		   <span class="keyword">AND</span> <span class="keyword">CONVERT</span>(DATETIME, <span class="keyword">CAST</span>(<span class="keyword">RIGHT</span>(<span class="keyword">name</span>, <span class="number">10</span>) <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)), <span class="number">120</span>) &gt;= @FromTime </span><br><span class="line">		   <span class="keyword">AND</span> <span class="keyword">CONVERT</span>(DATETIME, <span class="keyword">CAST</span>(<span class="keyword">RIGHT</span>(<span class="keyword">name</span>, <span class="number">10</span>) <span class="keyword">AS</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>)), <span class="number">120</span>) &lt;= @ToTime</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 拼接各历史表查询结果</span></span><br><span class="line">	<span class="keyword">OPEN</span> t_cursor</span><br><span class="line">	<span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> t_cursor <span class="keyword">INTO</span> @tableName</span><br><span class="line">	<span class="keyword">WHILE</span> @@FETCH_STATUS = <span class="number">0</span></span><br><span class="line">	<span class="keyword">BEGIN</span></span><br><span class="line">		<span class="keyword">SET</span> @<span class="keyword">sql</span> += + <span class="string">' UNION SELECT * FROM ['</span> + @tableName + <span class="string">']'</span></span><br><span class="line">					+ <span class="string">' WHERE ['</span> + @TimeColumnName + <span class="string">'] &gt;= '''</span> + <span class="keyword">CONVERT</span>(<span class="built_in">VARCHAR</span>(<span class="number">20</span>), @FromTime, <span class="number">120</span>) + <span class="string">''''</span></span><br><span class="line">					+ <span class="string">' AND ['</span> + @TimeColumnName + <span class="string">'] &lt;= '''</span> + <span class="keyword">CONVERT</span>(<span class="built_in">VARCHAR</span>(<span class="number">20</span>), @ToTime, <span class="number">120</span>) + <span class="string">''''</span></span><br><span class="line">					+ @QueryCondition</span><br><span class="line">	<span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span>  t_cursor <span class="keyword">INTO</span> @tableName</span><br><span class="line">	<span class="keyword">END</span></span><br><span class="line">	<span class="keyword">CLOSE</span> t_cursor</span><br><span class="line">	<span class="keyword">DEALLOCATE</span> t_cursor</span><br><span class="line"></span><br><span class="line">	<span class="keyword">SET</span> @<span class="keyword">sql</span> = <span class="keyword">SUBSTRING</span>(@<span class="keyword">sql</span>, <span class="number">7</span>, <span class="keyword">LEN</span>(@<span class="keyword">sql</span>)); <span class="comment">-- 截掉最开始的UNION，可以重复使用UNION ALL</span></span><br><span class="line"></span><br><span class="line">	EXEC(@sql)</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>有条件（可以分区or搞分布式）就不要这样搞，开发维护起来太麻烦了(╯‵□′)╯︵┻━┻</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SQL/" rel="tag"># SQL</a>
+              <a href="/tags/%E5%88%86%E8%A1%A8/" rel="tag"># 分表</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/30/SQL/%E3%80%90SQL%E3%80%91%E6%89%B9%E9%87%8F%E5%BB%BA%E5%BA%93%E5%88%86%E5%8C%BA/" rel="prev" title="【SQL】批量建库分区">
+                  <i class="fa fa-chevron-left"></i> 【SQL】批量建库分区
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/10/11/Python/%E6%B7%BB%E5%8A%A0%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%88%B0jupyter%E7%9A%84kernel/" rel="next" title="添加虚拟环境到jupyter的kernel">
+                  添加虚拟环境到jupyter的kernel <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0Kelvins</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

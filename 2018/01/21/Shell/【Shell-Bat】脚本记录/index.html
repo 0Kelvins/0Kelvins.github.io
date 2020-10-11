@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"0kelvins.github.io","root":"/","scheme":"Pisces","version":"8.0.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="注释shell里可以使用#号，bat里可以使用rem、::，还有很多其他注释的方法 变量 shell 变量定义与重定义 12345678910# 定义变量$ var&#x3D;&quot;变量&quot;$ echo $var变量$ var&#x3D;&quot;重定义变量&quot;$ echo $var重定义变量# 输入变量read -p &quot;是否更新Blog(y&#x2F;n) :&quot; updateOp  bat 变量定义与重定义 12345678910REM 定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Shell&#x2F;Bat】脚本记录">
+<meta property="og:url" content="http://0kelvins.github.io/2018/01/21/Shell/%E3%80%90Shell-Bat%E3%80%91%E8%84%9A%E6%9C%AC%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="0Kelvins的个人博客">
+<meta property="og:description" content="注释shell里可以使用#号，bat里可以使用rem、::，还有很多其他注释的方法 变量 shell 变量定义与重定义 12345678910# 定义变量$ var&#x3D;&quot;变量&quot;$ echo $var变量$ var&#x3D;&quot;重定义变量&quot;$ echo $var重定义变量# 输入变量read -p &quot;是否更新Blog(y&#x2F;n) :&quot; updateOp  bat 变量定义与重定义 12345678910REM 定">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-01-21T11:54:30.000Z">
+<meta property="article:modified_time" content="2020-09-21T02:14:39.219Z">
+<meta property="article:author" content="0Kelvins">
+<meta property="article:tag" content="Shell">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://0kelvins.github.io/2018/01/21/Shell/%E3%80%90Shell-Bat%E3%80%91%E8%84%9A%E6%9C%AC%E8%AE%B0%E5%BD%95/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Shell/Bat】脚本记录 | 0Kelvins的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">0Kelvins的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">1.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if%E2%80%A6else%E2%80%A6"><span class="nav-number">3.</span> <span class="nav-text">if…else…</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E6%9F%A5%E7%9C%8B"><span class="nav-number">4.</span> <span class="nav-text">端口占用查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95"><span class="nav-number">5.</span> <span class="nav-text">记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E8%A8%80"><span class="nav-number">6.</span> <span class="nav-text">后言</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="0Kelvins"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">0Kelvins</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/0Kelvins" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;0Kelvins" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://cnblogs.com/Locked-J/" title="cnblogs → https:&#x2F;&#x2F;cnblogs.com&#x2F;Locked-J&#x2F;" rel="noopener" target="_blank"><i class="fa fa-tag fa-fw"></i>cnblogs</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jackyliujunjie@foxmail.com" title="E-Mail → mailto:jackyliujunjie@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/2018/01/21/Shell/%E3%80%90Shell-Bat%E3%80%91%E8%84%9A%E6%9C%AC%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Shell/Bat】脚本记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-01-21 19:54:30" itemprop="dateCreated datePublished" datetime="2018-01-21T19:54:30+08:00">2018-01-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-09-21 10:14:39" itemprop="dateModified" datetime="2020-09-21T10:14:39+08:00">2020-09-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>shell里可以使用<code>#</code>号，bat里可以使用<code>rem</code>、<code>::</code>，还有很多其他注释的方法</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ol>
+<li><p>shell 变量定义与重定义</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义变量</span></span><br><span class="line">$ var=<span class="string">"变量"</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$var</span></span><br><span class="line">变量</span><br><span class="line">$ var=<span class="string">"重定义变量"</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$var</span></span><br><span class="line">重定义变量</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入变量</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"是否更新Blog(y/n) :"</span> updateOp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bat 变量定义与重定义</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM 定义变量</span></span><br><span class="line"><span class="built_in">set</span> var=变量</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">%var%</span></span><br><span class="line">变量</span><br><span class="line"><span class="built_in">set</span> var=重定义变量</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">%var%</span></span><br><span class="line">重定义变量</span><br><span class="line"></span><br><span class="line"><span class="comment">REM 输入变量</span></span><br><span class="line"><span class="built_in">set</span> /p updateOp = "是否更新（y/n）："</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="if…else…"><a href="#if…else…" class="headerlink" title="if…else…"></a>if…else…</h3><ol>
+<li><p>shell的条件语句</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输入变量</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"输入var:"</span> var</span><br><span class="line"><span class="comment"># 判断变量是否等于 y （x为了避免比变量为空异常）</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$var</span>"</span>x = <span class="string">"y"</span>x ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"if内"</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"else内"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bat的条件语句</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM /p 从输入赋值变量</span></span><br><span class="line"><span class="built_in">set</span> /p updateOp="是否更新（y/n）："</span><br><span class="line"><span class="comment">REM 判断输入（Y/N），/i 忽略大小写</span></span><br><span class="line"><span class="keyword">if</span> /i "<span class="variable">%updateOp%</span>"=="y" (</span><br><span class="line">git pull origin master</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="端口占用查看"><a href="#端口占用查看" class="headerlink" title="端口占用查看"></a>端口占用查看</h3><ol>
+<li><p>shell的语句</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># lsof -i:端口号 用于查看某一端口的占用情况，比如查看8000端口使用情况</span></span><br><span class="line">lsof -i:8000</span><br><span class="line">netstat -tunlp | grep 8000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bat的语句</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">REM 查询443相关端口占用（查询结果里有 443 的</span></span><br><span class="line">&gt;netstat -ano | <span class="built_in">findstr</span> <span class="number">443</span></span><br><span class="line">  TCP    <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>:<span class="number">443</span>             <span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">0</span>:<span class="number">0</span>              LISTENING       <span class="number">1480</span></span><br><span class="line">                            ... ...</span><br><span class="line"></span><br><span class="line"><span class="comment">REM 查询1480进程</span></span><br><span class="line">&gt;tasklist | <span class="built_in">findstr</span> <span class="number">1480</span></span><br><span class="line">httpd.exe                     <span class="number">1480</span> Services                   <span class="number">0</span>      <span class="number">4</span>,<span class="number">652</span> K</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><ol>
+<li>注意空格的使用，脚本里空格往往是分隔命令和参数的，不像Java什么的里面可以用很多空格来分隔变量和运算符，让代码看起来更清晰。</li>
+<li>脚本如果写的不对，经常没有异常代码什么的，所以要仔细看输出，自己也多写点echo，好辨别执行情况</li>
+</ol>
+<h3 id="后言"><a href="#后言" class="headerlink" title="后言"></a>后言</h3><ol>
+<li>这里只记录了一些我自己想记的东西哦</li>
+<li>记得当初上Linux的时候，我还自己安装Ubuntu练习使用了一阵子的命令行，这门课成绩也还行，只是考完试以后就没怎么碰过了，后来就自己折腾centos的时候用过一点，然后就是开始用github以后了，最近弄点小脚本来给自己省点事，顺便记录一些</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Shell/" rel="tag"># Shell</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/01/17/DotNet/%E3%80%90EntityFramework%E3%80%91%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E6%97%A0%E4%B8%BB%E9%94%AE%E8%A7%86%E5%9B%BE%E6%95%B0%E6%8D%AE%E9%87%8D%E5%A4%8D%E5%BC%82%E5%B8%B8/" rel="prev" title="【EntityFramework】分页查询无主键视图数据重复异常">
+                  <i class="fa fa-chevron-left"></i> 【EntityFramework】分页查询无主键视图数据重复异常
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/01/25/Linq/%E3%80%90Linq%E3%80%91%E6%A8%A1%E7%B3%8A%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/" rel="next" title="【Linq】模糊条件查询">
+                  【Linq】模糊条件查询 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0Kelvins</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
