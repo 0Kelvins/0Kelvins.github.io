@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"0kelvins.github.io","root":"/","scheme":"Pisces","version":"8.0.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="SpringBoot对String类型返回值的处理问题： 有类似如下返回值接口： 12345678@RestControllerpublic class TestController &amp;#123;    @PostMapping(value &#x3D; &quot;test&quot;)    public String test() throws JsonProcessingException &amp;#12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot对String类型返回值的处理">
+<meta property="og:url" content="http://0kelvins.github.io/2021/08/20/Java/SpringBoot%E5%AF%B9String%E7%B1%BB%E5%9E%8B%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="0Kelvins">
+<meta property="og:description" content="SpringBoot对String类型返回值的处理问题： 有类似如下返回值接口： 12345678@RestControllerpublic class TestController &amp;#123;    @PostMapping(value &#x3D; &quot;test&quot;)    public String test() throws JsonProcessingException &amp;#12">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://0kelvins.github.io/assets/images/springboot_string_process/HttpMessageConverters.png">
+<meta property="og:image" content="http://0kelvins.github.io/assets/images/springboot_string_process/StringHttpMessageConverters.png">
+<meta property="article:published_time" content="2021-08-20T15:45:36.000Z">
+<meta property="article:modified_time" content="2021-08-20T16:15:19.027Z">
+<meta property="article:author" content="0Kelvins">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://0kelvins.github.io/assets/images/springboot_string_process/HttpMessageConverters.png">
+
+
+<link rel="canonical" href="http://0kelvins.github.io/2021/08/20/Java/SpringBoot%E5%AF%B9String%E7%B1%BB%E5%9E%8B%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%A4%84%E7%90%86/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SpringBoot对String类型返回值的处理 | 0Kelvins</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">0Kelvins</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot%E5%AF%B9String%E7%B1%BB%E5%9E%8B%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot对String类型返回值的处理</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="0Kelvins"
+      src="/assets/images/avatar/avatar.jpg">
+  <p class="site-author-name" itemprop="name">0Kelvins</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/0Kelvins" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;0Kelvins" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://cnblogs.com/Locked-J/" title="cnblogs → https:&#x2F;&#x2F;cnblogs.com&#x2F;Locked-J&#x2F;" rel="noopener" target="_blank"><i class="fa fa-tag fa-fw"></i>cnblogs</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:jackyliujunjie@foxmail.com" title="E-Mail → mailto:jackyliujunjie@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://0kelvins.github.io/2021/08/20/Java/SpringBoot%E5%AF%B9String%E7%B1%BB%E5%9E%8B%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/assets/images/avatar/avatar.jpg">
+      <meta itemprop="name" content="0Kelvins">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0Kelvins">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringBoot对String类型返回值的处理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-20 23:45:36" itemprop="dateCreated datePublished" datetime="2021-08-20T23:45:36+08:00">2021-08-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-21 00:15:19" itemprop="dateModified" datetime="2021-08-21T00:15:19+08:00">2021-08-21</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="SpringBoot对String类型返回值的处理"><a href="#SpringBoot对String类型返回值的处理" class="headerlink" title="SpringBoot对String类型返回值的处理"></a>SpringBoot对String类型返回值的处理</h2><p><strong>问题：</strong></p>
+<p>有类似如下返回值接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(value = &quot;test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> JsonProcessingException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求返回 <code>json</code> 格式数据，返回值应为：<code>&quot;hello&quot;</code>，但实际收到的数据为：<code>hello</code></p>
+<p><strong>原因：</strong></p>
+<ol>
+<li><p>SpringBoot的Message响应处理流程</p>
+<p> a. test() 接口执行并返回String值</p>
+<p> b. HandlerMethodReturnValueHandlerComposite.handleReturnValue(Object returnValue,  MethodParameter returnType, …)  {</p>
+<pre><code>     selectHandler（）</code></pre>
+<p> }</p>
+<p> c. RequestResponseBodyMethodProcessor.handleReturnValue() {</p>
+<pre><code>     writeWithMessageConverters()</code></pre>
+<p> }</p>
+</li>
+</ol>
+<p><code>writeWithMessageConverters()</code>在RequestResponseBodyMethodProcessor的父类AbstractMessageConverterMethodProcessor中，其中第一个部分</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">writeWithMessageConverters</span><span class="params">(<span class="meta">@Nullable</span> T value, MethodParameter returnType, ...)</span> <span class="keyword">throws</span> IOException ... </span>&#123;</span><br><span class="line"></span><br><span class="line">    Object body;</span><br><span class="line">    Class&lt;?&gt; valueType;</span><br><span class="line">    Type targetType;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里直接对字符序列类型数据写入body</span></span><br><span class="line">    <span class="keyword">if</span> (value <span class="keyword">instanceof</span> CharSequence) &#123;</span><br><span class="line">        body = value.toString();</span><br><span class="line">        valueType = String.class;</span><br><span class="line">        targetType = String.class;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        body = value;</span><br><span class="line">        valueType = getReturnValueType(body, returnType);</span><br><span class="line">        targetType = GenericTypeResolver.resolveType(getGenericType(returnType), returnType.getContainingClass());</span><br><span class="line">    &#125;</span><br><span class="line">    ... ...</span><br></pre></td></tr></table></figure>
+
+<p>对于字符序列的返回值做了特殊处理，直接将值toString()写入body中</p>
+<p>第二个部分</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (HttpMessageConverter&lt;?&gt; converter : <span class="keyword">this</span>.messageConverters) &#123;</span><br><span class="line">    ... ...</span><br><span class="line">    <span class="keyword">if</span> (... converter.canWrite(...)) &#123;</span><br><span class="line">        body = getAdvice().beforeBodyWrite(...);</span><br><span class="line">        <span class="keyword">if</span> (body != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ... ...</span><br><span class="line">            <span class="keyword">if</span> (genericConverter != <span class="keyword">null</span>) &#123;</span><br><span class="line">                genericConverter.write(body, targetType, selectedMediaType, outputMessage);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                ((HttpMessageConverter) converter).write(body, selectedMediaType, outputMessage);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            logger ... ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>; <span class="comment">// 直接返回终止遍历</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行HttpMessageConverters的遍历调用，messageConverters如下：</p>
+<p><img src="/assets/images/springboot_string_process/HttpMessageConverters.png" alt="HttpMessageConverters"></p>
+<p>对当前返回值进行类型对应Converter适配并在能够处理时，进行处理并  返回 </p>
+<p><img src="/assets/images/springboot_string_process/StringHttpMessageConverters.png" alt="StringHttpMessageConverters"></p>
+<ol start="2">
+<li>问题分析</li>
+</ol>
+<p>writeWithMessageConverters() 这个方法对字符串的默认处理，以及 HttpMessageConverters 的默认顺序，以及处理返回机制，导致了String类型返回值不能呗 Jackson 的 MessageConverter 处理</p>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><p>对返回String类型值的接口，在返回的时候进行特殊处理，例如使用fastJson:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> JSON.toJSONString(returnValue)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【推荐】对返回值进行封装成对象就不会出现问题了，如下</p>
+</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;code&quot;</span>: <span class="number">200</span>, </span><br><span class="line">    <span class="attr">&quot;msg&quot;</span>: <span class="string">&quot;ok&quot;</span>, </span><br><span class="line">    <span class="attr">&quot;data&quot;</span>: <span class="string">&quot;hello&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Web/" rel="tag"># Web</a>
+              <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/10/28/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%942020-10-28/" rel="prev" title="随笔2020-10-28">
+                  <i class="fa fa-chevron-left"></i> 随笔2020-10-28
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0Kelvins</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
