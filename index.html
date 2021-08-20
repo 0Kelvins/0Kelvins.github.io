@@ -251,7 +251,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-21 00:15:19" itemprop="dateModified" datetime="2021-08-21T00:15:19+08:00">2021-08-21</time>
+        <time title="修改时间：2021-08-21 00:23:22" itemprop="dateModified" datetime="2021-08-21T00:23:22+08:00">2021-08-21</time>
       </span>
 
   
@@ -264,7 +264,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="SpringBoot对String类型返回值的处理"><a href="#SpringBoot对String类型返回值的处理" class="headerlink" title="SpringBoot对String类型返回值的处理"></a>SpringBoot对String类型返回值的处理</h2><p><strong>问题：</strong></p>
+          <p><strong>问题：</strong></p>
 <p>有类似如下返回值接口：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(value = &quot;test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> JsonProcessingException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -272,40 +272,40 @@
 <p><strong>原因：</strong></p>
 <ol>
 <li><p>SpringBoot的Message响应处理流程</p>
-<p> a. test() 接口执行并返回String值</p>
-<p> b. HandlerMethodReturnValueHandlerComposite.handleReturnValue(Object returnValue,  MethodParameter returnType, …)  {</p>
-<pre><code>     selectHandler（）</code></pre>
-<p> }</p>
-<p> c. RequestResponseBodyMethodProcessor.handleReturnValue() {</p>
-<pre><code>     writeWithMessageConverters()</code></pre>
-<p> }</p>
+<p> a. <code>test() </code>接口执行并返回<code>String</code>值</p>
+<p> b. </p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HandlerMethodReturnValueHandlerComposite.handleReturnValue(Object returnValue,  MethodParameter returnType, …)  &#123;</span><br><span class="line">    selectHandler（）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> c. </p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RequestResponseBodyMethodProcessor.handleReturnValue() &#123;</span><br><span class="line">    writeWithMessageConverters()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <code>writeWithMessageConverters()</code>在<code>RequestResponseBodyMethodProcessor</code>的父类<code>AbstractMessageConverterMethodProcessor</code>中，其中第一个部分</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">writeWithMessageConverters</span><span class="params">(<span class="meta">@Nullable</span> T value, MethodParameter returnType, ...)</span> <span class="keyword">throws</span> IOException ... </span>&#123;</span><br><span class="line"></span><br><span class="line">    Object body;</span><br><span class="line">    Class&lt;?&gt; valueType;</span><br><span class="line">    Type targetType;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里直接对字符序列类型数据写入body</span></span><br><span class="line">    <span class="keyword">if</span> (value <span class="keyword">instanceof</span> CharSequence) &#123;</span><br><span class="line">        body = value.toString();</span><br><span class="line">        valueType = String.class;</span><br><span class="line">        targetType = String.class;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        body = value;</span><br><span class="line">        valueType = getReturnValueType(body, returnType);</span><br><span class="line">        targetType = GenericTypeResolver.resolveType(getGenericType(returnType), returnType.getContainingClass());</span><br><span class="line">    &#125;</span><br><span class="line">    ... ...</span><br></pre></td></tr></table></figure>
+
+<p> 对于字符序列的返回值做了特殊处理，直接将值toString()写入body中</p>
+<p> 第二个部分</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (HttpMessageConverter&lt;?&gt; converter : <span class="keyword">this</span>.messageConverters) &#123;</span><br><span class="line">    ... ...</span><br><span class="line">    <span class="keyword">if</span> (... converter.canWrite(...)) &#123;</span><br><span class="line">        body = getAdvice().beforeBodyWrite(...);</span><br><span class="line">        <span class="keyword">if</span> (body != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ... ...</span><br><span class="line">            <span class="keyword">if</span> (genericConverter != <span class="keyword">null</span>) &#123;</span><br><span class="line">                genericConverter.write(body, targetType, selectedMediaType, outputMessage);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                ((HttpMessageConverter) converter).write(body, selectedMediaType, outputMessage);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            logger ... ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>; <span class="comment">// 直接返回终止遍历</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 进行HttpMessageConverters的遍历调用，messageConverters如下：</p>
+<p> <img src="/assets/images/springboot_string_process/HttpMessageConverters.png" alt="HttpMessageConverters"></p>
+<p> 对当前返回值进行类型对应Converter适配并在能够处理时，进行处理并返回值。</p>
+<p> 两个<code>StringHttpMessageConverters</code>：</p>
+<p> <img src="/assets/images/springboot_string_process/StringHttpMessageConverters.png" alt="StringHttpMessageConverters"></p>
+</li>
+<li><p>问题分析</p>
+<p> writeWithMessageConverters() 这个方法对字符串的默认处理，以及 HttpMessageConverters 的默认顺序，以及处理返回机制，导致了String类型返回值不能呗 Jackson 的 MessageConverter 处理</p>
 </li>
 </ol>
-<p><code>writeWithMessageConverters()</code>在RequestResponseBodyMethodProcessor的父类AbstractMessageConverterMethodProcessor中，其中第一个部分</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">writeWithMessageConverters</span><span class="params">(<span class="meta">@Nullable</span> T value, MethodParameter returnType, ...)</span> <span class="keyword">throws</span> IOException ... </span>&#123;</span><br><span class="line"></span><br><span class="line">    Object body;</span><br><span class="line">    Class&lt;?&gt; valueType;</span><br><span class="line">    Type targetType;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里直接对字符序列类型数据写入body</span></span><br><span class="line">    <span class="keyword">if</span> (value <span class="keyword">instanceof</span> CharSequence) &#123;</span><br><span class="line">        body = value.toString();</span><br><span class="line">        valueType = String.class;</span><br><span class="line">        targetType = String.class;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        body = value;</span><br><span class="line">        valueType = getReturnValueType(body, returnType);</span><br><span class="line">        targetType = GenericTypeResolver.resolveType(getGenericType(returnType), returnType.getContainingClass());</span><br><span class="line">    &#125;</span><br><span class="line">    ... ...</span><br></pre></td></tr></table></figure>
-
-<p>对于字符序列的返回值做了特殊处理，直接将值toString()写入body中</p>
-<p>第二个部分</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (HttpMessageConverter&lt;?&gt; converter : <span class="keyword">this</span>.messageConverters) &#123;</span><br><span class="line">    ... ...</span><br><span class="line">    <span class="keyword">if</span> (... converter.canWrite(...)) &#123;</span><br><span class="line">        body = getAdvice().beforeBodyWrite(...);</span><br><span class="line">        <span class="keyword">if</span> (body != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ... ...</span><br><span class="line">            <span class="keyword">if</span> (genericConverter != <span class="keyword">null</span>) &#123;</span><br><span class="line">                genericConverter.write(body, targetType, selectedMediaType, outputMessage);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                ((HttpMessageConverter) converter).write(body, selectedMediaType, outputMessage);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            logger ... ...</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>; <span class="comment">// 直接返回终止遍历</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>进行HttpMessageConverters的遍历调用，messageConverters如下：</p>
-<p><img src="/assets/images/springboot_string_process/HttpMessageConverters.png" alt="HttpMessageConverters"></p>
-<p>对当前返回值进行类型对应Converter适配并在能够处理时，进行处理并  返回 </p>
-<p><img src="/assets/images/springboot_string_process/StringHttpMessageConverters.png" alt="StringHttpMessageConverters"></p>
-<ol start="2">
-<li>问题分析</li>
-</ol>
-<p>writeWithMessageConverters() 这个方法对字符串的默认处理，以及 HttpMessageConverters 的默认顺序，以及处理返回机制，导致了String类型返回值不能呗 Jackson 的 MessageConverter 处理</p>
 <p><strong>解决方案：</strong></p>
 <ol>
 <li><p>对返回String类型值的接口，在返回的时候进行特殊处理，例如使用fastJson:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> JSON.toJSONString(returnValue)</span><br></pre></td></tr></table></figure>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> JSON.toJSONString(returnValue)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>【推荐】对返回值进行封装成对象就不会出现问题了，如下</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;code&quot;</span>: <span class="number">200</span>, </span><br><span class="line">    <span class="attr">&quot;msg&quot;</span>: <span class="string">&quot;ok&quot;</span>, </span><br><span class="line">    <span class="attr">&quot;data&quot;</span>: <span class="string">&quot;hello&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;code&quot;</span>: <span class="number">200</span>, </span><br><span class="line">    <span class="attr">&quot;msg&quot;</span>: <span class="string">&quot;ok&quot;</span>, </span><br><span class="line">    <span class="attr">&quot;data&quot;</span>: <span class="string">&quot;hello&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
